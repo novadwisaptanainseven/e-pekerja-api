@@ -1,0 +1,4 @@
+1. Membuat API Planning
+2. Tentukan api root, version, level, grouping, dan endpoint
+3. Menentukan aksi (POST, PUT, DELETE, GET)
+4. Menentukan request dan response api
