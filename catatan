@@ -2,3 +2,8 @@
 2. Tentukan api root, version, level, grouping, dan endpoint
 3. Menentukan aksi (POST, PUT, DELETE, GET)
 4. Menentukan request dan response api
+5. Tambah field jurusan di tambah pns, ptth, pttb
+6. Tambah file ijazah di tabel pendidikan (Expandable Component)
+7. Tambah kolom jabatan di pns, ptth, pttb
+8. Tambah gaji pokok sekarang di detail pegawai
+9. Tambah opsi ayah dan ibu di data keluarga (detail pegawai)

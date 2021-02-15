@@ -6,47 +6,45 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Bidang extends Model
+class Jabatan extends Model
 {
     use HasFactory;
 
-    protected $table = "bidang";
-    protected $primaryKey = "id_bidang";
+    protected $table = "jabatan";
+    protected $primaryKey = "id_jabatan";
 
-    // Insert Bidang
+    // Insert Jabatan
     public static function insert($req)
     {
         // Tabel - tabel
-        $tbl_bidang = "bidang";
+        $tbl_jabatan = "jabatan";
 
         $data = [
-            "nama_bidang"   => $req->nama_bidang,
-            "keterangan"   => $req->keterangan,
+            "nama_jabatan"   => $req->nama_jabatan
         ];
 
-        $cek_insert = DB::table($tbl_bidang)->insert($data);
+        $cek_insert = DB::table($tbl_jabatan)->insert($data);
 
         return $cek_insert;
     }
 
-    // Edit Bidang
+    // Edit Jabatan
     public static function edit($req, $id)
     {
         // Tabel - tabel
-        $tbl_bidang = "bidang";
+        $tbl_jabatan = "jabatan";
 
         // Cek apakah data ditemukan
-        $bidang = DB::table($tbl_bidang)->where('id_bidang', '=', $id)->first();
-        if (!$bidang) {
+        $jabatan = DB::table($tbl_jabatan)->where('id_jabatan', '=', $id)->first();
+        if (!$jabatan) {
             return 404; // NOT FOUND
         }
 
         $data = [
-            "nama_bidang" => $req->nama_bidang,
-            "keterangan" => $req->keterangan
+            "nama_jabatan" => $req->nama_jabatan
         ];
 
-        $cek_edit = DB::table($tbl_bidang)->where('id_bidang', '=', $id)->update($data);
+        $cek_edit = DB::table($tbl_jabatan)->where('id_jabatan', '=', $id)->update($data);
 
         // Cek apakah proses delete berhasil
         if ($cek_edit) {
@@ -56,19 +54,19 @@ class Bidang extends Model
         }
     }
 
-    // Delete Bidang
-    public static function deleteBidang($id)
+    // Delete Jabatan
+    public static function deleteJabatan($id)
     {
         // Tabel - tabel
-        $tbl_bidang = "bidang";
+        $tbl_jabatan = "jabatan";
 
         // Cek apakah data ditemukan
-        $bidang = DB::table($tbl_bidang)->where('id_bidang', '=', $id)->first();
-        if (!$bidang) {
+        $jabatan = DB::table($tbl_jabatan)->where('id_jabatan', '=', $id)->first();
+        if (!$jabatan) {
             return 404; // NOT FOUND
         }
 
-        $cek_delete = DB::table($tbl_bidang)->where('id_bidang', '=', $id)->delete();
+        $cek_delete = DB::table($tbl_jabatan)->where('id_jabatan', '=', $id)->delete();
 
         // Cek apakah proses delete berhasil
         if ($cek_delete) {

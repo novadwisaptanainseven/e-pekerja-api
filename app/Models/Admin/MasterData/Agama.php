@@ -6,47 +6,45 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Bidang extends Model
+class Agama extends Model
 {
     use HasFactory;
 
-    protected $table = "bidang";
-    protected $primaryKey = "id_bidang";
+    protected $table = "agama";
+    protected $primaryKey = "id_agama";
 
-    // Insert Bidang
+    // Insert Agama
     public static function insert($req)
     {
         // Tabel - tabel
-        $tbl_bidang = "bidang";
+        $tbl_agama = "agama";
 
         $data = [
-            "nama_bidang"   => $req->nama_bidang,
-            "keterangan"   => $req->keterangan,
+            "agama" => $req->agama
         ];
 
-        $cek_insert = DB::table($tbl_bidang)->insert($data);
+        $cek_insert = DB::table($tbl_agama)->insert($data);
 
         return $cek_insert;
     }
 
-    // Edit Bidang
+    // Edit Agama
     public static function edit($req, $id)
     {
         // Tabel - tabel
-        $tbl_bidang = "bidang";
+        $tbl_agama = "agama";
 
         // Cek apakah data ditemukan
-        $bidang = DB::table($tbl_bidang)->where('id_bidang', '=', $id)->first();
-        if (!$bidang) {
+        $agama = DB::table($tbl_agama)->where('id_agama', '=', $id)->first();
+        if (!$agama) {
             return 404; // NOT FOUND
         }
 
         $data = [
-            "nama_bidang" => $req->nama_bidang,
-            "keterangan" => $req->keterangan
+            "agama" => $req->agama
         ];
 
-        $cek_edit = DB::table($tbl_bidang)->where('id_bidang', '=', $id)->update($data);
+        $cek_edit = DB::table($tbl_agama)->where('id_agama', '=', $id)->update($data);
 
         // Cek apakah proses delete berhasil
         if ($cek_edit) {
@@ -56,19 +54,19 @@ class Bidang extends Model
         }
     }
 
-    // Delete Bidang
-    public static function deleteBidang($id)
+    // Delete Agama
+    public static function deleteAgama($id)
     {
         // Tabel - tabel
-        $tbl_bidang = "bidang";
+        $tbl_agama = "agama";
 
         // Cek apakah data ditemukan
-        $bidang = DB::table($tbl_bidang)->where('id_bidang', '=', $id)->first();
-        if (!$bidang) {
+        $agama = DB::table($tbl_agama)->where('id_agama', '=', $id)->first();
+        if (!$agama) {
             return 404; // NOT FOUND
         }
 
-        $cek_delete = DB::table($tbl_bidang)->where('id_bidang', '=', $id)->delete();
+        $cek_delete = DB::table($tbl_agama)->where('id_agama', '=', $id)->delete();
 
         // Cek apakah proses delete berhasil
         if ($cek_delete) {
