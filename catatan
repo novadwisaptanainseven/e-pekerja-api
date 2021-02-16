@@ -7,3 +7,12 @@
 7. Tambah kolom jabatan di pns, ptth, pttb
 8. Tambah gaji pokok sekarang di detail pegawai
 9. Tambah opsi ayah dan ibu di data keluarga (detail pegawai)
+10. Tambah file dokumentasi di tabel diklat (Expandable Component)
+11. Hapus form input nama penerima di penghargaan
+12. Perbaiki tabel di halaman penghargaan
+13. Tambah form input keterangan di berkas
+14. Tambahkan field tahun lulus di pendidikan
+15. Akun pegawai dibuat ketika data pegawai ditambahkan
+    - Username: nik_nip
+    - Password: tgl_lahir
+    - Fullname: nama

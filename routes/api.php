@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\MasterData\PangkatEselonController;
 use App\Http\Controllers\Admin\MasterData\PangkatGolonganController;
 use App\Http\Controllers\Admin\MasterData\StatusPegawaiController;
 use App\Http\Controllers\Admin\MasterData\SubBidangController;
+use App\Http\Controllers\Admin\Pegawai\PNSController;
+use App\Http\Controllers\Admin\Pegawai\PTTBController;
+use App\Http\Controllers\Admin\Pegawai\PTTHController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -112,5 +115,44 @@ Route::prefix('v1/admin/')->group(function () {
         Route::put("status-pegawai/{id_status_pegawai}", [StatusPegawaiController::class, "edit"]);
         // Delete Status Pegawai By Id
         Route::delete("status-pegawai/{id_status_pegawai}", [StatusPegawaiController::class, "delete"]);
+    });
+
+    // GROUP PEGAWAI
+    Route::prefix("pegawai/")->group(function () {
+        // GROUP PNS
+        // Get All PNS
+        Route::get("pns", [PNSController::class, 'getAll']);
+        // Get PNS By ID
+        Route::get("pns/{id_pegawai}", [PNSController::class, 'getById']);
+        // Insert PNS
+        Route::post("pns", [PNSController::class, 'insert']);
+        // Edit PNS
+        Route::post("pns/{id_pegawai}", [PNSController::class, 'edit']);
+        // Delete PNS
+        Route::delete("pns/{id_pegawai}", [PNSController::class, 'delete']);
+
+        // GROUP PTTH
+        // Get All PTTH
+        Route::get("ptth", [PTTHController::class, 'getAll']);
+        // Get PTTH By ID
+        Route::get("ptth/{id_pegawai}", [PTTHController::class, 'getById']);
+        // Insert PTTH
+        Route::post("ptth", [PTTHController::class, 'insert']);
+        // Edit PTTH
+        Route::post("ptth/{id_pegawai}", [PTTHController::class, 'edit']);
+        // Delete PTTH
+        Route::delete("ptth/{id_pegawai}", [PTTHController::class, 'delete']);
+
+        // GROUP PTTB
+        // Get All PTTB
+        Route::get("ptth", [PTTBController::class, 'getAll']);
+        // Get PTTB By ID
+        Route::get("pttb/{id_pegawai}", [PTTBController::class, 'getById']);
+        // Insert PTTB
+        Route::post("pttb", [PTTBController::class, 'insert']);
+        // Edit PTTB
+        Route::post("pttb/{id_pegawai}", [PTTBController::class, 'edit']);
+        // Delete PTTB
+        Route::delete("pttb/{id_pegawai}", [PTTBController::class, 'delete']);
     });
 });

@@ -1,0 +1,184 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Pegawai;
+
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Pegawai\PNS;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class PNSController extends Controller
+{
+    // Get All Pegawai
+    public function getAll()
+    {
+        $data = PNS::all();
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua data pegawai",
+            "data" => $data
+        ], 200);
+    }
+
+    // Get Pegawai By Id
+    public function getById($id_pegawai)
+    {
+        $data = PNS::where('id_pegawai', '=', $id_pegawai)->first();
+
+        if ($data) {
+            // Jika data ditemukan -> 200 OK
+            return response()->json([
+                "message" => "Berhasil mendapatkan data pegawai dengan id: {$id_pegawai}",
+                "data" => $data
+            ], 200);
+        } else {
+            // Jika tidak -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan",
+            ], 404);
+        }
+    }
+
+    // Insert Pegawai
+    public function insert(Request $request)
+    {
+        // Validation
+        $messages = [
+            "required" => ":attribute harus diisi!",
+            "unique"   => ":attribute sudah ada yang punya",
+        ];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                "nip"             => "required|unique:pegawai",
+                "nama"            => "required",
+                'id_jabatan'      => 'required',
+                'id_sub_bidang'   => 'required',
+                'id_golongan'     => 'required',
+                'id_eselon'       => 'required',
+                'id_agama'        => 'required',
+                'tempat_lahir'    => 'required',
+                'tgl_lahir'       => 'required',
+                'alamat'          => 'required',
+                'jenis_kelamin'   => 'required',
+                'karpeg'          => 'required',
+                'bpjs'            => 'required',
+                'npwp'            => 'required',
+                'tmt_cpns'        => 'required',
+                'tmt_jabatan'     => 'required',
+                'no_hp'           => 'required',
+                'foto'            => 'mimes:jpg,jpeg,png|max:1048',
+                'mk_jabatan'      => 'required',
+                'mk_sebelum_cpns' => 'required',
+                'mk_golongan'     => 'required',
+                'mk_seluruhnya'   => 'required',
+                'nama_akademi'    => 'required',
+                'jenjang'         => 'required',
+                'jurusan'         => 'required',
+                'no_ijazah'       => 'required',
+                'tahun_lulus'     => 'required',
+                'foto_ijazah'     => 'mimes:jpg,jpeg,png,pdf|max:1048',
+            ],
+            $messages
+        );
+
+        // Validation Check
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+        // End of Validation
+
+        $insert = PNS::insert($request);
+
+        if ($insert) {
+            // Jika insert data berhasil -> 201 CREATED
+            return response()->json([
+                "message" => "Tambah data pegawai berhasil",
+                "input_data" => $request->all()
+            ], 201);
+        } else {
+            // Jika gagal -> 500 SERVER ERROR
+            return response()->json([
+                "message" => "Terjadi kesalahan server",
+            ], 500);
+        }
+    }
+
+    // Edit status pegawai
+    public function edit(Request $request, $id_status_pegawai)
+    {
+        // Validation
+        $messages = [
+            "required" => ":attribute harus diisi!"
+        ];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                "status_pegawai" => "required",
+                "keterangan"  => "required"
+            ],
+            $messages
+        );
+
+        // Validation Check
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+        // End of Validation
+
+        $edit = StatusPegawai::edit($request, $id_status_pegawai);
+
+        if ($edit !== 404) {
+            // Jika edit data berhasil -> 201 CREATED
+            return response()->json([
+                "message" => "Edit data status pegawai dengan id: {$id_status_pegawai} berhasil",
+                "edited_data" => [
+                    "id_status_pegawai" => $id_status_pegawai,
+                    "status_pegawai" => $request->status_pegawai,
+                    "keterangan" => $request->keterangan,
+                ]
+            ], 201);
+        } elseif ($edit === 404) {
+            // Jika data tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data status pegawai dengan id: {$id_status_pegawai} tidak ditemukan"
+            ], 404);
+        } elseif ($edit === 500) {
+            // Jika gagal -> 500 SERVER ERROR
+            return response()->json([
+                "message" => "Terjadi kesalahan server",
+            ], 500);
+        }
+    }
+
+    // Delete status pegawai By Id
+    public function delete($id_status_pegawai)
+    {
+        // Get data status pegawai by id
+        $data = StatusPegawai::where('id_status_pegawai', '=', $id_status_pegawai)->first();
+
+        $delete = StatusPegawai::deleteStatusPegawai($id_status_pegawai);
+
+        if ($delete !== 404) {
+            // Jika proses delete berhasil -> 201 CREATED
+            return response()->json([
+                "message" => "Berhasil menghapus data status pegawai dengan id: {$id_status_pegawai}",
+                "deleted_data" => $data
+            ], 201);
+        } elseif ($delete === 404) {
+            // Jika data tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data status pegawai dengan id: {$id_status_pegawai} tidak ditemukan",
+            ], 404);
+        } elseif ($delete === 500) {
+            // Jika proses delete gagal ->  500 SERVER ERROR
+            return response()->json([
+                "message" => "Terjadi kesalahan server",
+            ], 500);
+        }
+    }
+}

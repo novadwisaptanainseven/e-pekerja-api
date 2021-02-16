@@ -1318,10 +1318,10 @@ GROUP STATUS PEGAWAI => http://localhost/epekerja-api/api/v1/admin/master-data/s
         "message": "Terjadi kesalahan server"
       }
  
-
+ 
 =================================================================================================================================
-STANDAR API GROUP MASTER DATA
-GROUP MASTER DATA => http://localhost/epekerja-api/api/v1/admin/pegawai/
+STANDAR API GROUP PEGAWAI
+GROUP PEGAWAI => http://localhost/epekerja-api/api/v1/admin/pegawai/
 
 GROUP PNS => http://localhost/epekerja-api/api/v1/admin/pegawai/pns
 [1] Insert PNS
@@ -1385,6 +1385,7 @@ GROUP PNS => http://localhost/epekerja-api/api/v1/admin/pegawai/pns
           mk_golongan      : "2 tahun 4 bulan"",
           mk_seluruhnya    : "2 tahun 4 bulan",
           nama_akademi     : "Politeknik Negeri Samarinda",
+          jenjang          : "S1"
           jurusan          : "Teknologi Informasi",
           no_ijazah        : "2323211",
           foto_ijazah      : "ijazah_ku.jpg"
@@ -1435,7 +1436,7 @@ GROUP PNS => http://localhost/epekerja-api/api/v1/admin/pegawai/pns
         "message": "Terjadi kesalahan server"
       }
 
-[2] Edit Status Pegawai
+[2] Edit PNS
     - METHOD 
       [PUT] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}
 
@@ -1530,7 +1531,7 @@ GROUP PNS => http://localhost/epekerja-api/api/v1/admin/pegawai/pns
         "message": "Terjadi kesalahan server"
       }
 
-[3] Get All Status Pegawai
+[3] Get PNS
     - METHOD 
       [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns
 
@@ -1689,11 +1690,11 @@ GROUP PNS => http://localhost/epekerja-api/api/v1/admin/pegawai/pns
       }
 
       - RESPONSE
-        [200, OK] = Tambah data keluarga dengan id: {id_pegawai}
+        [201, OK] = Tambah data keluarga dengan id: {id_pegawai}
         [500, SERVER_ERROR] = Kesalahan Server
 
       - CONTOH RESPONSE JSON
-        [200, OK]
+        [201, OK]
         res = {
           "message" : "Tambah data keluarga dengan id: {id_pegawai}"
           "input_data" :
@@ -1716,34 +1717,2018 @@ GROUP PNS => http://localhost/epekerja-api/api/v1/admin/pegawai/pns
           "message": "Terjadi kesalahan server"
         }
 
+    [4.2.2] Edit Keluarga
+      - METHOD 
+        [PUT] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/keluarga/{id_keluarga}
 
+      - REQUEST
+        [
+          nik_nip,
+          nama,
+          hubungan,
+          agama,
+          jenis_kelamin,
+          hubungan,
+          id_agama,
+          tempat_lahir,
+          tgl_lahir,
+          pekerjaan,
+          telepon,
+          alamat
+        ]
 
-[5] Delete Status Pegawai
+      - CONTOH REQUEST JSON
+      req = {
+          nik_nip        : "123456777",
+          nama           : "Muchtar S. S.Pd.I, S.E",
+          hubungan       : "Suami",     
+          agama          : "Islam",
+          jenis_kelamin  : "Laki - Laki",
+          id_agama       : 1,
+          tempat_lahir   : "Samarinda",
+          tgl_lahir      : "1965-10-20",
+          pekerjaan      : "Guru SMK",
+          telepon        : "081231231",
+          alamat         : "Jalan Pangeran Antasari"
+      }
+
+      - RESPONSE
+        [201, OK] = Edit data keluarga dengan id: {id_keluarga}
+        [404, NOT_FOUND] = Data keluarga dengan id: {id_keluarga} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Edit data keluarga dengan id: {id_keluarga}"
+          "edited_data" :
+            {
+                id_keluarga    : 1,
+                nik_nip        : "123456777",
+                nama           : "Muchtar S. S.Pd.I, S.E",
+                hubungan       : "Suami",     
+                agama          : "Islam",
+                jenis_kelamin  : "Laki - Laki",
+                agama          : "Islam",
+                tempat_lahir   : "Samarinda",
+                tgl_lahir      : "1965-10-20",
+                pekerjaan      : "Guru SMK",
+                telepon        : "081231231",
+                alamat         : "Jalan Pangeran Antasari"
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data keluarga dengan id: {id_keluarga} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.3] Get All Keluarga
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/keluarga/
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data keluarga dari pegawai dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan semua data keluarga dari pegawai dengan id: {id_pegawai}"
+          "data" :
+          [
+            {
+                id_keluarga    : 1,
+                nik_nip        : "123456777",
+                nama           : "Muchtar S. S.Pd.I, S.E",
+                hubungan       : "Suami",     
+                agama          : "Islam",
+                jenis_kelamin  : "Laki - Laki",
+                agama          : "Islam",
+                tempat_lahir   : "Samarinda",
+                tgl_lahir      : "1965-10-20",
+                pekerjaan      : "Guru SMK",
+                telepon        : "081231231",
+                alamat         : "Jalan Pangeran Antasari"
+            },
+          ]
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+    
+    [4.2.4] Get Keluarga By Id
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/keluarga/{id_keluarga}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data keluarga dari pegawai dengan id: {id_pegawai}
+        [404, NOT_FOUND] = Data keluarga dengan id: {id_keluarga} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan data keluarga dengan id: {id_keluarga}"
+          "data" :
+            {
+                id_keluarga    : 1,
+                nik_nip        : "123456777",
+                nama           : "Muchtar S. S.Pd.I, S.E",
+                hubungan       : "Suami",     
+                agama          : "Islam",
+                jenis_kelamin  : "Laki - Laki",
+                agama          : "Islam",
+                tempat_lahir   : "Samarinda",
+                tgl_lahir      : "1965-10-20",
+                pekerjaan      : "Guru SMK",
+                telepon        : "081231231",
+                alamat         : "Jalan Pangeran Antasari"
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data keluarga dengan id: {id_keluarga} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.5] Delete Keluarga By Id
+      - METHOD 
+        [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/keluarga/{id_keluarga}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [201, OK] = Berhasil menghapus data keluarga dengan id: {id_keluarga}
+        [404, NOT_FOUND] = Data keluarga dengan id: {id_keluarga} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil menghapus data keluarga dengan id: {id_keluarga}"
+          "deleted_data" :
+            {
+                id_keluarga    : 1,
+                nik_nip        : "123456777",
+                nama           : "Muchtar S. S.Pd.I, S.E",
+                hubungan       : "Suami",     
+                agama          : "Islam",
+                jenis_kelamin  : "Laki - Laki",
+                agama          : "Islam",
+                tempat_lahir   : "Samarinda",
+                tgl_lahir      : "1965-10-20",
+                pekerjaan      : "Guru SMK",
+                telepon        : "081231231",
+                alamat         : "Jalan Pangeran Antasari"
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data keluarga dengan id: {id_keluarga} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+  [4.3] (PENDIDIKAN)
+    [4.2.1] Insert Pendidikan
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/pendidikan
+
+      - REQUEST
+        [
+          nama_akademi,
+          jenjang,
+          jurusan,
+          tahun_lulus,
+          no_ijazah,
+          foto_ijazah,
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          nama_akademi : "Politeknik Negeri Samarinda",
+          jenjang      : "S1",
+          jurusan      : "Teknologi Informasi",     
+          tahun_lulus  : "Islam",
+          no_ijazah    : "12-10-15-30",
+          foto_ijazah  : "foto-ijazah.jpg",
+      }
+
+      - RESPONSE
+        [201, OK] = Tambah data pendidikan dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Tambah data pendidikan dengan id: {id_pegawai}"
+          "input_data" :
+            {
+                nama_akademi : "Politeknik Negeri Samarinda",
+                jenjang      : "S1",
+                jurusan      : "Teknologi Informasi",     
+                tahun_lulus  : "Islam",
+                no_ijazah    : "12-10-15-30",
+                foto_ijazah  : "foto-ijazah.jpg",
+            },
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.2] Edit Pendidikan
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/pendidikan/{id_pendidikan}
+
+      - REQUEST
+        [
+          nama_akademi,
+          jenjang,
+          jurusan,
+          tahun_lulus,
+          no_ijazah,
+          foto_ijazah,
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          nama_akademi : "Politeknik Negeri Samarinda",
+          jenjang      : "S1",
+          jurusan      : "Teknologi Informasi",     
+          tahun_lulus  : "Islam",
+          no_ijazah    : "12-10-15-30",
+          foto_ijazah  : "foto-ijazah.jpg",
+      }
+
+      - RESPONSE
+        [201, OK] = Edit data pendidikan dengan id: {id_pendidikan}
+        [404, NOT_FOUND] = Data pendidikan dengan id: {id_pendidikan} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Edit data pendidikan dengan id: {id_pendidikan}"
+          "edited_data" :
+            {
+                id_pendidikan : 1,
+                nama_akademi  : "Politeknik Negeri Samarinda",
+                jenjang       : "S1",
+                jurusan       : "Teknologi Informasi",     
+                tahun_lulus   : "Islam",
+                no_ijazah     : "12-10-15-30",
+                foto_ijazah   : "foto-ijazah.jpg",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data pendidikan dengan id: {id_pendidikan} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.3] Get All Pendidikan
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/pendidikan/
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data pendidikan dari pegawai dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan semua data pendidikan dari pegawai dengan id: {id_pegawai}"
+          "data" :
+          [
+            {
+                id_pendidikan    : 1,
+                nama_akademi : "Politeknik Negeri Samarinda",
+                jenjang      : "S1",
+                jurusan      : "Teknologi Informasi",     
+                tahun_lulus  : "Islam",
+                no_ijazah    : "12-10-15-30",
+                foto_ijazah  : "foto-ijazah.jpg",
+            },
+          ]
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+    
+    [4.2.4] Get Pendidikan By Id
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/pendidikan/{id_pendidikan}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data pendidikan dari pegawai dengan id: {id_pegawai}
+        [404, NOT_FOUND] = Data pendidikan dengan id: {id_pendidikan} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan data pendidikan dengan id: {id_pendidikan}"
+          "data" :
+            {
+                id_pendidikan    : 1,
+                nama_akademi : "Politeknik Negeri Samarinda",
+                jenjang      : "S1",
+                jurusan      : "Teknologi Informasi",     
+                tahun_lulus  : "Islam",
+                no_ijazah    : "12-10-15-30",
+                foto_ijazah  : "foto-ijazah.jpg",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data pendidikan dengan id: {id_pendidikan} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.5] Delete Pendidikan By Id
+      - METHOD 
+        [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/pendidikan/{id_pendidikan}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [201, OK] = Berhasil menghapus data pendidikan dengan id: {id_pendidikan}
+        [404, NOT_FOUND] = Data pendidikan dengan id: {id_pendidikan} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil menghapus data pendidikan dengan id: {id_pendidikan}"
+          "deleted_data" :
+            {
+                id_pendidikan    : 1,
+                nama_akademi : "Politeknik Negeri Samarinda",
+                jenjang      : "S1",
+                jurusan      : "Teknologi Informasi",     
+                tahun_lulus  : "Islam",
+                no_ijazah    : "12-10-15-30",
+                foto_ijazah  : "foto-ijazah.jpg",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data pendidikan dengan id: {id_pendidikan} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+  [4.4] (DIKLAT)
+    [4.2.1] Insert Diklat
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/diklat
+
+      - REQUEST
+        [
+          nama_diklat,
+          jenis_diklat,
+          penyelenggara,
+          tahun_diklat,
+          jumlah_jam,
+          dokumentasi,
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          nama_diklat   : "Adumla",
+          jenis_diklat  : "Jenis Diklat",
+          penyelenggara : "Penyelenggara",     
+          tahun_diklat  : "1997",
+          jumlah_jam    : "500",
+          dokumentasi   : "foto-diklat.png",
+      }
+
+      - RESPONSE
+        [201, OK] = Tambah data diklat dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Tambah data diklat dengan id: {id_pegawai}"
+          "input_data" :
+            {
+                nama_diklat   : "Adumla",
+                jenis_diklat  : "Jenis Diklat",
+                penyelenggara : "Penyelenggara",     
+                tahun_diklat  : "1997",
+                jumlah_jam    : "500",
+                dokumentasi   : "foto-diklat.png",
+            },
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.2] Edit Diklat
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/diklat/{id_diklat}
+
+      - REQUEST
+        [
+          nama_diklat,
+          jenis_diklat,
+          penyelenggara,
+          tahun_diklat,
+          jumlah_jam,
+          dokumentasi,
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          nama_diklat   : "Adumla",
+          jenis_diklat  : "Jenis Diklat",
+          penyelenggara : "Penyelenggara",     
+          tahun_diklat  : "1997",
+          jumlah_jam    : "500",
+          dokumentasi   : "foto-diklat.png",
+      }
+
+      - RESPONSE
+        [201, OK] = Edit data diklat dengan id: {id_diklat}
+        [404, NOT_FOUND] = Data diklat dengan id: {id_diklat} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Edit data diklat dengan id: {id_diklat}"
+          "edited_data" :
+            {
+                id_diklat : 1,
+                nama_diklat   : "Adumla",
+                jenis_diklat  : "Jenis Diklat",
+                penyelenggara : "Penyelenggara",     
+                tahun_diklat  : "1997",
+                jumlah_jam    : "500",
+                dokumentasi   : "foto-diklat.png",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data diklat dengan id: {id_diklat} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.3] Get All Diklat
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/diklat/
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data diklat dari pegawai dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan semua data diklat dari pegawai dengan id: {id_pegawai}"
+          "data" :
+          [
+            {
+                id_diklat    : 1,
+                nama_diklat   : "Adumla",
+                jenis_diklat  : "Jenis Diklat",
+                penyelenggara : "Penyelenggara",     
+                tahun_diklat  : "1997",
+                jumlah_jam    : "500",
+                dokumentasi   : "foto-diklat.png",
+            },
+          ]
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+    
+    [4.2.4] Get Diklat By Id
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/diklat/{id_diklat}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data diklat dari pegawai dengan id: {id_pegawai}
+        [404, NOT_FOUND] = Data diklat dengan id: {id_diklat} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan data diklat dengan id: {id_diklat}"
+          "data" :
+            {
+                id_diklat    : 1,
+                nama_diklat   : "Adumla",
+                jenis_diklat  : "Jenis Diklat",
+                penyelenggara : "Penyelenggara",     
+                tahun_diklat  : "1997",
+                jumlah_jam    : "500",
+                dokumentasi   : "foto-diklat.png",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data diklat dengan id: {id_diklat} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.5] Delete Diklat By Id
+      - METHOD 
+        [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/diklat/{id_diklat}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [201, OK] = Berhasil menghapus data diklat dengan id: {id_diklat}
+        [404, NOT_FOUND] = Data diklat dengan id: {id_diklat} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil menghapus data diklat dengan id: {id_diklat}"
+          "deleted_data" :
+            {
+                id_diklat    : 1,
+                nama_diklat   : "Adumla",
+                jenis_diklat  : "Jenis Diklat",
+                penyelenggara : "Penyelenggara",     
+                tahun_diklat  : "1997",
+                jumlah_jam    : "500",
+                dokumentasi   : "foto-diklat.png",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data diklat dengan id: {id_diklat} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+  [4.5] (RIWAYAT KERJA)
+    [4.2.1] Insert
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/riwayat-kerja
+
+      - REQUEST
+        [
+          kantor,
+          jabatan,
+          tgl_masuk,
+          tgl_keluar,
+          keterangan,
+          dokumentasi,
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          kantor     : "Dinas PUPR",
+          jabatan    : "Kepala Dinas",
+          tgl_masuk  : "2021-01-21",     
+          tgl_keluar : "2021-05-15",
+          keterangan : "Mutasi",
+      }
+
+      - RESPONSE
+        [201, OK] = Tambah data riwayat kerja dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Tambah data riwayat kerja dengan id: {id_pegawai}"
+          "input_data" :
+            {
+                kantor     : "Dinas PUPR",
+                jabatan    : "Kepala Dinas",
+                tgl_masuk  : "2021-01-21",     
+                tgl_keluar : "2021-05-15",
+                keterangan : "Mutasi",
+            },
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.2] Edit
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}
+
+      - REQUEST
+        [
+          kantor,
+          jabatan,
+          tgl_masuk,
+          tgl_keluar,
+          keterangan,
+          dokumentasi,
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          kantor     : "Dinas PUPR",
+          jabatan    : "Kepala Dinas",
+          tgl_masuk  : "2021-01-21",     
+          tgl_keluar : "2021-05-15",
+          keterangan : "Mutasi",
+      }
+
+      - RESPONSE
+        [201, OK] = Edit data riwayat kerja dengan id: {id_riwayat_kerja}
+        [404, NOT_FOUND] = Data riwayat kerja dengan id: {id_riwayat_kerja} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Edit data riwayat kerja dengan id: {id_riwayat_kerja}"
+          "edited_data" :
+            {
+                id_riwayat_kerja : 1,
+                kantor           : "Dinas PUPR",
+                jabatan          : "Kepala Dinas",
+                tgl_masuk        : "2021-01-21",     
+                tgl_keluar       : "2021-05-15",
+                keterangan       : "Mutasi",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data riwayat kerja dengan id: {id_riwayat_kerja} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.3] Get All
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/riwayat-kerja/
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data riwayat kerja dari pegawai dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan semua data riwayat kerja dari pegawai dengan id: {id_pegawai}"
+          "data" :
+          [
+            {
+                id_riwayat_kerja : 1,
+                kantor           : "Dinas PUPR",
+                jabatan          : "Kepala Dinas",
+                tgl_masuk        : "2021-01-21",     
+                tgl_keluar       : "2021-05-15",
+                keterangan       : "Mutasi",
+            },
+          ]
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+    
+    [4.2.4] Get By Id
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data riwayat kerja dari pegawai dengan id: {id_pegawai}
+        [404, NOT_FOUND] = Data riwayat kerja dengan id: {id_riwayat_kerja} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan data riwayat kerja dengan id: {id_riwayat_kerja}"
+          "data" :
+            {
+                id_riwayat_kerja : 1,
+                kantor     : "Dinas PUPR",
+                jabatan    : "Kepala Dinas",
+                tgl_masuk  : "2021-01-21",     
+                tgl_keluar : "2021-05-15",
+                keterangan : "Mutasi",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data riwayat kerja dengan id: {id_riwayat_kerja} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.5] Delete By Id
+      - METHOD 
+        [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [201, OK] = Berhasil menghapus data riwayat kerja dengan id: {id_riwayat_kerja}
+        [404, NOT_FOUND] = Data riwayat kerja dengan id: {id_riwayat_kerja} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil menghapus data riwayat kerja dengan id: {id_riwayat_kerja}"
+          "deleted_data" :
+            {
+                id_riwayat_kerja : 1,
+                kantor     : "Dinas PUPR",
+                jabatan    : "Kepala Dinas",
+                tgl_masuk  : "2021-01-21",     
+                tgl_keluar : "2021-05-15",
+                keterangan : "Mutasi",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data riwayat kerja dengan id: {id_riwayat_kerja} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+  [4.6] (PENGHARGAAN)
+    [4.2.1] Insert
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/penghargaan
+
+      - REQUEST
+        [
+          nama_penghargaan,
+          pemberi,
+          tgl_penghargaan,
+          dokumentasi
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          nama_penghargaan : "Penghargaan sebagai Kepala Dinas terbaik 2021",
+          pemberi          : "Walikota",
+          tgl_penghargaan  : "2021-12-10",
+          dokumentasi      : "dokumentasi-penghargaan.js",
+      }
+
+      - RESPONSE
+        [201, OK] = Tambah data penghargaan dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Tambah data penghargaan dengan id: {id_pegawai}"
+          "input_data" :
+            {
+                nama_penghargaan : "Penghargaan sebagai Kepala Dinas terbaik 2021",
+                pemberi          : "Walikota",
+                tgl_penghargaan  : "2021-12-10",
+                dokumentasi      : "dokumentasi-penghargaan.js",
+            },
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.2] Edit
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/penghargaan/{id_penghargaan}
+
+      - REQUEST
+        [
+          nama_penghargaan,
+          pemberi,
+          tgl_penghargaan,
+          dokumentasi
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          nama_penghargaan : "Penghargaan sebagai Kepala Dinas terbaik 2021",
+          pemberi          : "Walikota",
+          tgl_penghargaan  : "2021-12-10",
+          dokumentasi      : "dokumentasi-penghargaan.js",
+      }
+
+      - RESPONSE
+        [201, OK] = Edit data penghargaan dengan id: {id_penghargaan}
+        [404, NOT_FOUND] = Data penghargaan dengan id: {id_penghargaan} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Edit data penghargaan dengan id: {id_penghargaan}"
+          "edited_data" :
+            {
+                nama_penghargaan : "Penghargaan sebagai Kepala Dinas terbaik 2021",
+                pemberi          : "Walikota",
+                tgl_penghargaan  : "2021-12-10",
+                dokumentasi      : "dokumentasi-penghargaan.js",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data penghargaan dengan id: {id_penghargaan} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.3] Get All
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/penghargaan/
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data penghargaan dari pegawai dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan semua data penghargaan dari pegawai dengan id: {id_pegawai}"
+          "data" :
+          [
+            {
+                id_penghargaan   : 1,
+                nama_penghargaan : "Penghargaan sebagai Kepala Dinas terbaik 2021",
+                pemberi          : "Walikota",
+                tgl_penghargaan  : "2021-12-10",
+                dokumentasi      : "dokumentasi-penghargaan.js",
+            },
+          ]
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+    
+    [4.2.4] Get By Id
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/penghargaan/{id_penghargaan}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data penghargaan dari pegawai dengan id: {id_pegawai}
+        [404, NOT_FOUND] = Data penghargaan dengan id: {id_penghargaan} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan data penghargaan dengan id: {id_penghargaan}"
+          "data" :
+            {
+                id_penghargaan : 1,
+                nama_penghargaan : "Penghargaan sebagai Kepala Dinas terbaik 2021",
+                pemberi          : "Walikota",
+                tgl_penghargaan  : "2021-12-10",
+                dokumentasi      : "Mutasi",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data penghargaan dengan id: {id_penghargaan} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.5] Delete By Id
+      - METHOD 
+        [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/penghargaan/{id_penghargaan}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [201, OK] = Berhasil menghapus data penghargaan dengan id: {id_penghargaan}
+        [404, NOT_FOUND] = Data penghargaan dengan id: {id_penghargaan} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil menghapus data penghargaan dengan id: {id_penghargaan}"
+          "deleted_data" :
+            {
+                id_penghargaan : 1,
+                nama_penghargaan : "Penghargaan sebagai Kepala Dinas terbaik 2021",
+                pemberi          : "Walikota",
+                tgl_penghargaan  : "2021-12-10",
+                dokumentasi      : "dokumentasi-penghargaan.pdf",
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data penghargaan dengan id: {id_penghargaan} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+  [4.7] (BERKAS)
+    [4.2.1] Insert
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/berkas
+
+      - REQUEST
+        [
+          nama_berkas,
+          keterangan
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          nama_berkas : "sk.pdf",
+          keterangan  : "Berkas Surat Kontrak Kerja"
+      }
+
+      - RESPONSE
+        [201, OK] = Tambah data berkas dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Tambah data berkas dengan id: {id_pegawai}"
+          "input_data" :
+            {
+                nama_berkas : "sk.pdf",
+                keterangan  : "Berkas Surat Kontrak Kerja"
+            },
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.2] Edit
+      - METHOD 
+        [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/berkas/{id_berkas}
+
+      - REQUEST
+        [
+          nama_berkas,
+          keterangan
+        ]
+
+      - CONTOH REQUEST JSON
+      req = {
+          nama_berkas : "sk.pdf",
+          keterangan  : "Berkas Surat Kontrak Kerja"
+      }
+
+      - RESPONSE
+        [201, OK] = Edit data berkas dengan id: {id_berkas}
+        [404, NOT_FOUND] = Data berkas dengan id: {id_berkas} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [201, OK]
+        res = {
+          "message" : "Edit data berkas dengan id: {id_berkas}"
+          "edited_data" :
+            {
+                id_berkas   : 1,
+                nama_berkas : "sk.pdf",
+                keterangan  : "Berkas Surat Kontrak Kerja"
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data berkas dengan id: {id_berkas} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.3] Get All
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/berkas/
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data berkas dari pegawai dengan id: {id_pegawai}
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan semua data berkas dari pegawai dengan id: {id_pegawai}"
+          "data" :
+          [
+            {
+                id_berkas   : 1,
+                nama_berkas : "sk.pdf",
+                keterangan  : "Berkas Surat Kontrak Kerja",
+                created_at  : "2021-10-10"
+            },
+          ]
+        }
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+    
+    [4.2.4] Get By Id
+      - METHOD 
+        [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/berkas/{id_berkas}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [200, OK] = Berhasil mendapatkan semua data berkas dari pegawai dengan id: {id_pegawai}
+        [404, NOT_FOUND] = Data berkas dengan id: {id_berkas} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil mendapatkan data berkas dengan id: {id_berkas}"
+          "data" :
+            {
+                id_berkas   : 1,
+                nama_berkas : "sk.pdf",
+                keterangan  : "Berkas Surat Kontrak Kerja",
+                created_at  : "2021-10-10"
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data berkas dengan id: {id_berkas} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+    [4.2.5] Delete By Id
+      - METHOD 
+        [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}/berkas/{id_berkas}
+
+      - REQUEST
+        [
+          null
+        ]
+
+      - RESPONSE
+        [201, OK] = Berhasil menghapus data berkas dengan id: {id_berkas}
+        [404, NOT_FOUND] = Data berkas dengan id: {id_berkas} tidak ditemukan
+        [500, SERVER_ERROR] = Kesalahan Server
+
+      - CONTOH RESPONSE JSON
+        [200, OK]
+        res = {
+          "message" : "Berhasil menghapus data berkas dengan id: {id_berkas}"
+          "deleted_data" :
+            {
+                id_berkas : 1,
+                nama_berkas : "sk.pdf",
+                keterangan  : "Berkas Surat Kontrak Kerja",
+                created_at  : "2021-10-10"
+            },
+        }
+        [404, NOT_FOUND]
+        res = {
+          "message": "Data berkas dengan id: {id_berkas} tidak ditemukan"
+        }
+
+        [500, SERVER_ERROR]
+        res = {
+          "message": "Terjadi kesalahan server"
+        }
+
+[5] Delete PNS
     - METHOD 
-      [DELETE] http://localhost/epekerja-api/api/v1/admin/master-data/status-pegawai/{id_status_pegawai}
+      [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/pns/{id_pegawai}
 
     - REQUEST
-      [id_status_pegawai]
+      [id_pegawai]
 
     - RESPONSE
-      [201, OK] = Berhasil menghapus data status pegawai dengan id: {id_status_pegawai}
-      [404, NOT_FOUND] = Data status pegawai dengan id: {id_status_pegawai} tidak ditemukan
+      [201, OK] = Berhasil menghapus data pegawai dengan id: {id_pegawai}
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
       [500, SERVER_ERROR] = Kesalahan Server
 
     - CONTOH RESPONSE JSON
       [201, CREATED]
       res = {
-        "message" : "Berhasil menghapus data status pegawai dengan id: {id_status_pegawai}"
+        "message" : "Berhasil menghapus data pegawai dengan id: {id_pegawai}"
         "delete_data" :
           {
-            id_status_pegawai: 1,
-            status_pegawai: "PNS",
-            keterangan: "Pegawai Negeri Sipil"
+            id_pegawai       : 1,
+            nip              : 196511235 343432 3432,
+            nama,            : "Ir. H. Dadang N, MMT"
+            jabatan,         : 1
+            sub_bidang,      : 1
+            golongan,        : 1
+            eselon,          : 1
+            agama,           : 1
+            tempat_lahir,    : "Tanjung Redeb"
+            tgl_lahir,       : "1997-11-27"
+            alamat,          : "Jalan Slamet Riyadi"
+            jenis_kelamin,   : "Laki - Laki"
+            karpeg           : "6563442",
+            bpjs             : "23123123",
+            npwp             : "12321323",
+            tmt_golongan     : "2021-10-10",
+            tmt_cpns         : "2021-10-10",
+            tmt_jabatan      : "2021-10-10",
+            no_hp            : "08123455674",
+            foto             : "foto_3x4.jpg",
           },
       }
       [404, NOT_FOUND]
       res = {
-        "message" : "Data status pegawai dengan id: {id_status_pegawai} tidak ditemukan"
+        "message" : "Data pegawai dengan id: {id_status_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+ 
+GROUP PTTH => http://localhost/epekerja-api/api/v1/admin/pegawai/ptth
+[1] Insert PTTH
+    - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/ptth
+
+    - REQUEST
+      [
+        nip,
+        nama,
+        penetap_sk,
+        tgl_penetapan_sk,
+        no_sk,
+        tgl_mulai_tugas,
+        tugas,
+        id_sub_bidang,
+        id_agama,
+        tempat_lahir,
+        tgl_lahir,
+        alamat,
+        jenis_kelamin,
+        bpjs,
+        npwp,
+        no_hp,
+        foto,
+        nama_akademi,
+        jenjang,
+        jurusan,
+        no_ijazah,
+        foto_ijazah,
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+          nip              : "1234 1234",
+          nama             : "Nova Dwi Sapta Nain Seven",
+          penetap_sk       : "Ir. H. Dadang, S. MMT",
+          tgl_penetapan_sk : "2021-12-12",
+          no_sk            : "12-20-40-20",
+          tgl_mulai_tugas  : "2021-12-12",
+          tugas            : "Programmer",
+          id_sub_bidang    : 1,
+          id_agama         : 1,
+          tempat_lahir     : "Tanjung Redeb",
+          tgl_lahir        : "1997-11-27",   
+          alamat           : "Jalan Slamet Riyadi",
+          jenis_kelamin    : "Laki - Laki",
+          bpjs             : "1234 1234",
+          npwp             : "1234 1234",
+          no_hp            : "081245545445",
+          foto             : "foto_3x4.jpg",
+          nama_akademi     : "Politeknik Negeri Samarinda",
+          jenjang          : "S1",
+          jurusan          : "Teknologi Informasi",
+          no_ijazah        : "12-12-04-23",
+          foto_ijazah      : "foto_ijazah.jpg",
+      }
+
+    - RESPONSE
+      [201, CREATED] = Tambah data pegawai berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+          "message"    : "Tambah data pegawai berhasil",
+          "input_data" : 
+          {
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+            nama_akademi     : "Politeknik Negeri Samarinda",
+            jenjang          : "S1",
+            jurusan          : "Teknologi Informasi",
+            no_ijazah        : "12-12-04-23",
+            foto_ijazah      : "foto_ijazah.jpg",
+          }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Edit PTTH
+    - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/pegawai/ptth/{id_pegawai}
+
+    - REQUEST
+      [
+        nip,
+        nama,
+        penetap_sk,
+        tgl_penetapan_sk,
+        no_sk,
+        tgl_mulai_tugas,
+        tugas,
+        id_sub_bidang,
+        id_agama,
+        tempat_lahir,
+        tgl_lahir,
+        alamat,
+        jenis_kelamin,
+        bpjs,
+        npwp,
+        no_hp,
+        foto,
+        nama_akademi,
+        jenjang,
+        jurusan,
+        no_ijazah,
+        foto_ijazah,
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+      }
+
+    - RESPONSE
+      [201, CREATED] = Edit data pegawai dengan id: {id_pegawai} berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [404, NOT_FOUND] = Data tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+        "message" : "Edit data pegawai dengan id: {id_pegawai} berhasil"
+        "edited_data" : {
+            id_pegawai       : 1,
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+        }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [NOT_FOUND, 404]
+      res = {
+        "message": "Data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Get All PTTH
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/ptth
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data pegawai
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data pegawai"
+        "data" : [
+          {  
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[4] Get PTTH By Id 
+  [4.1] (DATA DIRI)
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/ptth/{id_pegawai}
+
+    - REQUEST
+      [
+        nip,
+        nama,
+        penetap_sk,
+        tgl_penetapan_sk,
+        no_sk,
+        tgl_mulai_tugas,
+        tugas,
+        id_sub_bidang,
+        id_agama,
+        tempat_lahir,
+        tgl_lahir,
+        alamat,
+        jenis_kelamin,
+        bpjs,
+        npwp,
+        no_hp,
+        foto,
+        nama_akademi,
+        jenjang,
+        jurusan,
+        no_ijazah,
+        foto_ijazah,
+        ]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan data pegawai dengan id: {id_pegawai}
+      [404, NOT_FOUND] = data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan data pegawai dengan id: {id_pegawai}"
+        "data" :
+          {
+            id_pegawai       : 1,
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+          },
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [500, SERVER_ERROR]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[5] Delete PTTH
+    - METHOD 
+      [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/ptth/{id_pegawai}
+
+    - REQUEST
+      [id_pegawai]
+
+    - RESPONSE
+      [201, OK] = Berhasil menghapus data pegawai dengan id: {id_pegawai}
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [201, CREATED]
+      res = {
+        "message" : "Berhasil menghapus data pegawai dengan id: {id_pegawai}"
+        "delete_data" :
+          {
+            id_pegawai       : 1,
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+          },
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data pegawai dengan id: {id_status_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+ 
+GROUP PTTB => http://localhost/epekerja-api/api/v1/admin/pegawai/pttb
+[1] Insert PTTH
+    - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pttb
+
+    - REQUEST
+      [
+        nip,
+        nama,
+        penetap_sk,
+        tgl_penetapan_sk,
+        no_sk,
+        kontrak_ke,
+        masa_kerja,
+        tgl_mulai_tugas,
+        tugas,
+        id_sub_bidang,
+        id_agama,
+        tempat_lahir,
+        tgl_lahir,
+        alamat,
+        jenis_kelamin,
+        bpjs,
+        npwp,
+        no_hp,
+        foto,
+        nama_akademi,
+        jenjang,
+        jurusan,
+        no_ijazah,
+        foto_ijazah,
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+          nip              : "1234 1234",
+          nama             : "Nova Dwi Sapta Nain Seven",
+          penetap_sk       : "Ir. H. Dadang, S. MMT",
+          tgl_penetapan_sk : "2021-12-12",
+          no_sk            : "12-20-40-20",
+          kontrak_ke       : 1,
+          masa_kerja       : "3 Tahun 3 Bulan"
+          tgl_mulai_tugas  : "2021-12-12",
+          tugas            : "Programmer",
+          id_sub_bidang    : 1,
+          id_agama         : 1,
+          tempat_lahir     : "Tanjung Redeb",
+          tgl_lahir        : "1997-11-27",   
+          alamat           : "Jalan Slamet Riyadi",
+          jenis_kelamin    : "Laki - Laki",
+          bpjs             : "1234 1234",
+          npwp             : "1234 1234",
+          no_hp            : "081245545445",
+          foto             : "foto_3x4.jpg",
+          nama_akademi     : "Politeknik Negeri Samarinda",
+          jenjang          : "S1",
+          jurusan          : "Teknologi Informasi",
+          no_ijazah        : "12-12-04-23",
+          foto_ijazah      : "foto_ijazah.jpg",
+      }
+
+    - RESPONSE
+      [201, CREATED] = Tambah data pegawai berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+          "message"    : "Tambah data pegawai berhasil",
+          "input_data" : 
+          {
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+            nama_akademi     : "Politeknik Negeri Samarinda",
+            jenjang          : "S1",
+            jurusan          : "Teknologi Informasi",
+            no_ijazah        : "12-12-04-23",
+            foto_ijazah      : "foto_ijazah.jpg",
+          }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Edit PTTB
+    - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/pegawai/pttb/{id_pegawai}
+
+    - REQUEST
+      [
+        nip,
+        nama,
+        penetap_sk,
+        tgl_penetapan_sk,
+        no_sk,
+        kontrak_ke,
+        masa_kerja,
+        tgl_mulai_tugas,
+        tugas,
+        id_sub_bidang,
+        id_agama,
+        tempat_lahir,
+        tgl_lahir,
+        alamat,
+        jenis_kelamin,
+        bpjs,
+        npwp,
+        no_hp,
+        foto,
+        nama_akademi,
+        jenjang,
+        jurusan,
+        no_ijazah,
+        foto_ijazah,
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+          nip              : "1234 1234",
+          nama             : "Nova Dwi Sapta Nain Seven",
+          penetap_sk       : "Ir. H. Dadang, S. MMT",
+          tgl_penetapan_sk : "2021-12-12",
+          no_sk            : "12-20-40-20",
+          kontrak_ke       : 1,
+          masa_kerja       : "3 Tahun 3 Bulan"
+          tgl_mulai_tugas  : "2021-12-12",
+          tugas            : "Programmer",
+          id_sub_bidang    : 1,
+          id_agama         : 1,
+          tempat_lahir     : "Tanjung Redeb",
+          tgl_lahir        : "1997-11-27",   
+          alamat           : "Jalan Slamet Riyadi",
+          jenis_kelamin    : "Laki - Laki",
+          bpjs             : "1234 1234",
+          npwp             : "1234 1234",
+          no_hp            : "081245545445",
+          foto             : "foto_3x4.jpg",
+          nama_akademi     : "Politeknik Negeri Samarinda",
+          jenjang          : "S1",
+          jurusan          : "Teknologi Informasi",
+          no_ijazah        : "12-12-04-23",
+          foto_ijazah      : "foto_ijazah.jpg",
+      }
+
+    - RESPONSE
+      [201, CREATED] = Edit data pegawai dengan id: {id_pegawai} berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [404, NOT_FOUND] = Data tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+        "message" : "Edit data pegawai dengan id: {id_pegawai} berhasil"
+        "edited_data" : {
+          id_pegawai       : 1,
+          nip              : "1234 1234",
+          nama             : "Nova Dwi Sapta Nain Seven",
+          penetap_sk       : "Ir. H. Dadang, S. MMT",
+          tgl_penetapan_sk : "2021-12-12",
+          no_sk            : "12-20-40-20",
+          kontrak_ke       : 1,
+          masa_kerja       : "3 Tahun 3 Bulan"
+          tgl_mulai_tugas  : "2021-12-12",
+          tugas            : "Programmer",
+          id_sub_bidang    : 1,
+          id_agama         : 1,
+          tempat_lahir     : "Tanjung Redeb",
+          tgl_lahir        : "1997-11-27",   
+          alamat           : "Jalan Slamet Riyadi",
+          jenis_kelamin    : "Laki - Laki",
+          bpjs             : "1234 1234",
+          npwp             : "1234 1234",
+          no_hp            : "081245545445",
+          foto             : "foto_3x4.jpg",
+          nama_akademi     : "Politeknik Negeri Samarinda",
+          jenjang          : "S1",
+          jurusan          : "Teknologi Informasi",
+          no_ijazah        : "12-12-04-23",
+          foto_ijazah      : "foto_ijazah.jpg",
+        }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [NOT_FOUND, 404]
+      res = {
+        "message": "Data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Get All PTTB
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pttb
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data pegawai
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data pegawai"
+        "data" : [
+          {  
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            kontrak_ke       : 1,
+            masa_kerja       : "3 Tahun 3 Bulan"
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+            nama_akademi     : "Politeknik Negeri Samarinda",
+            jenjang          : "S1",
+            jurusan          : "Teknologi Informasi",
+            no_ijazah        : "12-12-04-23",
+            foto_ijazah      : "foto_ijazah.jpg",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[4] Get PTTB By Id 
+  [4.1] (DATA DIRI)
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/pttb/{id_pegawai}
+
+    - REQUEST
+      [
+        nip,
+        nama,
+        penetap_sk,
+        tgl_penetapan_sk,
+        no_sk,
+        kontrak_ke,
+        masa_kerja,
+        tgl_mulai_tugas,
+        tugas,
+        id_sub_bidang,
+        id_agama,
+        tempat_lahir,
+        tgl_lahir,
+        alamat,
+        jenis_kelamin,
+        bpjs,
+        npwp,
+        no_hp,
+        foto,
+        nama_akademi,
+        jenjang,
+        jurusan,
+        no_ijazah,
+        foto_ijazah,
+      ]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan data pegawai dengan id: {id_pegawai}
+      [404, NOT_FOUND] = data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan data pegawai dengan id: {id_pegawai}"
+        "data" :
+          {
+            id_pegawai       : 1,
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            kontrak_ke       : 1,
+            masa_kerja       : "3 Tahun 3 Bulan"
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+            nama_akademi     : "Politeknik Negeri Samarinda",
+            jenjang          : "S1",
+            jurusan          : "Teknologi Informasi",
+            no_ijazah        : "12-12-04-23",
+            foto_ijazah      : "foto_ijazah.jpg",
+          },
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [500, SERVER_ERROR]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[5] Delete PTTB
+    - METHOD 
+      [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/pttb/{id_pegawai}
+
+    - REQUEST
+      [id_pegawai]
+
+    - RESPONSE
+      [201, OK] = Berhasil menghapus data pegawai dengan id: {id_pegawai}
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [201, CREATED]
+      res = {
+        "message" : "Berhasil menghapus data pegawai dengan id: {id_pegawai}"
+        "delete_data" :
+          {
+            id_pegawai       : 1,
+            nip              : "1234 1234",
+            nama             : "Nova Dwi Sapta Nain Seven",
+            penetap_sk       : "Ir. H. Dadang, S. MMT",
+            tgl_penetapan_sk : "2021-12-12",
+            no_sk            : "12-20-40-20",
+            kontrak_ke       : 1,
+            masa_kerja       : "3 Tahun 3 Bulan"
+            tgl_mulai_tugas  : "2021-12-12",
+            tugas            : "Programmer",
+            id_sub_bidang    : 1,
+            id_agama         : 1,
+            tempat_lahir     : "Tanjung Redeb",
+            tgl_lahir        : "1997-11-27",   
+            alamat           : "Jalan Slamet Riyadi",
+            jenis_kelamin    : "Laki - Laki",
+            bpjs             : "1234 1234",
+            npwp             : "1234 1234",
+            no_hp            : "081245545445",
+            foto             : "foto_3x4.jpg",
+            nama_akademi     : "Politeknik Negeri Samarinda",
+            jenjang          : "S1",
+            jurusan          : "Teknologi Informasi",
+            no_ijazah        : "12-12-04-23",
+            foto_ijazah      : "foto_ijazah.jpg",
+          },
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data pegawai dengan id: {id_status_pegawai} tidak ditemukan"
       }
       [SERVER_ERROR, 500]
       res = {
