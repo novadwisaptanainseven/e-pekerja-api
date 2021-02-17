@@ -12,7 +12,7 @@ class PNSController extends Controller
     // Get All Pegawai
     public function getAll()
     {
-        $data = PNS::all();
+        $data = PNS::getAll();
 
         return response()->json([
             "message" => "Berhasil mendapatkan semua data pegawai",
@@ -23,7 +23,7 @@ class PNSController extends Controller
     // Get Pegawai By Id
     public function getById($id_pegawai)
     {
-        $data = PNS::where('id_pegawai', '=', $id_pegawai)->first();
+        $data = PNS::getById($id_pegawai);
 
         if ($data) {
             // Jika data ditemukan -> 200 OK
@@ -66,6 +66,7 @@ class PNSController extends Controller
                 'npwp'            => 'required',
                 'tmt_cpns'        => 'required',
                 'tmt_jabatan'     => 'required',
+                'tmt_golongan'    => 'required',
                 'no_hp'           => 'required',
                 'foto'            => 'mimes:jpg,jpeg,png|max:1048',
                 'mk_jabatan'      => 'required',
@@ -106,8 +107,8 @@ class PNSController extends Controller
         }
     }
 
-    // Edit status pegawai
-    public function edit(Request $request, $id_status_pegawai)
+    // Edit Pegawai
+    public function edit(Request $request, $id_pegawai)
     {
         // Validation
         $messages = [
@@ -116,8 +117,7 @@ class PNSController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                "status_pegawai" => "required",
-                "keterangan"  => "required"
+                'foto'            => 'mimes:jpg,jpeg,png|max:1048',
             ],
             $messages
         );
@@ -130,22 +130,18 @@ class PNSController extends Controller
         }
         // End of Validation
 
-        $edit = StatusPegawai::edit($request, $id_status_pegawai);
+        $edit = PNS::edit($request, $id_pegawai);
 
         if ($edit !== 404) {
             // Jika edit data berhasil -> 201 CREATED
             return response()->json([
-                "message" => "Edit data status pegawai dengan id: {$id_status_pegawai} berhasil",
-                "edited_data" => [
-                    "id_status_pegawai" => $id_status_pegawai,
-                    "status_pegawai" => $request->status_pegawai,
-                    "keterangan" => $request->keterangan,
-                ]
+                "message" => "Edit data pegawai dengan id: {$id_pegawai} berhasil",
+                "edited_data" => $edit
             ], 201);
         } elseif ($edit === 404) {
             // Jika data tidak ditemukan -> 404 NOT FOUND
             return response()->json([
-                "message" => "Data status pegawai dengan id: {$id_status_pegawai} tidak ditemukan"
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
             ], 404);
         } elseif ($edit === 500) {
             // Jika gagal -> 500 SERVER ERROR
@@ -155,24 +151,24 @@ class PNSController extends Controller
         }
     }
 
-    // Delete status pegawai By Id
-    public function delete($id_status_pegawai)
+    // Delete Pegawai By Id
+    public function delete($id_pegawai)
     {
-        // Get data status pegawai by id
-        $data = StatusPegawai::where('id_status_pegawai', '=', $id_status_pegawai)->first();
+        // Get data pegawai by id
+        $data = PNS::where('id_pegawai', '=', $id_pegawai)->first();
 
-        $delete = StatusPegawai::deleteStatusPegawai($id_status_pegawai);
+        $delete = PNS::deletePegawai($id_pegawai);
 
         if ($delete !== 404) {
             // Jika proses delete berhasil -> 201 CREATED
             return response()->json([
-                "message" => "Berhasil menghapus data status pegawai dengan id: {$id_status_pegawai}",
+                "message" => "Berhasil menghapus data pegawai dengan id: {$id_pegawai}",
                 "deleted_data" => $data
             ], 201);
         } elseif ($delete === 404) {
             // Jika data tidak ditemukan -> 404 NOT FOUND
             return response()->json([
-                "message" => "Data status pegawai dengan id: {$id_status_pegawai} tidak ditemukan",
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan",
             ], 404);
         } elseif ($delete === 500) {
             // Jika proses delete gagal ->  500 SERVER ERROR

@@ -5,7 +5,7 @@ namespace App\Models\Admin\Pegawai;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 
 class PNS extends Model
@@ -15,6 +15,93 @@ class PNS extends Model
     protected $table = "pegawai";
     protected $primaryKey = "id_pegawai";
 
+    // Get All Pegawai
+    public static function getAll()
+    {
+        // Tabel - tabel
+        $tbl_pegawai = "pegawai";
+        $tbl_agama = "agama";
+        $tbl_status_pegawai = "status_pegawai";
+        $tbl_sub_bidang = "sub_bidang";
+        $tbl_pangkat_golongan = "pangkat_golongan";
+        $tbl_pangkat_eselon = "pangkat_eselon";
+        $tbl_jabatan = "jabatan";
+
+        $data = DB::table($tbl_pegawai)
+            ->select(
+                "$tbl_pegawai.*",
+                "$tbl_agama.agama",
+                "$tbl_status_pegawai.status_pegawai",
+                "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
+                "$tbl_sub_bidang.nama_sub_bidang AS sub_bidang",
+                "$tbl_pangkat_golongan.golongan",
+                "$tbl_pangkat_golongan.keterangan AS ket_golongan",
+                "$tbl_pangkat_eselon.eselon",
+                "$tbl_pangkat_eselon.keterangan AS ket_eselon",
+                "$tbl_jabatan.nama_jabatan AS jabatan",
+            )
+            ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
+            ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
+            ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
+            ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
+            ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
+            ->get();
+
+        return $data;
+    }
+
+    // Get PNS By Id
+    public static function getById($id)
+    {
+        // Tabel - tabel
+        $tbl_pegawai = "pegawai";
+        $tbl_agama = "agama";
+        $tbl_status_pegawai = "status_pegawai";
+        $tbl_sub_bidang = "sub_bidang";
+        $tbl_pangkat_golongan = "pangkat_golongan";
+        $tbl_pangkat_eselon = "pangkat_eselon";
+        $tbl_jabatan = "jabatan";
+        $tbl_masa_kerja = "masa_kerja_pegawai";
+
+        $data_pegawai = DB::table($tbl_pegawai)
+            ->select(
+                "$tbl_pegawai.*",
+                "$tbl_agama.agama",
+                "$tbl_status_pegawai.status_pegawai",
+                "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
+                "$tbl_sub_bidang.nama_sub_bidang AS sub_bidang",
+                "$tbl_pangkat_golongan.golongan",
+                "$tbl_pangkat_golongan.keterangan AS ket_golongan",
+                "$tbl_pangkat_eselon.eselon",
+                "$tbl_pangkat_eselon.keterangan AS ket_eselon",
+                "$tbl_jabatan.nama_jabatan AS jabatan",
+            )
+            ->where('id_pegawai', '=', $id)
+            ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
+            ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
+            ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
+            ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
+            ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
+            ->first();
+
+        // Cek apakah data pegawai ditemukan
+        if ($data_pegawai) {
+
+            $data_masa_kerja = DB::table($tbl_masa_kerja)->where('id_pegawai', '=', $id)->first();
+
+            $data_pegawai->mk_jabatan = $data_masa_kerja->mk_jabatan;
+            $data_pegawai->mk_sebelum_cpns = $data_masa_kerja->mk_sebelum_cpns;
+            $data_pegawai->mk_golongan = $data_masa_kerja->mk_golongan;
+            $data_pegawai->mk_seluruhnya = $data_masa_kerja->mk_seluruhnya;
+
+            return $data_pegawai;
+        } else {
+            return null;
+        }
+    }
+
     // Insert PNS
     public static function insert($req)
     {
@@ -22,6 +109,7 @@ class PNS extends Model
         $tbl_pegawai = "pegawai";
         $tbl_masa_kerja_pegawai = "masa_kerja_pegawai";
         $tbl_pendidikan = "pendidikan";
+        $tbl_duk_pegawai = "duk_pegawai";
 
         // Cek apakah ada file foto
         if (!$req->file('foto')) {
@@ -49,7 +137,7 @@ class PNS extends Model
 
         $data_pegawai = [
             "nip"               => $req->nip,
-            "nama"              => $req->nip,
+            "nama"              => $req->nama,
             'id_jabatan'        => $req->id_jabatan,
             'id_sub_bidang'     => $req->id_sub_bidang,
             'id_golongan'       => $req->id_golongan,
@@ -94,6 +182,98 @@ class PNS extends Model
         ];
         DB::table($tbl_pendidikan)->insert($data_pendidikan);
 
+        // Tambah data duk pegawai
+        $data_duk_pegawai = [
+            'id_pegawai'      => $id_pegawai,
+        ];
+        DB::table($tbl_duk_pegawai)->insert($data_duk_pegawai);
+
         return $insert_pegawai;
+    }
+
+    // Edit PNS
+    public static function edit($req, $id_pegawai)
+    {
+        // Tabel - tabel
+        $tbl_pegawai = "pegawai";
+
+        // Get data pegawai by id
+        $data_pegawai = DB::table($tbl_pegawai)->where('id_pegawai', '=', $id_pegawai)->first();
+
+        // Cek apakah data pegawai ditemukan
+        if (!$data_pegawai) {
+            return 404;
+        }
+
+        // Cek apakah ada file foto
+        if (!$req->file('foto')) {
+            $foto = $data_pegawai->foto;
+        } else {
+            // Delete foto lama
+            $path_foto = $data_pegawai->foto;
+            Storage::delete($path_foto);
+
+            $file = $req->file("foto");
+
+            // Sanitasi nama file
+            $sanitize = sanitizeFile($file);
+            $foto = $file->storeAs("images/foto", rand(0, 9999) . time() . '-' . $sanitize);
+        }
+
+        // Proses Edit Data
+        $data_pegawai = [
+            "nip"               => $req->nip ? $req->nip : $data_pegawai->nip,
+            "nama"              => $req->nama ? $req->nama : $data_pegawai->nama,
+            'id_jabatan'        => $req->id_jabatan ? $req->id_jabatan : $data_pegawai->id_jabatan,
+            'id_sub_bidang'     => $req->id_sub_bidang ? $req->id_sub_bidang : $data_pegawai->id_sub_bidang,
+            'id_golongan'       => $req->id_golongan ? $req->id_golongan : $data_pegawai->id_golongan,
+            'id_eselon'         => $req->id_eselon ? $req->id_eselon : $data_pegawai->id_eselon,
+            'id_agama'          => $req->id_agama ? $req->id_agama : $data_pegawai->id_agama,
+            'id_status_pegawai' => 1,
+            'tempat_lahir'      => $req->tempat_lahir ? $req->tempat_lahir : $data_pegawai->tempat_lahir,
+            'tgl_lahir'         => $req->tgl_lahir ? $req->tgl_lahir : $data_pegawai->tgl_lahir,
+            'alamat'            => $req->alamat ? $req->alamat : $data_pegawai->alamat,
+            'jenis_kelamin'     => $req->jenis_kelamin ? $req->jenis_kelamin : $data_pegawai->jenis_kelamin,
+            'karpeg'            => $req->karpeg ? $req->karpeg : $data_pegawai->karpeg,
+            'bpjs'              => $req->bpjs ? $req->bpjs : $data_pegawai->bpjs,
+            'npwp'              => $req->npwp ? $req->npwp : $data_pegawai->npwp,
+            'tmt_golongan'      => $req->tmt_golongan ? $req->tmt_golongan : $data_pegawai->tmt_golongan,
+            'tmt_cpns'          => $req->tmt_cpns ? $req->tmt_cpns : $data_pegawai->tmt_cpns,
+            'tmt_jabatan'       => $req->tmt_jabatan ? $req->tmt_jabatan : $data_pegawai->tmt_jabatan,
+            'no_hp'             => $req->no_hp ? $req->no_hp : $data_pegawai->no_hp,
+            'foto'              => $foto,
+        ];
+        DB::table($tbl_pegawai)->where('id_pegawai', '=', $id_pegawai)->update($data_pegawai);
+
+        // Get data pegawai setelah diupdate
+        $data_pegawai_updated = DB::table($tbl_pegawai)->where('id_pegawai', '=', $id_pegawai)->first();
+
+        return $data_pegawai_updated;
+    }
+
+    // Delete PNS
+    public static function deletePegawai($id)
+    {
+        // Tabel - tabel
+        $tbl_pegawai = "pegawai";
+
+        // Cek apakah data ditemukan
+        $pegawai = DB::table($tbl_pegawai)->where('id_pegawai', '=', $id)->first();
+        if (!$pegawai) {
+            return 404; // NOT FOUND
+        }
+
+        // Hapus foto pegawai
+        $path_foto = $pegawai->foto;
+        Storage::delete($path_foto);
+
+        $cek_delete = DB::table($tbl_pegawai)->where('id_pegawai', '=', $id)->delete();
+
+        // Cek apakah proses delete berhasil
+        if ($cek_delete) {
+            return $cek_delete;
+        } else {
+            return 500;
+        }
     }
 }

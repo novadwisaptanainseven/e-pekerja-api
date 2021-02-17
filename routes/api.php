@@ -145,7 +145,7 @@ Route::prefix('v1/admin/')->group(function () {
 
         // GROUP PTTB
         // Get All PTTB
-        Route::get("ptth", [PTTBController::class, 'getAll']);
+        Route::get("pttb", [PTTBController::class, 'getAll']);
         // Get PTTB By ID
         Route::get("pttb/{id_pegawai}", [PTTBController::class, 'getById']);
         // Insert PTTB

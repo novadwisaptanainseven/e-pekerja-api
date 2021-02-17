@@ -3104,11 +3104,6 @@ GROUP PTTH => http://localhost/epekerja-api/api/v1/admin/pegawai/ptth
         npwp,
         no_hp,
         foto,
-        nama_akademi,
-        jenjang,
-        jurusan,
-        no_ijazah,
-        foto_ijazah,
       ]
     
     - CONTOH REQUEST JSON
@@ -3337,7 +3332,7 @@ GROUP PTTH => http://localhost/epekerja-api/api/v1/admin/pegawai/ptth
       }
  
 GROUP PTTB => http://localhost/epekerja-api/api/v1/admin/pegawai/pttb
-[1] Insert PTTH
+[1] Insert PTTB
     - METHOD 
       [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/pttb
 
