@@ -2357,7 +2357,6 @@ GROUP PNS => http://localhost/epekerja-api/api/v1/admin/pegawai/pns
           tgl_masuk,
           tgl_keluar,
           keterangan,
-          dokumentasi,
         ]
 
       - CONTOH REQUEST JSON

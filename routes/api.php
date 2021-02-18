@@ -7,9 +7,15 @@ use App\Http\Controllers\Admin\MasterData\PangkatEselonController;
 use App\Http\Controllers\Admin\MasterData\PangkatGolonganController;
 use App\Http\Controllers\Admin\MasterData\StatusPegawaiController;
 use App\Http\Controllers\Admin\MasterData\SubBidangController;
+use App\Http\Controllers\Admin\Pegawai\BerkasController;
+use App\Http\Controllers\Admin\Pegawai\DiklatController;
+use App\Http\Controllers\Admin\Pegawai\KeluargaController;
+use App\Http\Controllers\Admin\Pegawai\PendidikanController;
+use App\Http\Controllers\Admin\Pegawai\PenghargaanController;
 use App\Http\Controllers\Admin\Pegawai\PNSController;
 use App\Http\Controllers\Admin\Pegawai\PTTBController;
 use App\Http\Controllers\Admin\Pegawai\PTTHController;
+use App\Http\Controllers\Admin\Pegawai\RiwayatKerjaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -154,5 +160,77 @@ Route::prefix('v1/admin/')->group(function () {
         Route::post("pttb/{id_pegawai}", [PTTBController::class, 'edit']);
         // Delete PTTB
         Route::delete("pttb/{id_pegawai}", [PTTBController::class, 'delete']);
+
+        // GROUP KELUARGA
+        // Get All Keluarga
+        Route::get("{id_pegawai}/keluarga", [KeluargaController::class, 'getAll']);
+        // Get Keluarga By ID
+        Route::get("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'getById']);
+        // Insert Keluarga
+        Route::post("{id_pegawai}/keluarga", [KeluargaController::class, 'insert']);
+        // Edit Keluarga
+        Route::put("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'edit']);
+        // Delete Keluarga
+        Route::delete("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'delete']);
+
+        // GROUP PENDIDIKAN
+        // Get All Pendidikan
+        Route::get("{id_pegawai}/pendidikan", [PendidikanController::class, 'getAll']);
+        // Get Pendidikan By ID
+        Route::get("{id_pegawai}/pendidikan/{id_pendidikan}", [PendidikanController::class, 'getById']);
+        // Insert Pendidikan
+        Route::post("{id_pegawai}/pendidikan", [PendidikanController::class, 'insert']);
+        // Edit Pendidikan
+        Route::post("{id_pegawai}/pendidikan/{id_pendidikan}", [PendidikanController::class, 'edit']);
+        // Delete Pendidikan
+        Route::delete("{id_pegawai}/pendidikan/{id_pendidikan}", [PendidikanController::class, 'delete']);
+
+        // GROUP DIKLAT
+        // Get All Diklat
+        Route::get("{id_pegawai}/diklat", [DiklatController::class, 'getAll']);
+        // Get Diklat By ID
+        Route::get("{id_pegawai}/diklat/{id_diklat}", [DiklatController::class, 'getById']);
+        // Insert Diklat
+        Route::post("{id_pegawai}/diklat", [DiklatController::class, 'insert']);
+        // Edit Diklat
+        Route::post("{id_pegawai}/diklat/{id_diklat}", [DiklatController::class, 'edit']);
+        // Delete Diklat
+        Route::delete("{id_pegawai}/diklat/{id_diklat}", [DiklatController::class, 'delete']);
+
+        // GROUP RIWAYAT KERJA
+        // Get All Riwayat Kerja
+        Route::get("{id_pegawai}/riwayat-kerja", [RiwayatKerjaController::class, 'getAll']);
+        // Get Riwayat Kerja By ID
+        Route::get("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaController::class, 'getById']);
+        // Insert Riwayat Kerja
+        Route::post("{id_pegawai}/riwayat-kerja", [RiwayatKerjaController::class, 'insert']);
+        // Edit Riwayat Kerja
+        Route::put("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaController::class, 'edit']);
+        // Delete Riwayat Kerja
+        Route::delete("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaController::class, 'delete']);
+
+        // GROUP PENGHARGAAN
+        // Get All Penghargaan
+        Route::get("{id_pegawai}/penghargaan", [PenghargaanController::class, 'getAll']);
+        // Get Penghargaan By ID
+        Route::get("{id_pegawai}/penghargaan/{id_penghargaan}", [PenghargaanController::class, 'getById']);
+        // Insert Penghargaan
+        Route::post("{id_pegawai}/penghargaan", [PenghargaanController::class, 'insert']);
+        // Edit Penghargaan
+        Route::post("{id_pegawai}/penghargaan/{id_penghargaan}", [PenghargaanController::class, 'edit']);
+        // Delete Penghargaan
+        Route::delete("{id_pegawai}/penghargaan/{id_penghargaan}", [PenghargaanController::class, 'delete']);
+
+        // GROUP BERKAS
+        // Get All Berkas
+        Route::get("{id_pegawai}/berkas", [BerkasController::class, 'getAll']);
+        // Get Berkas By ID
+        Route::get("{id_pegawai}/berkas/{id_berkas}", [BerkasController::class, 'getById']);
+        // Insert Berkas
+        Route::post("{id_pegawai}/berkas", [BerkasController::class, 'insert']);
+        // Edit Berkas
+        Route::put("{id_pegawai}/berkas/{id_berkas}", [BerkasController::class, 'edit']);
+        // Delete Berkas
+        Route::delete("{id_pegawai}/berkas/{id_berkas}", [BerkasController::class, 'delete']);
     });
 });
