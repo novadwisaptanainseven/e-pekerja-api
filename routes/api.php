@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DUKController;
 use App\Http\Controllers\Admin\MasterData\AgamaController;
 use App\Http\Controllers\Admin\MasterData\BidangController;
 use App\Http\Controllers\Admin\MasterData\JabatanController;
@@ -233,4 +234,12 @@ Route::prefix('v1/admin/')->group(function () {
         // Delete Berkas
         Route::delete("{id_pegawai}/berkas/{id_berkas}", [BerkasController::class, 'delete']);
     });
+
+    // GROUP DUK PEGAWAI
+    // Edit DUK
+    Route::put("duk-pegawai/{id_duk}", [DUKController::class, 'edit']);
+    // Get All DUK
+    Route::get("duk-pegawai", [DUKController::class, 'getAll']);
+    // Get DUK By Id
+    Route::get("duk-pegawai/{id_duk}", [DUKController::class, 'getById']);
 });

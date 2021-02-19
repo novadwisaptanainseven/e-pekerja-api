@@ -3602,30 +3602,7 @@ GROUP PTTB => http://localhost/epekerja-api/api/v1/admin/pegawai/pttb
 
     - REQUEST
       [
-        nip,
-        nama,
-        penetap_sk,
-        tgl_penetapan_sk,
-        no_sk,
-        kontrak_ke,
-        masa_kerja,
-        tgl_mulai_tugas,
-        tugas,
-        id_sub_bidang,
-        id_agama,
-        tempat_lahir,
-        tgl_lahir,
-        alamat,
-        jenis_kelamin,
-        bpjs,
-        npwp,
-        no_hp,
-        foto,
-        nama_akademi,
-        jenjang,
-        jurusan,
-        no_ijazah,
-        foto_ijazah,
+        
       ]
 
     - RESPONSE
@@ -3729,3 +3706,291 @@ GROUP PTTB => http://localhost/epekerja-api/api/v1/admin/pegawai/pttb
         "message": "Terjadi kesalahan server"
       }
  
+=================================================================================================================================
+STANDAR API GROUP DUK PEGAWAI
+GROUP DUK PEGAWAI => http://localhost/epekerja-api/api/v1/admin/duk-pegawai/
+
+[1] Edit DUK
+    - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/duk-pegawai/{id_duk}
+
+    - REQUEST
+      [
+        catatan_mutasi
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+          catatan_mutasi: "Kepala Dinas Kebersihan dan Pertamanan"
+      }
+
+    - RESPONSE
+      [201, CREATED] = Edit data duk pegawai dengan id: {id_duk} berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [404, NOT_FOUND] = Data tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+        "message" : "Edit data duk pegawai dengan id: {id_duk} berhasil"
+        "edited_data" : {
+          id_duk        : 1,
+          catatan_mutasi: "Kepala Dinas Kebersihan dan Pertamanan"
+        }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [NOT_FOUND, 404]
+      res = {
+        "message": "Data duk pegawai dengan id: {id_duk} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Get All DUK
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/duk-pegawai
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data duk pegawai
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data duk pegawai"
+        "data" : [
+          {  
+            nip              : "19651127 199301 1 001",
+            nama             : "Ir. H. Dadang Airlangga N, MMT",
+            pangkat_golongan : "Ir. H. Dadang, S. MMT",
+            ket_golongan     : "Pembina Utama"
+            pangkat_eselon   : "II.b"
+            ket_eselon       : "Kepala Dinas"
+            jabatan          : "Kepala Dinas",
+            tmt_golongan     : "2014-04-01",
+            mk_golongan      : "10 Tahun 5 Bulan",
+            pendidikan       : "Magister Manajemen Teknologi"
+            tgl_lahir        : "1989-02-01",
+            catatan_mutasi   : "Kepala Dinas Kebersihan dan Pertamanan",
+            tmt_sebelum_cpns : "1989-02-01",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Get DUK By Id 
+  [4.1] (DATA DIRI)
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/duk-pegawai/{id_duk}
+
+    - REQUEST
+      [
+        
+      ]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan data duk pegawai dengan id: {id_duk}
+      [404, NOT_FOUND] = Data duk pegawai dengan id: {id_duk} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan data duk pegawai dengan id: {id_duk}"
+        "data" :
+          {
+            id_duk           : 1,
+            nip              : "19651127 199301 1 001",
+            nama             : "Ir. H. Dadang Airlangga N, MMT",
+            tgl_lahir        : 1997-11-27
+            pangkat_golongan : "Ir. H. Dadang, S. MMT",
+            ket_golongan     : "Pembina Utama"
+            pangkat_eselon   : "II.b"
+            ket_eselon       : "Kepala Dinas"
+            jabatan          : "Kepala Dinas",
+            tmt_jabatan      : "2016-12-30"
+            tmt_golongan     : "2014-04-01",
+            mk_golongan      : "10 Tahun 5 Bulan",
+            pendidikan       : "Magister Manajemen Teknologi"
+            tgl_lahir        : "1989-02-01",
+            catatan_mutasi   : "Kepala Dinas Kebersihan dan Pertamanan",
+            tmt_sebelum_cpns : "1989-02-01",
+            foto             : "foto3x4.jpg"
+            pendidikan       : [
+                {
+                  id_pendidikan : 1,
+                  nama_akademi  : "Politeknik Negeri Samarinda",
+                  jurusan       : "Teknologi Informasi",
+                  tahun_lulus   : "2002",
+                  jenjang       : "S1" 
+                }
+            ],
+            diklat           : [
+              {
+                id_diklat : 1,
+                nama_diklat : Adum,
+                tahun_diklat : 1997,
+                jumlah_jam : 500
+              }
+            ]
+          },
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data duk pegawai dengan id: {id_duk} tidak ditemukan"
+      }
+      [500, SERVER_ERROR]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+=================================================================================================================================
+STANDAR API GROUP MASA KERJA
+GROUP MASA KERJA => http://localhost/epekerja-api/api/v1/admin/masa-kerja/
+
+[1] Edit Masa Kerja
+    - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/masa-kerja/{id_masa_kerja}
+
+    - REQUEST
+      [
+        mk_golongan,
+        mk_jabatan,
+        mk_sebelum_cpns,
+        mk_seluruhnya,
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+          mk_golongan: "2 Tahun 3 Bulan",
+          mk_jabatan: "2 Tahun 3 Bulan",
+          mk_sebelum_cpns: "2 Tahun 3 Bulan",
+          mk_seluruhnya: "2 Tahun 3 Bulan",
+      }
+
+    - RESPONSE
+      [201, CREATED] = Edit data masa kerja pegawai dengan id: {id_masa_kerja} berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [404, NOT_FOUND] = Data tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+        "message" : "Edit data masa kerja pegawai dengan id: {id_masa_kerja} berhasil"
+        "edited_data" : {
+          id_masa_kerja: 1,
+          mk_golongan: "2 Tahun 3 Bulan",
+          mk_jabatan: "2 Tahun 3 Bulan",
+          mk_sebelum_cpns: "2 Tahun 3 Bulan",
+          mk_seluruhnya: "2 Tahun 3 Bulan",
+        }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [NOT_FOUND, 404]
+      res = {
+        "message": "Data masa kerja pegawai dengan id: {id_masa_kerja} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Get All Masa Kerja
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/masa-kerja
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data masa kerja pegawai
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data masa kerja pegawai"
+        "data" : [
+          {  
+            nip              : "19651127 199301 1 001",
+            nama             : "Ir. H. Dadang Airlangga N, MMT",
+            mk_golongan      : "21 Tahun 3 Bulan",
+            mk_jabatan       : "4 Tahun 0 Bulan"
+            mk_cpns          : "6 Tahun 7 Bulan
+            mk_seluruhnya    : "6 Tahun 7 Bulan"
+            jabatan          : "Kepala Dinas",
+            tmt_jabatan      : "2014-04-01",
+            pangkat_golongan : "IV/c",
+            tmt_golongan     : "2014-04-01"
+            pangkat_eselon   : "II/b",
+            tmt_sebelum_cpns : "1989-02-01",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Get Masa Kerja By Id 
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/masa-kerja/{id_masa_kerja}
+
+    - REQUEST
+      [
+        
+      ]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan data masa kerja pegawai dengan id: {id_masa_kerja}
+      [404, NOT_FOUND] = Data masa kerja pegawai dengan id: {id_masa_kerja} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan data masa kerja pegawai dengan id: {id_masa_kerja}"
+        "data" :
+          {
+            id_masa_kerja : 1,
+            nip              : "19651127 199301 1 001",
+            nama             : "Ir. H. Dadang Airlangga N, MMT",
+            mk_golongan      : "21 Tahun 3 Bulan",
+            mk_jabatan       : "4 Tahun 0 Bulan"
+            mk_cpns          : "6 Tahun 7 Bulan
+            mk_seluruhnya    : "6 Tahun 7 Bulan"
+            jabatan          : "Kepala Dinas",
+            tmt_jabatan      : "2014-04-01",
+            pangkat_golongan : "IV/c",
+            tmt_golongan     : "2014-04-01"
+            pangkat_eselon   : "II/b",
+            tmt_sebelum_cpns : "1989-02-01",
+            foto             : "foto3x4.jpg",
+          },
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data masa kerja pegawai dengan id: {id_masa_kerja} tidak ditemukan"
+      }
+      [500, SERVER_ERROR]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+
