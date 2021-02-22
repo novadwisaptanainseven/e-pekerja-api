@@ -3993,4 +3993,511 @@ GROUP MASA KERJA => http://localhost/epekerja-api/api/v1/admin/masa-kerja/
         "message": "Terjadi kesalahan server"
       }
 
+=================================================================================================================================
+STANDAR API GROUP KENAIKAN GAJI BERKALA
+GROUP KENAIKAN GAJI BERKALA => http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/kgb
+
+[1] Get All KGB By Id Pegawai
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/kgb
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data kenaikan gaji berkala dari pegawai dengan id: {id_pegawai}
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data kenaikan gaji berkala dari pegawai dengan id: {id_pegawai}"
+        "data" : [
+          {  
+            id_pegawai        : 1,
+            nip               : "19651127 199301 1 001",
+            nama              : "Ir. H. Dadang Airlangga N, MMT",
+            tmt_kenaikan_gaji : "2021-02-01",
+            gaji_pokok_lama   : "3831900",
+            gaji_pokok_baru   : "3952600",
+            kenaikan_gaji_yad : "2023-02-01",
+            created_at        : "2021-02-03",
+            peraturan         : "PP No. 30 Tahun 2015"
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Insert KGB by Id Pegawai
+    - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/kgb
+
+    - REQUEST
+      [
+        gaji_pokok_lama,
+        gaji_pokok_baru,
+        tmt_kenaikan_gaji,
+        kenaikan_gaji_yad,
+        peraturan,
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+          gaji_pokok_lama   : "3831900",
+          gaji_pokok_baru   : "3952600",
+          tmt_kenaikan_gaji : "2021-02-01",
+          kenaikan_gaji_yad : "2023-02-01",
+          peraturan         : "PP No. 30 Tahun 2015",
+      }
+
+    - RESPONSE
+      [201, CREATED] = Tambah data kenaikan gaji berkala untuk pegawai dengan id: {id_pegawai} berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+          "message"    : "Tambah data kenaikan gaji berkala untuk pegawai dengan id: {id_pegawai} berhasil",
+          "input_data" : 
+          {
+           gaji_pokok_lama   : "3831900",
+           gaji_pokok_baru   : "3952600",
+           tmt_kenaikan_gaji : "2021-02-01",
+           kenaikan_gaji_yad : "2023-02-01",
+           peraturan         : "PP No. 30 Tahun 2015",
+          }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Edit KGB by Id Pegawai
+    - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/kgb/{id_kgb}
+
+    - REQUEST
+      [
+        gaji_pokok_lama,
+        gaji_pokok_baru,
+        tmt_kenaikan_gaji,
+        kenaikan_gaji_yad,
+        peraturan,
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+          gaji_pokok_lama   : "3831900",
+          gaji_pokok_baru   : "3952600",
+          tmt_kenaikan_gaji : "2021-02-01",
+          kenaikan_gaji_yad : "2023-02-01",
+          peraturan         : "PP No. 30 Tahun 2015",
+      }
+
+    - RESPONSE
+      [201, CREATED] = Edit data kenaikan gaji berkala untuk pegawai dengan id: {id_pegawai} berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [404, NOT_FOUND] = Data kenaikan gaji berkala dengan id: {id_kgb} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+          "message"    : "Edit data kenaikan gaji berkala untuk pegawai dengan id: {id_pegawai} berhasil",
+          "input_data" : 
+          {
+           gaji_pokok_lama   : "3831900",
+           gaji_pokok_baru   : "3952600",
+           tmt_kenaikan_gaji : "2021-02-01",
+           kenaikan_gaji_yad : "2023-02-01",
+           peraturan         : "PP No. 30 Tahun 2015",
+          }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [NOT_FOUND, 404]
+      res = {
+        "message": "Data kenaian gaji berkala dengan id: {id_kgb} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[4] Delete KGB
+    - METHOD 
+      [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/kgb/{id_kgb}
+
+    - REQUEST
+      [id_pegawai]
+
+    - RESPONSE
+      [201, OK] = Berhasil menghapus data kenaikan gaji berkala dengan id: {id_kgb}
+      [404, NOT_FOUND] = Data kenaikan gaji berkala dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [201, CREATED]
+      res = {
+        "message" : "Berhasil menghapus data kenaikan gaji berkala dengan id: {id_pegawai}"
+        "delete_data" :
+          {
+            id_pegawai        : 1,
+            id_kgb            : 1,
+            gaji_pokok_lama   : "3831900",
+            gaji_pokok_baru   : "3952600",
+            tmt_kenaikan_gaji : "2021-02-01",
+            kenaikan_gaji_yad : "2023-02-01",
+            peraturan         : "PP No. 30 Tahun 2015",
+          },
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data kenaikan gaji berkala dengan id: {id_status_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+=================================================================================================================================
+STANDAR API GROUP CUTI
+GROUP CUTI => http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/cuti
+
+[1] Get All Cuti Pegawai
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/cuti
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data cuti pegawai
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data cuti pegawai"
+        "data" : [
+          {  
+            id_pegawai  : 1,
+            nip         : "19651127 199301 1 001",
+            nama        : "Ir. H. Dadang Airlangga N, MMT",
+            lama_cuti   : "14 Hari",
+            tgl_mulai   : "2021-02-10",
+            tgl_selesai : "2021-02-24",
+            status_cuti : "2023-02-01",
+            created_at  : "2023-02-01",
+            keterangan  : "Isolasi mandiri 14 hari",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Get All Cuti By Id Pegawai
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/cuti
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data cuti dari pegawai dengan id: {id_pegawai}
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data cuti dari pegawai dengan id: {id_pegawai}"
+        "data" : [
+          {  
+            id_pegawai  : 1,
+            nip         : "19651127 199301 1 001",
+            nama        : "Ir. H. Dadang Airlangga N, MMT",
+            lama_cuti   : "14 Hari",
+            tgl_mulai   : "2021-02-10",
+            tgl_selesai : "2021-02-24",
+            status_cuti : "2023-02-01",
+            created_at  : "2023-02-01",
+            keterangan  : "Isolasi mandiri 14 hari",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Insert Cuti by Id Pegawai
+    - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/cuti
+
+    - REQUEST
+      [
+        tgl_mulai,
+        tgl_selesai,
+        lama_cuti,
+        keterangan
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+            lama_cuti   : "14 Hari",
+            tgl_mulai   : "2021-02-10",
+            tgl_selesai : "2021-02-24",
+            keterangan  : "Isolasi mandiri 14 hari",
+      }
+
+    - RESPONSE
+      [201, CREATED] = Tambah data cuti untuk pegawai dengan id: {id_pegawai} berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+          "message"    : "Tambah data cuti untuk pegawai dengan id: {id_pegawai} berhasil",
+          "input_data" : 
+          {
+            id_pegawai  : 1,
+            lama_cuti   : "14 Hari",
+            tgl_mulai   : "2021-02-10",
+            tgl_selesai : "2021-02-24",
+            keterangan  : "Isolasi mandiri 14 hari",
+          }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[4] Edit Cuti by Id Pegawai
+    - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/cuti/{id_cuti}
+
+    - REQUEST
+      [
+        tgl_mulai,
+        tgl_selesai,
+        lama_cuti,
+        keterangan
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+            lama_cuti   : "14 Hari",
+            tgl_mulai   : "2021-02-10",
+            tgl_selesai : "2021-02-24",
+            keterangan  : "Isolasi mandiri 14 hari",
+      }
+
+    - RESPONSE
+      [201, CREATED] = Edit data cuti untuk pegawai dengan id: {id_pegawai} berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [404, NOT_FOUND] = Data cuti dengan id: {id_cuti} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+          "message"    : "Edit data cuti untuk pegawai dengan id: {id_pegawai} berhasil",
+          "edited_data" : 
+          {
+            id_pegawai  : 1,
+            lama_cuti   : "14 Hari",
+            tgl_mulai   : "2021-02-10",
+            tgl_selesai : "2021-02-24",
+            keterangan  : "Isolasi mandiri 14 hari",
+          }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [NOT_FOUND, 404]
+      res = {
+        "message": "Data cuti pegawai dengan id: {id_cuti} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[5] Update Status Cuti
+    - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/cuti/{id_cuti}/status
+
+    - REQUEST
+      [
+        status
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+            status: 1,
+      }
+
+    - RESPONSE
+      [201, CREATED] = Edit data status cuti untuk pegawai dengan id: {id_pegawai} berhasil
+      [400, INPUT_ERROR] = Input yang Anda masukkan tidak valid
+      [404, NOT_FOUND] = Data cuti dengan id: {id_cuti} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+          "message"    : "Edit data status cuti untuk pegawai dengan id: {id_pegawai} berhasil",
+          "edited_data" : 
+          {
+            id_pegawai  : 1,
+            id_cuti     : 1,
+            status      : 1
+          }
+      }
+      [INPUT_ERROR, 400]
+      res = {
+        "message": "Input yang Anda masukkan tidak valid"
+      }
+      [NOT_FOUND, 404]
+      res = {
+        "message": "Data cuti pegawai dengan id: {id_cuti} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[6] Delete Cuti
+    - METHOD 
+      [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/cuti/{id_cuti}
+
+    - REQUEST
+      [id_pegawai]
+
+    - RESPONSE
+      [201, OK] = Berhasil menghapus data cuti pegawai dengan id: {id_cuti}
+      [404, NOT_FOUND] = Data cuti pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [201, CREATED]
+      res = {
+        "message" : "Berhasil menghapus data cuti pegawai dengan id: {id_pegawai}"
+        "delete_data" :
+          {
+            id_pegawai  : 1,
+            id_cuti     : 1,
+            lama_cuti   : "14 Hari",
+            tgl_mulai   : "2021-02-10",
+            tgl_selesai : "2021-02-24",
+            keterangan  : "Isolasi mandiri 14 hari",
+          },
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data cuti pegawai dengan id: {id_cuti} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[7] Search Cuti by Nama Pegawai
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/cuti?nama={nama_pegawai}
+
+    - REQUEST
+      [
+        null
+      ]
+    
+    - CONTOH REQUEST JSON
+      req = {
+
+           
+      }
+
+    - RESPONSE
+      [201, CREATED] = Berhasil mendapatkan data cuti pegawai dengan nama: {nama_pegawai}
+      [404, NOT_FOUND] = Data cuti dengan nama: {nama_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [CREATED, 201]
+      res = {
+          "message"    : "Berhasil mendapatkan data cuti pegawai dengan nama: {nama_pegawai}",
+          "edited_data" : 
+          {
+            id_pegawai  : 1,
+            nama_pegawai: "Nova Dwi Sapta Nain Seven"
+            lama_cuti   : "14 Hari",
+            tgl_mulai   : "2021-02-10",
+            tgl_selesai : "2021-02-24",
+            keterangan  : "Isolasi mandiri 14 hari",
+          }
+      }
+      [NOT_FOUND, 404]
+      res = {
+        "message": "Data cuti pegawai dengan nama: {nama_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+=================================================================================================================================
+STANDAR API GROUP ABSENSI
+GROUP ABSENSI => http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/absensi
+
+[1] Get All Absensi By Id Pegawai
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/absensi
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data absensi dari pegawai dengan id: {id_pegawai}
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data absensi dari pegawai dengan id: {id_pegawai}"
+        "data" : [
+          {  
+            id_pegawai  : 1,
+            nip         : "19651127 199301 1 001",
+            nama        : "Ir. H. Dadang Airlangga N, MMT",
+            hari   : "14 Hari",
+            absen   : "2021-02-10",
+            tgl_selesai : "2021-02-24",
+            status_cuti : "2023-02-01",
+            created_at  : "2023-02-01",
+            keterangan  : "Isolasi mandiri 14 hari",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
 

@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\CutiController;
 use App\Http\Controllers\Admin\DUKController;
+use App\Http\Controllers\Admin\KGBController;
+use App\Http\Controllers\Admin\MasaKerjaController;
 use App\Http\Controllers\Admin\MasterData\AgamaController;
 use App\Http\Controllers\Admin\MasterData\BidangController;
 use App\Http\Controllers\Admin\MasterData\JabatanController;
@@ -233,6 +236,40 @@ Route::prefix('v1/admin/')->group(function () {
         Route::put("{id_pegawai}/berkas/{id_berkas}", [BerkasController::class, 'edit']);
         // Delete Berkas
         Route::delete("{id_pegawai}/berkas/{id_berkas}", [BerkasController::class, 'delete']);
+
+        // GROUP KENAIKAN GAJI BERKALA
+        // Insert Kenaikan Gaji Berkala
+        Route::post("{id_pegawai}/kgb", [KGBController::class, 'insert']);
+        // Edit Kenaikan Gaji Berkala
+        Route::put("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'edit']);
+        // Get All Kenaikan Gaji Berkala
+        Route::get("{id_pegawai}/kgb", [KGBController::class, 'getAll']);
+        // Get Kenaikan Gaji Berkala By Id
+        Route::get("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'getById']);
+        // Delete Kenaikan Gaji Berkala By Id
+        Route::delete("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'delete']);
+
+        // GROUP CUTI
+        // Insert Cuti
+        Route::post("{id_pegawai}/cuti", [CutiController::class, 'insert']);
+        // Edit Cuti
+        Route::put("{id_pegawai}/cuti/{id_cuti}", [CutiController::class, 'edit']);
+        // Update Status Cuti
+        Route::put("{id_pegawai}/cuti/{id_cuti}/status", [CutiController::class, 'updateStatus']);
+        // Get All Cuti by Id Pegawai
+        Route::get("{id_pegawai}/cuti", [CutiController::class, 'getAll']);
+        // Get Cuti by Id Cuti
+        Route::get("{id_pegawai}/cuti/{id_cuti}", [CutiController::class, 'getById']);
+        // Get All Cuti Pegawai
+        Route::get("cuti", [CutiController::class, 'getAllCuti']);
+        // Get Cuti By Id
+        Route::delete("{id_pegawai}/cuti/{id_cuti}", [CutiController::class, 'delete']);
+        // Search Cuti By Nama Pegawai
+        Route::get("cuti-nama", [CutiController::class, 'getByName']);
+
+        // GROUP ABSENSI
+        // Get All Absensi by Id Pegawai
+        
     });
 
     // GROUP DUK PEGAWAI
@@ -242,4 +279,12 @@ Route::prefix('v1/admin/')->group(function () {
     Route::get("duk-pegawai", [DUKController::class, 'getAll']);
     // Get DUK By Id
     Route::get("duk-pegawai/{id_duk}", [DUKController::class, 'getById']);
+
+    // GROUP MASA KERJA
+    // Edit Masa Kerja
+    Route::put("masa-kerja/{id_masa_kerja}", [MasaKerjaController::class, 'edit']);
+    // Get All Masa Kerja
+    Route::get("masa-kerja", [MasaKerjaController::class, 'getAll']);
+    // Get Masa Kerja By Id
+    Route::get("masa-kerja/{id_masa_kerja}", [MasaKerjaController::class, 'getById']);
 });

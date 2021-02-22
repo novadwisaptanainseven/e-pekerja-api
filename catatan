@@ -17,3 +17,5 @@
     - Password: tgl_lahir
     - Fullname: nama
 16. Hilangkan form input status pegawai di edit pegawai pns, ptth, dan pttb
+17. Tambah kolom status kgb di menu kgb
+18. Hilangkan form input nama pegawai di buat cuti pegawai

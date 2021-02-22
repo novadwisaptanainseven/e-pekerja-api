@@ -6,31 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class DUK extends Model
+class MasaKerja extends Model
 {
     use HasFactory;
 
-    protected $table = "duk_pegawai";
-    protected $primaryKey = "id_duk";
+    protected $table = "masa_kerja_pegawai";
+    protected $primaryKey = "id_masa_kerja";
 
-    // Get All DUK
+    // Get All Masa Kerja
     public static function getAll()
     {
         // Tabel - tabel
-        $tbl_duk = "duk_pegawai";
+        $tbl_masa_kerja = "masa_kerja_pegawai";
         $tbl_pegawai = "pegawai";
         $tbl_golongan = "pangkat_golongan";
         $tbl_eselon = "pangkat_eselon";
-        $tbl_masa_kerja = "masa_kerja_pegawai";
-        $tbl_pendidikan = "pendidikan";
         $tbl_jabatan = "jabatan";
 
-        $data = DB::table($tbl_duk)
+        $data = DB::table($tbl_masa_kerja)
             ->select(
-                "$tbl_duk.*",
+                "$tbl_masa_kerja.*",
                 "$tbl_pegawai.nip",
                 "$tbl_pegawai.nama",
-                "$tbl_pegawai.tgl_lahir",
                 "$tbl_pegawai.tmt_cpns",
                 "$tbl_pegawai.tmt_golongan",
                 "$tbl_golongan.golongan",
@@ -39,15 +36,11 @@ class DUK extends Model
                 "$tbl_eselon.keterangan AS ket_eselon",
                 "$tbl_jabatan.nama_jabatan",
                 "$tbl_masa_kerja.mk_golongan",
-                "$tbl_pendidikan.jurusan AS pendidikan",
             )
-            ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_duk.id_pegawai")
+            ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_masa_kerja.id_pegawai")
             ->leftJoin($tbl_golongan, "$tbl_golongan.id_pangkat_golongan", '=', "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_eselon, "$tbl_eselon.id_pangkat_eselon", '=', "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", '=', "$tbl_pegawai.id_jabatan")
-            ->leftJoin($tbl_masa_kerja, "$tbl_masa_kerja.id_pegawai", '=', "$tbl_pegawai.id_pegawai")
-            ->leftJoin($tbl_pendidikan, "$tbl_pendidikan.id_pegawai", '=', "$tbl_pegawai.id_pegawai")
-            ->orderBy("$tbl_pegawai.id_golongan", "asc")
             ->get();
 
         return $data;
@@ -57,19 +50,16 @@ class DUK extends Model
     public static function getById($id)
     {
         // Tabel - tabel
-        $tbl_duk = "duk_pegawai";
+        $tbl_masa_kerja = "masa_kerja_pegawai";
         $tbl_pegawai = "pegawai";
         $tbl_golongan = "pangkat_golongan";
         $tbl_eselon = "pangkat_eselon";
-        $tbl_masa_kerja = "masa_kerja_pegawai";
-        $tbl_pendidikan = "pendidikan";
         $tbl_jabatan = "jabatan";
-        $tbl_diklat = "diklat";
 
-        // Get data duk
-        $data_duk = DB::table($tbl_duk)
+        // Get data masa kerja
+        $data_masa_kerja = DB::table($tbl_masa_kerja)
             ->select(
-                "$tbl_duk.*",
+                "$tbl_masa_kerja.*",
                 "$tbl_pegawai.nip",
                 "$tbl_pegawai.nama",
                 "$tbl_pegawai.tgl_lahir",
@@ -81,58 +71,45 @@ class DUK extends Model
                 "$tbl_eselon.eselon",
                 "$tbl_eselon.keterangan AS ket_eselon",
                 "$tbl_jabatan.nama_jabatan",
-                "$tbl_masa_kerja.mk_golongan",
             )
-            ->where("$tbl_duk.id_duk", '=', $id)
-            ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_duk.id_pegawai")
+            ->where("$tbl_masa_kerja.id_masa_kerja", '=', $id)
+            ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_masa_kerja.id_pegawai")
             ->leftJoin($tbl_golongan, "$tbl_golongan.id_pangkat_golongan", '=', "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_eselon, "$tbl_eselon.id_pangkat_eselon", '=', "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", '=', "$tbl_pegawai.id_jabatan")
-            ->leftJoin($tbl_masa_kerja, "$tbl_masa_kerja.id_pegawai", '=', "$tbl_pegawai.id_pegawai")
             ->first();
 
-        // Get data pendidikan
-        $data_pendidikan = DB::table($tbl_pendidikan)
-            ->where('id_pegawai', '=', $data_duk->id_pegawai)
-            ->get();
-
-        // Get data diklat
-        $data_diklat = DB::table($tbl_diklat)
-            ->where('id_pegawai', '=', $data_duk->id_pegawai)
-            ->get();
-
-        if ($data_duk) {
-
-            $data_duk->pendidikan = $data_pendidikan;
-            $data_duk->diklat = $data_diklat;
-
-            return $data_duk;
+        if ($data_masa_kerja) {
+            return $data_masa_kerja;
         } else {
             return null;
         }
     }
 
-    // Edit Masa kerja
+    // Edit Masa Kerja
     public static function edit($req, $id)
     {
         // Tabel - tabel
-        $tbl_duk = "duk_pegawai";
+        $tbl_masa_kerja = "masa_kerja_pegawai";
 
         // Cek apakah data ditemukan
-        $duk = DB::table($tbl_duk)->where('id_duk', '=', $id)->first();
-        if (!$duk) {
+        $masa_kerja = DB::table($tbl_masa_kerja)->where('id_masa_kerja', '=', $id)->first();
+        if (!$masa_kerja) {
             return 404; // NOT FOUND
         }
 
         $data = [
-            "catatan_mutasi" => $req->catatan_mutasi
+            "mk_golongan" => $req->mk_golongan ? $req->mk_golongan : $masa_kerja->mk_golongan,
+            "mk_jabatan" => $req->jabatan ? $req->jabatan : $masa_kerja->jabatan,
+            "mk_sebelum_cpns" => $req->mk_sebelum_cpns ? $req->mk_sebelum_cpns : $masa_kerja->mk_sebelum_cpns,
+            "mk_seluruhnya" => $req->mk_seluruhnya ? $req->mk_seluruhnya : $masa_kerja->mk_seluruhnya,
         ];
 
-        $cek_edit = DB::table($tbl_duk)->where('id_duk', '=', $id)->update($data);
+        $cek_edit = DB::table($tbl_masa_kerja)->where('id_masa_kerja', '=', $id)->update($data);
 
-        // Get data setelah diedit
-        $edited_data = DB::table($tbl_duk)
-            ->where('id_duk', '=', $id)
+        // Get data setelah dieditx
+        $edited_data = DB::table($tbl_masa_kerja)
+            ->where('id_masa_kerja', '=', $id)
             ->first();
 
         // Cek apakah proses delete berhasil
