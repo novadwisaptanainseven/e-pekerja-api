@@ -19,3 +19,13 @@
 16. Hilangkan form input status pegawai di edit pegawai pns, ptth, dan pttb
 17. Tambah kolom status kgb di menu kgb
 18. Hilangkan form input nama pegawai di buat cuti pegawai
+19. Tambahkan preview upload gambar di semua form input
+20. Gunakan fitur select data di form input select pegawai
+21. Hapus form input nama pegawai di edit data pensiun
+
+Algoritma Request Absensi
+1. API get absensi menerima request berupa bulan dan tahun
+2. Nilai defaultnya adalah bulan dan tahun sekarang
+3. Tampilkan loading saat request sedang berlangsung
+4. Rekap Absensi
+   - Ketika tombol cetak ditekan, save data rekap absensi ke database

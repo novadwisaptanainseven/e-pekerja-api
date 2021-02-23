@@ -4467,15 +4467,16 @@ GROUP CUTI => http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/cu
 STANDAR API GROUP ABSENSI
 GROUP ABSENSI => http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/absensi
 
-[1] Get All Absensi By Id Pegawai
+[1] Get All Absensi By Id Pegawai and Query Parameters
     - METHOD 
-      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/absensi
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/absensi-params?bulan=2&tahun=2021
 
     - REQUEST
-      [null]
+      [bulan, tahun]
 
     - RESPONSE
       [200, OK] = Berhasil mendapatkan semua data absensi dari pegawai dengan id: {id_pegawai}
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
       [500, SERVER_ERROR] = Kesalahan Server
 
     - CONTOH RESPONSE JSON
@@ -4484,15 +4485,268 @@ GROUP ABSENSI => http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}
         "message" : "Berhasil mendapatkan semua data absensi dari pegawai dengan id: {id_pegawai}"
         "data" : [
           {  
-            id_pegawai  : 1,
-            nip         : "19651127 199301 1 001",
-            nama        : "Ir. H. Dadang Airlangga N, MMT",
-            hari   : "14 Hari",
-            absen   : "2021-02-10",
-            tgl_selesai : "2021-02-24",
-            status_cuti : "2023-02-01",
-            created_at  : "2023-02-01",
-            keterangan  : "Isolasi mandiri 14 hari",
+            id_pegawai : 1,
+            id_absensi : 1,
+            tgl_absen  : "2021-10-10",
+            hari       : "senin",
+            absen      : "1",
+            keterangan : "",
+            created_at : "2021-10-10",
+            updated_at : "2021-10-15",
+          }
+        ]
+      }
+      [404,   NOT_FOUND]
+      res = {
+        "message" : "Data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Get Riwayat Absensi by Id Pegawai and Filter
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/absensi?firstDate=2021-10-10&lastDate=2021-10-15
+
+    - REQUEST
+      [firstDate, lastDate]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data absensi dari pegawai dengan id: {id_pegawai}
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data absensi dari pegawai dengan id: {id_pegawai}"
+        "data" : [
+          {  
+            id_pegawai : 1,
+            nama       : "Nova Dwi Sapta Nain Seven"
+            id_absensi : 1,
+            tgl_absen  : "2021-10-10",
+            hari       : "senin",
+            absen      : "1",
+            keterangan : "",
+            created_at : "2021-10-10",
+            updated_at : "2021-10-15",
+          }
+        ]
+      }
+      [404,   NOT_FOUND]
+      res = {
+        "message" : "Data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Tambah Absensi
+ - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/absensi
+
+    - REQUEST
+      [tgl_absen, hari, absen, keterangan]
+
+    - RESPONSE
+      [201, CREATED] = Tambah data absensi dengan id: {id_absensi} berhasil
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [201, CREATED]
+      res = {
+        "message" : "Tambah data absensi dengan id: {id_absensi} berhasil"
+        "input_data" : [
+          { 
+            tgl_absen  : "2021-10-10",
+            hari       : "senin",
+            absen      : "1",
+            keterangan : "",
+          }
+        ]
+      }
+      [404,   NOT_FOUND]
+      res = {
+        "message" : "Data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[4] Edit Absensi
+ - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/absensi/{id_absensi}
+
+    - REQUEST
+      [tgl_absen, hari, absen, keterangan]
+
+    - RESPONSE
+      [201, CREATED] = Edit data absensi dengan id: {id_absensi} berhasil
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [201, CREATED]
+      res = {
+        "message" : "Edit data absensi dengan id: {id_absensi} berhasil"
+        "edited_data" : [
+          { 
+            id_absen   : 1,
+            tgl_absen  : "2021-10-10",
+            hari       : "senin",
+            absen      : "1",
+            keterangan : "",
+          }
+        ]
+      }
+      [404,   NOT_FOUND]
+      res = {
+        "message" : "Data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[5] Delete Absensi
+ - METHOD 
+      [DELETE] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/absensi/{id_absensi}
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [201, CREATED] = Berhasil menghapus data absensi dengan id: {id_absensi}
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [201, CREATED]
+      res = {
+        "message" : "Berhasil menghapus data absensi dengan id: {id_absensi}"
+        "deleted_data" : [
+          { 
+            id_absen   : 1,
+            tgl_absen  : "2021-10-10",
+            hari       : "senin",
+            absen      : "1",
+            keterangan : "",
+          }
+        ]
+      }
+      [404,   NOT_FOUND]
+      res = {
+        "message" : "Data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[6] Get Informasi Absensi Per Tahun by Id Pegawai
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}/rekap-absensi
+
+    - REQUEST
+      []
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan rekap absensi per tahun dari pegawai dengan id: {id_pegawai}
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan rekap absensi per tahun dari pegawai dengan id: {id_pegawai}"
+        "data" : [
+          {  
+            tahun : 2021,
+            hadir : 5,
+            izin  : 2,
+            sakit : 3,
+            cuti  : 3,
+            tk    : 1,
+          }
+        ]
+      }
+      [404,   NOT_FOUND]
+      res = {
+        "message" : "Data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[7] Get Rekap Absensi Pegawai
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pegawai/rekap-absensi
+
+    - REQUEST
+      [firstDate, lastDate, tahun]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan rekap absensi untuk semua data pegawai
+      [404, NOT_FOUND] = Data pegawai dengan id: {id_pegawai} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan rekap absensi untuk semua data pegawai"
+        "data" : [
+          { 
+            id_pegawai : 1,
+            nama       : 2021,
+            jabatan    : "Programmer",
+            hadir      : 2,
+            izin       : 3,
+            sakit      : 3,
+            cuti       : 1,
+            tk         : 1,
+          }
+        ]
+      }
+      [404,   NOT_FOUND]
+      res = {
+        "message" : "Data pegawai dengan id: {id_pegawai} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[8] Tambah Rekap Absensi
+ - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/pegawai/rekap-absensi
+
+    - REQUEST
+      [id_pegawai, hadir, izin, sakit, cuti, tk]
+
+    - RESPONSE
+      [201, CREATED] = Tambah data rekap absensi berhasil
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [201, CREATED]
+      res = {
+        "message" : "Tambah data rekap absensi berhasil"
+        "input_data" : [
+          { 
+            id_pegawai : 1,
+            nama       : 2021,
+            jabatan    : "Programmer",
+            hadir      : 2,
+            izin       : 3,
+            sakit      : 3,
+            cuti       : 1,
+            tk         : 1,
           }
         ]
       }
@@ -4501,3 +4755,501 @@ GROUP ABSENSI => http://localhost/epekerja-api/api/v1/admin/pegawai/{id_pegawai}
         "message": "Terjadi kesalahan server"
       }
 
+=================================================================================================================================
+STANDAR API GROUP PENGHARGAAN
+GROUP PENGHARGAAN => http://localhost/epekerja-api/api/v1/admin/penghargaan
+
+[1] Get All Penghargaan
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/penghargaan
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data penghargaan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data penghargaan"
+        "data" : [
+          { 
+            nip              : 123 123 123,
+            nama             : Ir. H. Dadang Airlangga N, MMT,
+            nama_penghargaan : "Penghargaan 1",
+            pemberi          : "Walikota Samarinda",
+            tgl_penghargaan  : "2021-12-10",
+            dokumentasi      : "foto_3x4.jpg",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Insert Penghargaan
+    - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/penghargaan
+
+    - REQUEST
+      [nama_penerima, nama_penghargaan, pemberi, tgl_penghargaan, dokumentasi]
+
+    - RESPONSE
+      [200, OK] = Berhasil menambah data penghargaan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil menambah data penghargaan"
+        "input_data" : [
+          { 
+            nama_penerima    : 123 123 123,
+            nama_penghargaan : "Penghargaan 1",
+            pemberi          : "Walikota Samarinda",
+            tgl_penghargaan  : "2021-12-10",
+            dokumentasi      : "foto_3x4.jpg",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Detail Penghargaan
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/penghargaan/{id_penghargaan}
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan data penghargaan dengan id: {id_penghargaan}
+      [404, NOT_FOUND] = Data penghargaan dengan id: {id_penghargaan} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON 
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan data penghargaan dengan id: {id_penghargaan}"
+        "data" : [
+          { 
+            nama_penerima    : 123 123 123,
+            nama_penghargaan : "Penghargaan 1",
+            pemberi          : "Walikota Samarinda",
+            tgl_penghargaan  : "2021-12-10",
+            dokumentasi      : "foto_3x4.jpg",
+          }
+        ]
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data penghargaan dengan id: {id_penghargaan} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[4] Edit Penghargaan
+    - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/penghargaan/{id_penghargaan}
+
+    - REQUEST
+      [nama_penerima, nama_penghargaan, pemberi, tgl_penghargaan, dokumentasi]
+
+    - RESPONSE
+      [200, OK] = Edit data penghargaan dengan id: {id_penghargaan}
+       [404, NOT_FOUND] = Data penghargaan dengan id: {id_penghargaan} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Edit data penghargaan dengan id: {id_penghargaan}"
+        "edited_data" : [
+          { 
+            id_penghargaan   : 1,
+            nama_penerima    : 123 123 123,
+            nama_penghargaan : "Penghargaan 1",
+            pemberi          : "Walikota Samarinda",
+            tgl_penghargaan  : "2021-12-10",
+            dokumentasi      : "foto_3x4.jpg",
+          }
+        ]
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data penghargaan dengan id: {id_penghargaan} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[5] Delete Penghargaan
+    - METHOD 
+      [DELETE] http://localhost/epekerja-api/api/v1/admin/penghargaan/{id_penghargaan}
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil menghapus data penghargaan dengan id: {id_penghargaan}
+       [404, NOT_FOUND] = Data penghargaan dengan id: {id_penghargaan} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil menghapus data penghargaan dengan id: {id_penghargaan}"
+        "deleted_data" : [
+          { 
+            id_penghargaan   : 1,
+            nama_penerima    : 123 123 123,
+            nama_penghargaan : "Penghargaan 1",
+            pemberi          : "Walikota Samarinda",
+            tgl_penghargaan  : "2021-12-10",
+            dokumentasi      : "foto_3x4.jpg",
+          }
+        ]
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data penghargaan dengan id: {id_penghargaan} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+
+=================================================================================================================================
+STANDAR API GROUP PENSIUN
+GROUP PENSIUN => http://localhost/epekerja-api/api/v1/admin/pensiun
+
+[1] Get All Pensiun
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pensiun
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data penghargaan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data penghargaan"
+        "data" : [
+          { 
+            nip         : 123 123 123,
+            nama        : Ir. H. Dadang Airlangga N, MMT,
+            tgl_pensiun : "2021-02-10",
+            keterangan  : "Mencapai umur ke 65 tahun",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Insert Pensiun
+    - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/pensiun
+
+    - REQUEST
+      [id_pegawai, tgl_pensiun, keterangan]
+
+    - RESPONSE
+      [200, OK] = Berhasil menambah data penghargaan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil menambah data penghargaan"
+        "input_data" : [
+          { 
+            id_pegawai  : 123 123 123,
+            tgl_pensiun : "Penghargaan 1",
+            keterangan  : "Walikota Samarinda",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Detail Pensiun
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/pensiun/{id_pensiun}
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan data pensiun dengan id: {id_pensiun}
+      [404, NOT_FOUND] = Data pensiun dengan id: {id_pensiun} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON 
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan data pensiun dengan id: {id_pensiun}"
+        "data" : [
+          { 
+            nip            : 123 123 123,
+            nama           : "Ir. H. Dadang Airlangga N, MMT",
+            tgl_pensiun    : "Walikota Samarinda",
+            status_pensiun : "2021-12-10",
+            keterangan     : "foto_3x4.jpg",
+          }
+        ]
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data pensiun dengan id: {id_pensiun} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[4] Edit Pensiun
+    - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/pensiun/{id_pensiun}
+
+    - REQUEST
+      [tgl_pensiun, keterangan]
+
+    - RESPONSE
+      [200, OK] = Edit data pensiun dengan id: {id_pensiun}
+      [404, NOT_FOUND] = Data pensiun dengan id: {id_pensiun} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Edit data pensiun dengan id: {id_pensiun}"
+        "edited_data" : [
+          { 
+            id_pensiun  : 1,
+            tgl_pensiun : "2021-12-10",
+            keterangan  : "Mencapai umur 65 tahun",
+          }
+        ]
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data pensiun dengan id: {id_pensiun} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[5] Delete Pensiun
+    - METHOD 
+      [DELETE] http://localhost/epekerja-api/api/v1/admin/pensiun/{id_pensiun}
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [201, CREATED] = Berhasil menghapus data pensiun dengan id: {id_pensiun}
+       [404, NOT_FOUND] = Data pensiun dengan id: {id_pensiun} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil menghapus data pensiun dengan id: {id_pensiun}"
+        "deleted_data" : [
+          { 
+            id_pensiun  : 1,
+            id_pegawai  : 2,
+            tgl_pensiun : "2021-11-05",
+            keterangan  : "Mencapai umur 65 tahun",
+          }
+        ]
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data pensiun dengan id: {id_pensiun} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+=================================================================================================================================
+STANDAR API GROUP USERS
+GROUP USERS => http://localhost/epekerja-api/api/v1/admin/users
+[1] Get All Users
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/users
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan semua data users
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan semua data users"
+        "data" : [
+          { 
+            nip_nip     : 123 123 123,
+            nama        : Ir. H. Dadang Airlangga N, MMT,
+            username    : "2021-02-10",
+            level       : "Mencapai umur ke 65 tahun",
+            foto_profil : "foto3x4.jpg"
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[2] Insert Users
+    - METHOD 
+      [POST] http://localhost/epekerja-api/api/v1/admin/users
+
+    - REQUEST
+      [id_pegawai, username, password, level]
+
+    - RESPONSE
+      [200, OK] = Berhasil menambah data users
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil menambah data users"
+        "input_data" : [
+          { 
+            id_pegawai : 1,
+            username   : "novadwisapta",
+            password   : "novadwisapta",
+          }
+        ]
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[3] Detail User
+    - METHOD 
+      [GET] http://localhost/epekerja-api/api/v1/admin/users/{id_user}
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [200, OK] = Berhasil mendapatkan data user dengan id: {id_user}
+      [404, NOT_FOUND] = Data user dengan id: {id_user} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON 
+      [200, OK]
+      res = {
+        "message" : "Berhasil mendapatkan data user dengan id: {id_user}"
+        "data" : [
+          { 
+            nama        : 123 123 123,
+            username    : "Ir. H. Dadang Airlangga N, MMT",
+            level       : "Walikota Samarinda",
+            foto_profil : "2021-12-10",
+          }
+        ]
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data user dengan id: {id_user} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[4] Edit User
+    - METHOD 
+      [PUT] http://localhost/epekerja-api/api/v1/admin/users/{id_user}
+
+    - REQUEST
+      [tgl_user, keterangan]
+
+    - RESPONSE
+      [201, CREATED] = Edit data user dengan id: {id_user}
+      [404, NOT_FOUND] = Data user dengan id: {id_user} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Edit data user dengan id: {id_user}"
+        "edited_data" : [
+          { 
+            id_user  : 1,
+            id_pegawai : 1,
+            username   : "novadwisapta",
+            password   : "novadwisapta",
+          }
+        ]
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data user dengan id: {id_user} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
+
+[5] Delete User
+    - METHOD 
+      [DELETE] http://localhost/epekerja-api/api/v1/admin/users/{id_user}
+
+    - REQUEST
+      [null]
+
+    - RESPONSE
+      [201, CREATED] = Berhasil menghapus data user dengan id: {id_user}
+       [404, NOT_FOUND] = Data user dengan id: {id_user} tidak ditemukan
+      [500, SERVER_ERROR] = Kesalahan Server
+
+    - CONTOH RESPONSE JSON
+      [200, OK]
+      res = {
+        "message" : "Berhasil menghapus data user dengan id: {id_user}"
+        "deleted_data" : [
+          { 
+            id_user  : 1,
+            id_pegawai : 1,
+            username   : "novadwisapta",
+            password   : "novadwisapta",
+          }
+        ]
+      }
+      [404, NOT_FOUND]
+      res = {
+        "message" : "Data pensiun dengan id: {id_pensiun} tidak ditemukan"
+      }
+      [SERVER_ERROR, 500]
+      res = {
+        "message": "Terjadi kesalahan server"
+      }
