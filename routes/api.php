@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\MasterData\PangkatEselonController;
 use App\Http\Controllers\Admin\MasterData\PangkatGolonganController;
 use App\Http\Controllers\Admin\MasterData\StatusPegawaiController;
 use App\Http\Controllers\Admin\MasterData\SubBidangController;
+use App\Http\Controllers\Admin\Pegawai\AbsensiController;
 use App\Http\Controllers\Admin\Pegawai\BerkasController;
 use App\Http\Controllers\Admin\Pegawai\DiklatController;
 use App\Http\Controllers\Admin\Pegawai\KeluargaController;
@@ -20,6 +21,8 @@ use App\Http\Controllers\Admin\Pegawai\PNSController;
 use App\Http\Controllers\Admin\Pegawai\PTTBController;
 use App\Http\Controllers\Admin\Pegawai\PTTHController;
 use App\Http\Controllers\Admin\Pegawai\RiwayatKerjaController;
+use App\Http\Controllers\Admin\PensiunController;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -268,8 +271,26 @@ Route::prefix('v1/admin/')->group(function () {
         Route::get("cuti-nama", [CutiController::class, 'getByName']);
 
         // GROUP ABSENSI
-        // Get All Absensi by Id Pegawai
-        
+        // Get All Absensi by Id Pegawai and Query Parameters
+        Route::get("{id_pegawai}/absensi-params", [AbsensiController::class, "getAbsensiByQuery"]);
+        // Get Riwayat Absensi by Id Pegawai and Filter
+        Route::get("{id_pegawai}/absensi", [AbsensiController::class, "getAbsensiByFilter"]);
+        // Insert Absensi
+        Route::post("{id_pegawai}/absensi", [AbsensiController::class, "insert"]);
+        // Insert or Update Absensi
+        Route::post("{id_pegawai}/absensi/insert-update", [AbsensiController::class, "insertOrUpdate"]);
+        // Edit Absensi
+        Route::put("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "edit"]);
+        // Delete Absensi
+        Route::delete("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "delete"]);
+        // Get Informasi Rekap Absensi per Tahun by Id Pegawai
+        Route::get("{id_pegawai}/rekap-absensi", [AbsensiController::class, "getRekapAbsensiPerTahun"]);
+        // Get All Rekap Absensi Pegawai Per Tahun 
+        Route::get("rekap-absensi", [AbsensiController::class, "getAllRekapAbsensiPerTahun"]);
+        // Get All Rekap Absensi Pegawai by Tanggal 
+        Route::get("rekap-absensi-tanggal", [AbsensiController::class, "getRekapAbsensiByDate"]); 
+        // Tambah Rekap Absensi
+        Route::post("{id_pegawai}/rekap-absensi", [AbsensiController::class, "insertRekapAbsensi"]);
     });
 
     // GROUP DUK PEGAWAI
@@ -287,4 +308,40 @@ Route::prefix('v1/admin/')->group(function () {
     Route::get("masa-kerja", [MasaKerjaController::class, 'getAll']);
     // Get Masa Kerja By Id
     Route::get("masa-kerja/{id_masa_kerja}", [MasaKerjaController::class, 'getById']);
+
+    // GROUP PENGHARGAAN
+    // Get All Penghargaan
+    Route::get("penghargaan", [PenghargaanController::class, "getAll"]);
+    // Insert Penghargaan
+    Route::post("penghargaan", [PenghargaanController::class, "insert"]);
+    // Detail Penghargaan
+    Route::get("penghargaan/{id_penghargaan}", [PenghargaanController::class, "getById"]);
+    // Edit Penghargaan
+    Route::put("penghargaan/{id_penghargaan}", [PenghargaanController::class, "edit"]);
+    // Delete Penghargaan
+    Route::delete("penghargaan/{id_penghargaan}", [PenghargaanController::class, "delete"]);
+
+    // GROUP PENSIUN
+    // Get All Pensiun
+    Route::get("pensiun", [PensiunController::class, "getAll"]);
+    // Insert Pensiun
+    Route::post("pensiun", [PensiunController::class, "insert"]);
+    // Detail Pensiun
+    Route::get("pensiun/{id_pensiun}", [PensiunController::class, "getById"]);
+    // Edit Pensiun
+    Route::put("pensiun/{id_pensiun}", [PensiunController::class, "edit"]);
+    // Delete Pensiun
+    Route::delete("pensiun/{id_pensiun}", [PensiunController::class, "delete"]);
+
+    // GROUP USERS
+    // Get All Users
+    Route::get("users", [UsersController::class, "getAll"]);
+    // Insert Users
+    Route::post("users", [UsersController::class, "insert"]);
+    // Detail Users
+    Route::get("users/{id_user}", [UsersController::class, "getById"]);
+    // Edit Users
+    Route::put("users/{id_user}", [UsersController::class, "edit"]);
+    // Delete Users
+    Route::delete("users/{id_user}", [UsersController::class, "delete"]);
 });
