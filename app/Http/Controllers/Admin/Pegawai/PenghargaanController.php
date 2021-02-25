@@ -128,8 +128,8 @@ class PenghargaanController extends Controller
         } else {
             return response()->json([
                 "message" => "Edit data penghargaan dengan id: {$id_penghargaan} berhasil",
-                "data" => $edit
-            ], 200);
+                "edited_data" => $edit
+            ], 201);
         }
     }
 

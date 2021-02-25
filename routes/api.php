@@ -21,8 +21,10 @@ use App\Http\Controllers\Admin\Pegawai\PNSController;
 use App\Http\Controllers\Admin\Pegawai\PTTBController;
 use App\Http\Controllers\Admin\Pegawai\PTTHController;
 use App\Http\Controllers\Admin\Pegawai\RiwayatKerjaController;
+use App\Http\Controllers\Admin\PenghargaanController as AdminPenghargaanController;
 use App\Http\Controllers\Admin\PensiunController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -288,7 +290,7 @@ Route::prefix('v1/admin/')->group(function () {
         // Get All Rekap Absensi Pegawai Per Tahun 
         Route::get("rekap-absensi", [AbsensiController::class, "getAllRekapAbsensiPerTahun"]);
         // Get All Rekap Absensi Pegawai by Tanggal 
-        Route::get("rekap-absensi-tanggal", [AbsensiController::class, "getRekapAbsensiByDate"]); 
+        Route::get("rekap-absensi-tanggal", [AbsensiController::class, "getRekapAbsensiByDate"]);
         // Tambah Rekap Absensi
         Route::post("{id_pegawai}/rekap-absensi", [AbsensiController::class, "insertRekapAbsensi"]);
     });
@@ -311,15 +313,15 @@ Route::prefix('v1/admin/')->group(function () {
 
     // GROUP PENGHARGAAN
     // Get All Penghargaan
-    Route::get("penghargaan", [PenghargaanController::class, "getAll"]);
+    Route::get("penghargaan", [AdminPenghargaanController::class, "getAll"]);
     // Insert Penghargaan
-    Route::post("penghargaan", [PenghargaanController::class, "insert"]);
+    Route::post("penghargaan", [AdminPenghargaanController::class, "insert"]);
     // Detail Penghargaan
-    Route::get("penghargaan/{id_penghargaan}", [PenghargaanController::class, "getById"]);
+    Route::get("penghargaan/{id_penghargaan}", [AdminPenghargaanController::class, "getById"]);
     // Edit Penghargaan
-    Route::put("penghargaan/{id_penghargaan}", [PenghargaanController::class, "edit"]);
+    Route::put("penghargaan/{id_penghargaan}", [AdminPenghargaanController::class, "edit"]);
     // Delete Penghargaan
-    Route::delete("penghargaan/{id_penghargaan}", [PenghargaanController::class, "delete"]);
+    Route::delete("penghargaan/{id_penghargaan}", [AdminPenghargaanController::class, "delete"]);
 
     // GROUP PENSIUN
     // Get All Pensiun
@@ -345,3 +347,19 @@ Route::prefix('v1/admin/')->group(function () {
     // Delete Users
     Route::delete("users/{id_user}", [UsersController::class, "delete"]);
 });
+
+// Login User
+Route::post('/login', [AuthController::class, "login"]);
+
+// Register User
+Route::post('/register', [UsersController::class, "register"]);
+
+// Cek User Saat Ini
+Route::middleware('auth:sanctum')->get('/user', [AuthController::class, "me"]);
+// Route::group(['middleware' => 'auth:sanctum'], function () {
+//     // For Checking User
+//     Route::get('/cek_auth', [AuthController::class, 'me']);
+// });
+
+// My Token
+// 1|0hUstX659nTXkmWznJ7QSuJBpI9y1ny1Fn1ix8k2
