@@ -135,7 +135,7 @@ class UsersController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'password_lama' => 'required|',
+                'password_lama' => 'required',
                 'password_baru' => 'required|same:konfirmasi_password',
                 'konfirmasi_password' => 'required',
             ],
@@ -165,6 +165,25 @@ class UsersController extends Controller
             return response()->json([
                 "message" => "Berhasil mengubah password user dengan id: $id_user"
             ], 201);
+        }
+    }
+
+    // Delete User
+    public function delete($id_user)
+    {
+        $data = User::where("id", "=", $id_user)->first();
+
+        $delete = User::deleteUser($id_user);
+
+        if ($delete !== 404) {
+            return response()->json([
+                "message" => "Berhasil menghapus data user dengan id: $id_user",
+                "deleted_data" => $data
+            ], 201);
+        } else {
+            return response()->json([
+                "message" => "Data user dengan id: $id_user tidak ditemukan"
+            ], 404);
         }
     }
 }

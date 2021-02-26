@@ -48,6 +48,7 @@ class User extends Authenticatable
     protected $table = "users";
     protected $primaryKey = "id";
 
+    // Edit User
     public static function edit($req, $id_user)
     {
         // Tabel - Tabel
@@ -92,6 +93,7 @@ class User extends Authenticatable
         return $data;
     }
 
+    // Edit Password
     public static function editPassword($req, $id_user)
     {
         // Tabel - Tabel
@@ -106,13 +108,35 @@ class User extends Authenticatable
         }
 
         $data = [
-            "password" => $req->password_baru ? $req->password_baru :  Hash::make($user->password),
+            "password" => $req->password_baru ? Hash::make($req->password_baru) : $user->password,
         ];
 
         // Update Data
         DB::table($tbl_users)
             ->where("id", "=", $id_user)
             ->update($data);
+
+        return 201;
+    }
+
+    // Delete User
+    public static function deleteUser($id_user)
+    {
+        // Tabel - Tabel
+        $tbl_users = "users";
+
+        // Cek apakah data user ditemukan
+        $user = DB::table($tbl_users)
+            ->where("id", "=", $id_user)
+            ->first();
+        if (!$user) {
+            return 404;
+        }
+
+        // Update Data
+        DB::table($tbl_users)
+            ->where("id", "=", $id_user)
+            ->delete();
 
         return 201;
     }

@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\PenghargaanController as AdminPenghargaanControll
 use App\Http\Controllers\Admin\PensiunController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -349,8 +350,20 @@ Route::prefix('v1/admin/')->group(function () {
     Route::get("users/{id_user}", [UsersController::class, "getById"]);
     // Edit Users
     Route::post("users/{id_user}", [UsersController::class, "edit"]);
+    // Edit Password
+    Route::put("users-password/{id_user}", [UsersController::class, "editPassword"]);
     // Delete Users
     Route::delete("users/{id_user}", [UsersController::class, "delete"]);
+});
+
+// API LEVEL USER
+Route::prefix('v1/user/')->group(function () {
+    Route::group(["middleware" => "auth:sanctum"], function () {
+        // All secure URL's
+
+        // GROUP DASHBOARD
+        Route::get("dashboard", [UserDashboardController::class, "getInformation"]);
+    });
 });
 
 // Login User
