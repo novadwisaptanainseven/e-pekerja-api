@@ -51,7 +51,7 @@ class AuthController extends Controller
 
         // Jika semua validasi terlewati
         // Buat token
-        $token = $user->createToken('user-token')->plainTextToken;
+        $token = $user->createToken($user->usernama)->plainTextToken;
 
         $response = [
             "user" => $user,

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CutiController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DUKController;
 use App\Http\Controllers\Admin\KGBController;
 use App\Http\Controllers\Admin\MasaKerjaController;
@@ -45,6 +46,10 @@ use Illuminate\Support\Facades\Route;
 
 // API LEVEL ADMIN
 Route::prefix('v1/admin/')->group(function () {
+
+    // Get All Dashboard Information
+    Route::get("dashboard", [DashboardController::class, "getInformation"]);
+
     // GROUP MASTER DATA
     Route::prefix('master-data/')->group(function () {
         // GROUP AGAMA
@@ -343,7 +348,7 @@ Route::prefix('v1/admin/')->group(function () {
     // Detail Users
     Route::get("users/{id_user}", [UsersController::class, "getById"]);
     // Edit Users
-    Route::put("users/{id_user}", [UsersController::class, "edit"]);
+    Route::post("users/{id_user}", [UsersController::class, "edit"]);
     // Delete Users
     Route::delete("users/{id_user}", [UsersController::class, "delete"]);
 });
@@ -353,6 +358,9 @@ Route::post('/login', [AuthController::class, "login"]);
 
 // Register User
 Route::post('/register', [UsersController::class, "register"]);
+
+// Login User
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, "logout"]);
 
 // Cek User Saat Ini
 Route::middleware('auth:sanctum')->get('/user', [AuthController::class, "me"]);
