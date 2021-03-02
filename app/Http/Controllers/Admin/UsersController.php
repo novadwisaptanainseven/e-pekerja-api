@@ -97,7 +97,7 @@ class UsersController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'username'    => 'required',
+                'username'    => $username_rules,
                 'name'        => 'required',
                 'foto_profil' => 'required'
             ],

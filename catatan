@@ -23,6 +23,7 @@
 20. Gunakan fitur select data di form input select pegawai
 21. Hapus form input nama pegawai di edit data pensiun
 22. Isi form input tanggal absen di menu tambah absen dengan current date
+23. Tambah kolom dokumentasi di data diklat bagian level user
 
 Algoritma Request Absensi
 1. API get absensi menerima request berupa bulan dan tahun
