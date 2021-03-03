@@ -40,13 +40,13 @@ class AuthController extends Controller
         if (!$user) {
             return response()->json([
                 "message" => "Username salah"
-            ], 404);
+            ], 400);
         }
         // Cek apakah password benar
         if (!Hash::check($request->password, $user->password)) {
             return response()->json([
                 "message" => "Password salah"
-            ], 403);
+            ], 400);
         }
 
         // Jika semua validasi terlewati

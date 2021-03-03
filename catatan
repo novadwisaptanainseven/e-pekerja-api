@@ -1,27 +1,7 @@
-1. Membuat API Planning
-2. Tentukan api root, version, level, grouping, dan endpoint
-3. Menentukan aksi (POST, PUT, DELETE, GET)
-4. Menentukan request dan response api
-5. Tambah field jurusan di tambah pns, ptth, pttb
-6. Tambah file ijazah di tabel pendidikan (Expandable Component)
-7. Tambah kolom jabatan di pns, ptth, pttb
-8. Tambah gaji pokok sekarang di detail pegawai
-9. Tambah opsi ayah dan ibu di data keluarga (detail pegawai)
-10. Tambah file dokumentasi di tabel diklat (Expandable Component)
-11. Hapus form input nama penerima di penghargaan
-12. Perbaiki tabel di halaman penghargaan
-13. Tambah form input keterangan di berkas
-14. Tambahkan field tahun lulus di pendidikan
 15. Akun pegawai dibuat ketika data pegawai ditambahkan
     - Username: nik_nip
     - Password: tgl_lahir
     - Fullname: nama
-16. Hilangkan form input status pegawai di edit pegawai pns, ptth, dan pttb
-17. Tambah kolom status kgb di menu kgb
-18. Hilangkan form input nama pegawai di buat cuti pegawai
-19. Tambahkan preview upload gambar di semua form input
-20. Gunakan fitur select data di form input select pegawai
-21. Hapus form input nama pegawai di edit data pensiun
 22. Isi form input tanggal absen di menu tambah absen dengan current date
 23. Tambah kolom dokumentasi di data diklat bagian level user
 
