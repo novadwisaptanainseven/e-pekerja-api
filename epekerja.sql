@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2021 at 09:12 AM
+-- Generation Time: Mar 04, 2021 at 06:49 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -37,6 +37,21 @@ CREATE TABLE `absensi` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `absensi`
+--
+
+INSERT INTO `absensi` (`id_absensi`, `id_pegawai`, `tgl_absen`, `hari`, `absen`, `keterangan`, `created_at`, `updated_at`) VALUES
+(1, 5, '2021-02-01', 'senin', 1, 'edited', '2021-02-24 02:28:29', '2021-02-24 03:36:44'),
+(2, 5, '2021-02-02', 'selasa', 1, 'edited', '2021-02-24 02:35:07', '2021-02-24 03:37:28'),
+(3, 5, '2021-02-03', 'rabu', 2, 'Ada acara pernikahan keluarga', '2021-02-24 02:35:49', '2021-02-24 02:35:49'),
+(4, 5, '2021-02-04', 'kamis', 3, 'Sakit demam', '2021-02-24 02:36:29', '2021-02-24 02:36:29'),
+(5, 5, '2021-02-05', 'jumat', 0, NULL, '2021-02-24 02:39:24', '2021-02-24 02:39:24'),
+(6, 5, '2018-02-06', 'sabtu', 4, NULL, '2021-02-24 02:39:53', '2021-02-24 05:28:40'),
+(9, 22, '2021-02-06', 'sabtu', 4, NULL, '2021-02-24 06:58:02', '2021-02-24 06:58:02'),
+(10, 22, '2021-02-07', 'senin', 3, 'Sakit hati', '2021-02-24 06:58:25', '2021-02-24 06:58:25'),
+(11, 5, '2021-02-03', 'rabu', 2, 'Ada acara pernikahan keluarga', '2021-02-24 07:38:36', '2021-02-24 07:38:36');
 
 -- --------------------------------------------------------
 
@@ -72,6 +87,14 @@ CREATE TABLE `berkas_pegawai` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `berkas_pegawai`
+--
+
+INSERT INTO `berkas_pegawai` (`id_berkas`, `id_pegawai`, `nama_berkas`, `created_at`, `keterangan`) VALUES
+(2, 5, 'images/berkas/39601613696720-file-pdf.pdf', '2021-02-19 01:05:20', 'Surat Kontrak Kerja'),
+(3, 5, 'images/berkas/59301613696783-583px-logo-kota-samarinda.png', '2021-02-19 01:06:23', 'Foto pegawai 3x4');
 
 -- --------------------------------------------------------
 
@@ -109,8 +132,17 @@ CREATE TABLE `cuti` (
   `tgl_selesai` date NOT NULL,
   `status_cuti` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cuti`
+--
+
+INSERT INTO `cuti` (`id_cuti`, `id_pegawai`, `lama_cuti`, `keterangan`, `tgl_mulai`, `tgl_selesai`, `status_cuti`, `created_at`, `updated_at`) VALUES
+(1, 5, '14 Hari', 'Isolasi mandiri 14 hari', '2021-02-10', '2021-02-24', 0, '2021-02-22 05:11:08', '2021-02-22'),
+(2, 5, '1 Bulan', 'Liburan ke Amerika Serikat', '2021-02-10', '2021-02-24', 0, '2021-02-22 05:14:30', NULL),
+(3, 5, '1 Minggu', 'Daftar CPNS', '2021-02-20', '2021-02-27', 0, '2021-02-22 05:15:08', NULL);
 
 -- --------------------------------------------------------
 
@@ -129,6 +161,14 @@ CREATE TABLE `diklat` (
   `dokumentasi` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `diklat`
+--
+
+INSERT INTO `diklat` (`id_diklat`, `id_pegawai`, `jenis_diklat`, `nama_diklat`, `penyelenggara`, `tahun_diklat`, `jumlah_jam`, `dokumentasi`) VALUES
+(1, 5, 'Jenis Diklat', 'Adumla', 'Walikota Samarinda', '1997', 500, 'images/ijazah/961613625299-react.png'),
+(2, 5, 'Jenis Diklat 2', 'Adumla 2', 'Walikota Samarinda 2', '1997', 500, 'images/ijazah/57961613625332-react.png');
+
 -- --------------------------------------------------------
 
 --
@@ -140,6 +180,29 @@ CREATE TABLE `duk_pegawai` (
   `id_pegawai` int(11) NOT NULL,
   `catatan_mutasi` varchar(100) NOT NULL DEFAULT '-'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `duk_pegawai`
+--
+
+INSERT INTO `duk_pegawai` (`id_duk`, `id_pegawai`, `catatan_mutasi`) VALUES
+(1, 9, 'Kepala Dinas Kebersihan dan Pertamanan 123');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -159,7 +222,10 @@ CREATE TABLE `jabatan` (
 INSERT INTO `jabatan` (`id_jabatan`, `nama_jabatan`) VALUES
 (1, 'Kepala Dinas'),
 (2, 'Sekretaris'),
-(3, 'Kepala Bidang');
+(3, 'Kepala Bidang'),
+(5, 'Staf Administrasi'),
+(6, 'Programmer'),
+(7, 'IT Support');
 
 -- --------------------------------------------------------
 
@@ -168,10 +234,10 @@ INSERT INTO `jabatan` (`id_jabatan`, `nama_jabatan`) VALUES
 --
 
 CREATE TABLE `keluarga` (
-  `id` int(11) NOT NULL,
+  `id_keluarga` int(11) NOT NULL,
   `id_pegawai` int(11) NOT NULL,
   `id_agama` int(11) NOT NULL,
-  `nik` varchar(80) NOT NULL,
+  `nik_nip` varchar(80) NOT NULL,
   `nama` varchar(100) NOT NULL,
   `hubungan` varchar(40) NOT NULL,
   `pekerjaan` varchar(80) NOT NULL,
@@ -181,6 +247,14 @@ CREATE TABLE `keluarga` (
   `telepon` varchar(20) NOT NULL,
   `alamat` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `keluarga`
+--
+
+INSERT INTO `keluarga` (`id_keluarga`, `id_pegawai`, `id_agama`, `nik_nip`, `nama`, `hubungan`, `pekerjaan`, `jenis_kelamin`, `tempat_lahir`, `tgl_lahir`, `telepon`, `alamat`) VALUES
+(1, 5, 1, '123', 'Nova', 'Suami', 'Guru', 'Pria', 'Tanjung Redeb', '1997-11-27', '08123455566', 'Jalan Slamet Riyadi'),
+(2, 5, 1, '1234', 'Rio De Janeiro', 'Saudara Kandung', 'Frontliner BRI', 'Laki - Laki', 'Samarinda', '1997-11-27', '08123456789', 'Jalan Pangeran Antasari');
 
 -- --------------------------------------------------------
 
@@ -195,9 +269,21 @@ CREATE TABLE `kgb` (
   `gaji_pokok_baru` int(11) NOT NULL,
   `tmt_kenaikan_gaji` date NOT NULL,
   `peraturan` varchar(40) NOT NULL,
-  `status_kgb` int(1) NOT NULL,
-  `kenaikan_gaji_yad` date NOT NULL
+  `status_kgb` int(1) DEFAULT NULL,
+  `kenaikan_gaji_yad` date NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kgb`
+--
+
+INSERT INTO `kgb` (`id_kgb`, `id_pegawai`, `gaji_pokok_lama`, `gaji_pokok_baru`, `tmt_kenaikan_gaji`, `peraturan`, `status_kgb`, `kenaikan_gaji_yad`, `created_at`, `updated_at`) VALUES
+(1, 5, 3831900, 3952600, '2021-02-01', 'PP No. 30 Tahun 2015', NULL, '2023-02-01', '2021-02-22', NULL),
+(2, 5, 3952600, 4500000, '2023-02-01', 'PP No. 30 Tahun 2015', NULL, '2025-02-01', '2021-02-22', NULL),
+(3, 5, 4500000, 5000000, '2025-02-01', 'PP No. 30 Tahun 2015', NULL, '2028-04-03', '2021-02-22', NULL),
+(6, 5, 1000, 100, '2021-02-01', 'edit', NULL, '2021-02-01', '2021-02-22', '2021-02-22');
 
 -- --------------------------------------------------------
 
@@ -208,12 +294,43 @@ CREATE TABLE `kgb` (
 CREATE TABLE `masa_kerja_pegawai` (
   `id_masa_kerja` int(11) NOT NULL,
   `id_pegawai` int(11) NOT NULL,
-  `mk_jabatan` varchar(15) NOT NULL,
-  `mk_sebelum_cpns` varchar(15) NOT NULL,
-  `mk_golongan` varchar(15) NOT NULL,
-  `mk_seluruhnya` varchar(15) NOT NULL,
+  `mk_jabatan` varchar(40) NOT NULL,
+  `mk_sebelum_cpns` varchar(40) NOT NULL,
+  `mk_golongan` varchar(40) NOT NULL,
+  `mk_seluruhnya` varchar(40) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `masa_kerja_pegawai`
+--
+
+INSERT INTO `masa_kerja_pegawai` (`id_masa_kerja`, `id_pegawai`, `mk_jabatan`, `mk_sebelum_cpns`, `mk_golongan`, `mk_seluruhnya`, `updated_at`) VALUES
+(4, 5, '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2021-02-22 01:26:01'),
+(5, 7, '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2021-02-16 07:54:40'),
+(7, 9, '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2021-02-17 03:12:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1),
+(3, '2019_08_19_000000_create_failed_jobs_table', 1),
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
 
 -- --------------------------------------------------------
 
@@ -259,6 +376,18 @@ INSERT INTO `pangkat_golongan` (`id_pangkat_golongan`, `golongan`, `keterangan`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pegawai`
 --
 
@@ -266,27 +395,42 @@ CREATE TABLE `pegawai` (
   `id_pegawai` int(11) NOT NULL,
   `id_sub_bidang` int(11) NOT NULL,
   `id_status_pegawai` int(11) NOT NULL,
-  `id_jabatan` int(11) NOT NULL,
-  `id_golongan` int(11) NOT NULL,
-  `id_eselon` int(11) NOT NULL,
+  `id_jabatan` int(11) DEFAULT NULL,
+  `id_golongan` int(11) DEFAULT NULL,
+  `id_eselon` int(11) DEFAULT NULL,
   `id_agama` int(11) NOT NULL,
-  `id_pendidikan` int(11) NOT NULL,
-  `nip` varchar(50) NOT NULL,
+  `nip` varchar(50) DEFAULT NULL,
   `nama` varchar(80) NOT NULL,
   `alamat` text NOT NULL,
   `tempat_lahir` varchar(60) NOT NULL,
   `tgl_lahir` date NOT NULL,
   `jenis_kelamin` varchar(15) NOT NULL,
-  `karpeg` varchar(50) NOT NULL,
-  `bpjs` int(50) NOT NULL,
-  `npwp` int(50) NOT NULL,
-  `tmt_golongan` date NOT NULL,
-  `tmt_cpns` date NOT NULL,
-  `tmt_jabatan` date NOT NULL,
+  `karpeg` varchar(50) DEFAULT NULL,
+  `bpjs` int(50) DEFAULT NULL,
+  `npwp` int(50) DEFAULT NULL,
+  `tmt_golongan` date DEFAULT NULL,
+  `tmt_cpns` date DEFAULT NULL,
+  `tmt_jabatan` date DEFAULT NULL,
   `no_hp` varchar(15) NOT NULL,
-  `gaji_pokok` int(11) NOT NULL,
-  `foto` varchar(255) NOT NULL
+  `gaji_pokok` int(11) NOT NULL DEFAULT 0,
+  `foto` varchar(255) NOT NULL,
+  `id_user` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pegawai`
+--
+
+INSERT INTO `pegawai` (`id_pegawai`, `id_sub_bidang`, `id_status_pegawai`, `id_jabatan`, `id_golongan`, `id_eselon`, `id_agama`, `nip`, `nama`, `alamat`, `tempat_lahir`, `tgl_lahir`, `jenis_kelamin`, `karpeg`, `bpjs`, `npwp`, `tmt_golongan`, `tmt_cpns`, `tmt_jabatan`, `no_hp`, `gaji_pokok`, `foto`, `id_user`) VALUES
+(5, 1, 1, 1, 1, 1, 1, '196511235 343432 3432', 'Ir. H. Dadang N, MMT', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', '6563442', 23123123, 12321323, '2021-10-10', '2021-10-10', '2021-10-10', '08123455674', 0, 'images/foto/14471613461591-react.png', 0),
+(7, 1, 1, 1, 1, 1, 1, '196511235 343432 1232', 'Nova Dwi Sapta Nain Seven', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', '6563442', 23123123, 12321323, '2021-10-10', '2021-10-10', '2021-10-10', '08123455674', 0, 'images/foto/3331613526592-583px-logo-kota-samarinda.png', 0),
+(9, 1, 1, 1, 1, 1, 1, '196511235 343432 3432123', 'Iqbal Wahyudi', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', '6563442', 23123123, 12321323, '2021-10-10', '2021-10-10', '2021-10-10', '08123455674', 0, 'images/foto/98981613531530-react.png', 0),
+(13, 1, 2, NULL, NULL, NULL, 1, NULL, 'Deddy Corbuzier', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, 123123, 123123, NULL, NULL, NULL, '08123453213', 0, 'images/foto/95541613537480-583px-logo-kota-samarinda.png', 0),
+(14, 1, 2, NULL, NULL, NULL, 1, NULL, 'Uzumaki Naruto', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, 123123, 123123, NULL, NULL, NULL, '08123453213', 0, 'images/foto/42141613537571-583px-logo-kota-samarinda.png', 0),
+(18, 1, 3, 5, NULL, NULL, 1, '19651127 199301 1 122', 'Ariana Grande 123', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Perempuan', NULL, 123123, 123123, NULL, NULL, NULL, '08123453213', 0, 'images/foto/73151613548996-583px-logo-kota-samarinda.png', 0),
+(19, 1, 3, 5, NULL, NULL, 1, '19651127 199301 1 111', 'Iker Casillas', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, 123123, 123123, NULL, NULL, NULL, '08123453213', 0, 'images/foto/46091613548625-583px-logo-kota-samarinda.png', 0),
+(21, 1, 2, 6, NULL, NULL, 1, NULL, 'Ma\'ruf', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, 123123, 123123, NULL, NULL, NULL, '08123453213', 0, '', 0),
+(22, 1, 2, 6, NULL, NULL, 1, NULL, 'Ma\'ruf', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, 123123, 123123, NULL, NULL, NULL, '08123453213', 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -305,6 +449,21 @@ CREATE TABLE `pendidikan` (
   `foto_ijazah` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `pendidikan`
+--
+
+INSERT INTO `pendidikan` (`id_pendidikan`, `id_pegawai`, `jenjang`, `nama_akademi`, `jurusan`, `no_ijazah`, `tahun_lulus`, `foto_ijazah`) VALUES
+(3, 5, 'S1', 'Politeknik Negeri Samarinda', 'Teknologi Informasi', '2323211', '2020', 'images/ijazah/12141613461591-583px-logo-kota-samarinda.png'),
+(4, 7, 'S1', 'Politeknik Negeri Samarinda', 'Teknologi Informasi', '2323211', '2020', 'images/ijazah/10851613462080-583px-logo-kota-samarinda.png'),
+(6, 9, 'S1', 'Politeknik Negeri Samarinda', 'Teknologi Informasi', '2323211', '2020', 'images/ijazah/15011613531530-file-pdf.pdf'),
+(7, 13, 'S1', 'Politeknik Negeri Samarinda', 'Manajemen Informatika', '123-123-123', '2019', 'images/ijazah/16481613535354-file-pdf.pdf'),
+(8, 14, 'S1', 'Politeknik Negeri Samarinda', 'Administrasi Bisnis', '123-123-123', '2019', 'images/ijazah/81421613535515-file-pdf.pdf'),
+(11, 18, 'D3', 'Politeknik Negeri Samarinda', 'Teknik Industri', '123-123-123', '2019', 'images/ijazah/72931613546354-file-pdf.pdf'),
+(12, 19, 'D3', 'Politeknik Negeri Samarinda', 'Teknik Industri', '123-123-123', '2019', 'images/ijazah/51871613548625-file-pdf.pdf'),
+(14, 5, 'SMK', 'SMK Negeri 001 Berau', 'Multimedia', '10-ac-de-20', '2016', 'images/ijazah/65191613622464-file-pdf.pdf'),
+(16, 22, 'S1', 'Politeknik Negeri Samarinda', 'Administrasi Bisnis', '123-123-123', '2019', '');
+
 -- --------------------------------------------------------
 
 --
@@ -313,12 +472,22 @@ CREATE TABLE `pendidikan` (
 
 CREATE TABLE `penghargaan` (
   `id_penghargaan` int(11) NOT NULL,
-  `id_pegawai` int(11) NOT NULL,
-  `nm_penghargaan` varchar(50) NOT NULL,
+  `id_pegawai` int(11) DEFAULT NULL,
+  `nama_penerima` varchar(80) DEFAULT NULL,
+  `nama_penghargaan` varchar(50) NOT NULL,
   `pemberi` varchar(80) NOT NULL,
   `tgl_penghargaan` date NOT NULL,
   `dokumentasi` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penghargaan`
+--
+
+INSERT INTO `penghargaan` (`id_penghargaan`, `id_pegawai`, `nama_penerima`, `nama_penghargaan`, `pemberi`, `tgl_penghargaan`, `dokumentasi`) VALUES
+(1, 5, NULL, 'Penghargaan sebagai Kepala Dinas Terbaik 2021', 'Walikota Samarinda', '2021-12-10', 'images/dok_penghargaan/85301613634561-file-pdf.pdf'),
+(2, 5, NULL, 'Penghargaan sebagai Kepala Dinas Terbaik 2021 2', 'Walikota Samarinda 2', '2021-12-10', 'images/dok_penghargaan/42691613634587-file-pdf.pdf'),
+(5, NULL, 'Rony Purnomo', 'Futsal juara 3', 'Gubernur Kaltim', '2021-10-08', 'images/dok_penghargaan/99161614216695-file-pdf.pdf');
 
 -- --------------------------------------------------------
 
@@ -331,10 +500,62 @@ CREATE TABLE `pensiun` (
   `id_pegawai` int(11) NOT NULL,
   `tgl_pensiun` date NOT NULL,
   `keterangan` text NOT NULL,
-  `status_pensiun` varchar(30) NOT NULL,
+  `status_pensiun` int(11) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pensiun`
+--
+
+INSERT INTO `pensiun` (`id_pensiun`, `id_pegawai`, `tgl_pensiun`, `keterangan`, `status_pensiun`, `created_at`, `updated_at`) VALUES
+(1, 5, '2021-10-08', 'Mutasi', 2, '2021-02-25 02:13:22', '2021-02-25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES
+(1, 'App\\Models\\User', 1, 'user-token', 'e6084ed5de45048b2e4715d19424cbe69395030c7a71b9428afc5b37d81adb47', '[\"*\"]', '2021-02-24 20:29:53', '2021-02-24 20:28:24', '2021-02-24 20:29:53'),
+(3, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'dd340c094e7370645137d020e2c72ed37746d3513c190c369b9321f10fdc4d6f', '[\"*\"]', '2021-02-28 19:27:44', '2021-02-25 22:44:43', '2021-02-28 19:27:44'),
+(4, 'App\\Models\\User', 2, 'novadwisaptanainseven', '116dc1f16304417c12a9c8fcae3df62aca14e03e9c4283e43417674b67907617', '[\"*\"]', '2021-02-28 19:51:49', '2021-02-28 18:28:04', '2021-02-28 19:51:49'),
+(5, 'App\\Models\\User', 3, 'iqbalwahyudi', '17bf2c6e7b2d44460536e59d9558b09013c19ebe540b6e3129447e3f716779bd', '[\"*\"]', '2021-02-28 19:55:25', '2021-02-28 19:52:53', '2021-02-28 19:55:25'),
+(6, 'App\\Models\\User', 3, 'iqbalwahyudi', '56d67705cf4a6287a99d01bf6b26d9104938e8b5c2716ecb08ae8d370700fa0e', '[\"*\"]', NULL, '2021-03-02 22:16:46', '2021-03-02 22:16:46'),
+(7, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'c872e6562a64a86cadf6e7d6e0021238ad819cb7a9f5e1005754dd364a95d54d', '[\"*\"]', NULL, '2021-03-02 23:08:21', '2021-03-02 23:08:21'),
+(8, 'App\\Models\\User', 3, 'iqbalwahyudi', 'b574d0179846509668dff259e56e9cda0c862f84f9db1b73f1a1e5c1a24d422b', '[\"*\"]', NULL, '2021-03-02 23:14:35', '2021-03-02 23:14:35'),
+(9, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'f59c7c08225a249f5cab382d066b7ff1161d1890574439a4b8c00cae9fc4bc7f', '[\"*\"]', NULL, '2021-03-02 23:19:14', '2021-03-02 23:19:14'),
+(10, 'App\\Models\\User', 3, 'iqbalwahyudi', '0970bf8c9a943a76d0cd616753b7bb8151b7577589f7110491309edb89782ed6', '[\"*\"]', NULL, '2021-03-02 23:20:01', '2021-03-02 23:20:01'),
+(11, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'ae89a2e35dd6f5b2b67773a70a5f90f0e8e1f38d397b925176db4b87ff712dfa', '[\"*\"]', NULL, '2021-03-03 17:48:43', '2021-03-03 17:48:43'),
+(12, 'App\\Models\\User', 3, 'iqbalwahyudi', 'ebd958564b093fec966f95cdfee99ce73204ae68ed26788f9506fc30a893d130', '[\"*\"]', NULL, '2021-03-03 17:50:42', '2021-03-03 17:50:42'),
+(13, 'App\\Models\\User', 2, 'novadwisaptanainseven', '55fc606b2473874e9b37037b258b1be31fcfb47ff3b8e5fa8df43555fe6abd28', '[\"*\"]', NULL, '2021-03-03 17:52:23', '2021-03-03 17:52:23'),
+(14, 'App\\Models\\User', 2, 'novadwisaptanainseven', '2f0f379cde920f5e7fb722bb7f5de4cc27522f92de2ad7facbd993f57a352406', '[\"*\"]', NULL, '2021-03-03 17:54:27', '2021-03-03 17:54:27'),
+(15, 'App\\Models\\User', 2, 'novadwisaptanainseven', '0c659ef5d04fbc28a146abeb50907e4e20d08b3b79f17513ceff3e16892fcd63', '[\"*\"]', NULL, '2021-03-03 18:06:56', '2021-03-03 18:06:56'),
+(16, 'App\\Models\\User', 2, 'novadwisaptanainseven', '6243cdbb02a826108d4ef47142d7bf01e5a0248d8dccbb6b1cc95f38ab04430d', '[\"*\"]', NULL, '2021-03-03 18:13:02', '2021-03-03 18:13:02'),
+(17, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'c4fa30f0a77e1672e7aa993dac53b5c765e558d2e3fa96508bb10de140507bb2', '[\"*\"]', NULL, '2021-03-03 18:14:09', '2021-03-03 18:14:09'),
+(18, 'App\\Models\\User', 2, 'novadwisaptanainseven', '7608f4031ef849740f107b3f52d7aa60c4c4903a33a450a850fa34e7eb054292', '[\"*\"]', NULL, '2021-03-03 18:15:46', '2021-03-03 18:15:46'),
+(19, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'b6040e7cbee6627725ecd78e7200788527e86512fbb21d7a9ec633ea649d3fae', '[\"*\"]', NULL, '2021-03-03 18:16:53', '2021-03-03 18:16:53'),
+(20, 'App\\Models\\User', 2, 'novadwisaptanainseven', '10ff4517156ce2472223137e5d882956ba9db8eaad178c479f0fe273c9f195c8', '[\"*\"]', NULL, '2021-03-03 18:33:20', '2021-03-03 18:33:20'),
+(21, 'App\\Models\\User', 2, 'novadwisaptanainseven', '564573a61f285fd6b074b4da5a54559a7463e394dbbc11237efae8f54da3c463', '[\"*\"]', NULL, '2021-03-03 18:34:46', '2021-03-03 18:34:46'),
+(25, 'App\\Models\\User', 2, 'novadwisaptanainseven', '2b9b8d5a6afa61d6523fc4768ac13aec54502edf43099550fb81e459f68aaa9d', '[\"*\"]', '2021-03-03 21:45:16', '2021-03-03 20:24:22', '2021-03-03 21:45:16');
 
 -- --------------------------------------------------------
 
@@ -350,8 +571,17 @@ CREATE TABLE `pttb` (
   `no_sk` varchar(50) NOT NULL,
   `kontrak_ke` int(11) NOT NULL,
   `masa_kerja` varchar(15) NOT NULL,
-  `tugas` varchar(50) NOT NULL
+  `tugas` varchar(50) NOT NULL,
+  `gaji_pokok` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pttb`
+--
+
+INSERT INTO `pttb` (`id_pttb`, `id_pegawai`, `penetap_sk`, `tgl_penetapan_sk`, `no_sk`, `kontrak_ke`, `masa_kerja`, `tugas`, `gaji_pokok`) VALUES
+(1, 18, 'Ir. H. Dadang', '2021-10-15', '102321312', 1, '2 Tahun 3 Bulan', 'Administrasi', 5000000),
+(2, 19, 'Ir. H. Dadang', '2021-10-15', '102321312', 1, '2 Tahun 3 Bulan', 'Administrasi', 3500000);
 
 -- --------------------------------------------------------
 
@@ -367,8 +597,18 @@ CREATE TABLE `ptth` (
   `tgl_penetapan_sk` date NOT NULL,
   `no_sk` varchar(50) NOT NULL,
   `tgl_mulai_tugas` date NOT NULL,
-  `tugas` varchar(50) NOT NULL
+  `tugas` varchar(50) NOT NULL,
+  `gaji_pokok` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `ptth`
+--
+
+INSERT INTO `ptth` (`id_ptth`, `id_pegawai`, `nik`, `penetap_sk`, `tgl_penetapan_sk`, `no_sk`, `tgl_mulai_tugas`, `tugas`, `gaji_pokok`) VALUES
+(2, 13, '19651127 199301 1 122', 'Ir. H. Dadang', '2021-10-15', '102321312', '2021-10-20', 'Administrasi', 0),
+(3, 14, '19651127 199301 1 122', 'Ir. H. Dadang', '2021-10-15', '102321312', '2021-10-20', 'Administrasi', 0),
+(6, 22, '19651127 199301 1 143', 'Ir. H. Dadang', '2021-10-15', '102321312', '2021-10-20', 'Administrasi', 2100000);
 
 -- --------------------------------------------------------
 
@@ -383,9 +623,16 @@ CREATE TABLE `rekap_absensi` (
   `sakit` int(11) NOT NULL,
   `cuti` int(11) NOT NULL,
   `tanpa_keterangan` int(11) NOT NULL,
-  `tidak_hadir` int(11) NOT NULL,
+  `hadir` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `rekap_absensi`
+--
+
+INSERT INTO `rekap_absensi` (`id_rekap_absensi`, `id_pegawai`, `izin`, `sakit`, `cuti`, `tanpa_keterangan`, `hadir`, `created_at`) VALUES
+(2, 5, 1, 1, 3, 0, 5, '2021-02-24 07:43:05');
 
 -- --------------------------------------------------------
 
@@ -402,6 +649,14 @@ CREATE TABLE `riwayat_kerja` (
   `tgl_masuk` date NOT NULL,
   `tgl_keluar` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `riwayat_kerja`
+--
+
+INSERT INTO `riwayat_kerja` (`id_riwayat_kerja`, `id_pegawai`, `kantor`, `jabatan`, `keterangan`, `tgl_masuk`, `tgl_keluar`) VALUES
+(1, 5, 'Dinas PUPR', 'Kepala Dinas', 'Mutasi', '2021-01-21', '2021-05-15'),
+(2, 5, 'Dinas Lingkungan Hidup', 'Kepala Bidang', 'Mutasi', '2021-01-21', '2021-05-15');
 
 -- --------------------------------------------------------
 
@@ -445,6 +700,35 @@ INSERT INTO `sub_bidang` (`id_sub_bidang`, `id_bidang`, `nama_sub_bidang`, `kete
 (1, 2, 'Sub. Bagian Umum dan Kepegawain', 'Urusan administrasi kepegawaian'),
 (2, 2, 'Sub. Bagian Perencanaan Program dan Keuangan', 'Koordinasi administrasi keuangan'),
 (3, 1, 'Pembinaan Permukiman', 'Melaksanakan kebijakan, program, dan kegiatan di bidang permukiman');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_pegawai` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `level` int(11) NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto_profil` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `id_pegawai`, `name`, `username`, `email`, `email_verified_at`, `level`, `password`, `remember_token`, `foto_profil`, `created_at`, `updated_at`) VALUES
+(2, 5, 'Nova Dwi Sapta Nain Seven', 'novadwisaptanainseven', NULL, NULL, 1, '$2y$10$PYhBycNgnCr1dTaTnzeth.Ox4mNM9Ch4fb9nKOyavq3Gi0ug4GrSy', NULL, 'images/foto/63711614568976-3x4-resize.jpg', '2021-02-25 22:11:09', '2021-02-25 22:11:09'),
+(3, 7, 'Iqbal Wahyudi', 'iqbalwahyudi', NULL, NULL, 2, '$2y$10$avQ1QHYFmr.Q.A78J06Qsu1j5Ujnek7Dklk7le63u9cMduaxkZ37a', NULL, 'images/foto/75751614570861-3x4-resize.jpg', '2021-02-28 19:52:27', '2021-02-28 19:52:27');
 
 --
 -- Indexes for dumped tables
@@ -497,6 +781,13 @@ ALTER TABLE `duk_pegawai`
   ADD KEY `id_pegawai` (`id_pegawai`);
 
 --
+-- Indexes for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
 -- Indexes for table `jabatan`
 --
 ALTER TABLE `jabatan`
@@ -506,7 +797,7 @@ ALTER TABLE `jabatan`
 -- Indexes for table `keluarga`
 --
 ALTER TABLE `keluarga`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_keluarga`),
   ADD KEY `id_pegawai` (`id_pegawai`),
   ADD KEY `id_agama` (`id_agama`);
 
@@ -525,6 +816,12 @@ ALTER TABLE `masa_kerja_pegawai`
   ADD KEY `id_pegawai` (`id_pegawai`);
 
 --
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pangkat_eselon`
 --
 ALTER TABLE `pangkat_eselon`
@@ -537,6 +834,12 @@ ALTER TABLE `pangkat_golongan`
   ADD PRIMARY KEY (`id_pangkat_golongan`);
 
 --
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
 -- Indexes for table `pegawai`
 --
 ALTER TABLE `pegawai`
@@ -546,14 +849,14 @@ ALTER TABLE `pegawai`
   ADD KEY `id_jabatan` (`id_jabatan`),
   ADD KEY `id_golongan` (`id_golongan`),
   ADD KEY `id_eselon` (`id_eselon`),
-  ADD KEY `id_agama` (`id_agama`),
-  ADD KEY `id_pendidikan` (`id_pendidikan`);
+  ADD KEY `id_agama` (`id_agama`);
 
 --
 -- Indexes for table `pendidikan`
 --
 ALTER TABLE `pendidikan`
-  ADD PRIMARY KEY (`id_pendidikan`);
+  ADD PRIMARY KEY (`id_pendidikan`),
+  ADD KEY `id_pegawai` (`id_pegawai`);
 
 --
 -- Indexes for table `penghargaan`
@@ -568,6 +871,14 @@ ALTER TABLE `penghargaan`
 ALTER TABLE `pensiun`
   ADD PRIMARY KEY (`id_pensiun`),
   ADD KEY `id_pegawai` (`id_pegawai`);
+
+--
+-- Indexes for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
 -- Indexes for table `pttb`
@@ -587,7 +898,8 @@ ALTER TABLE `ptth`
 -- Indexes for table `rekap_absensi`
 --
 ALTER TABLE `rekap_absensi`
-  ADD PRIMARY KEY (`id_rekap_absensi`);
+  ADD PRIMARY KEY (`id_rekap_absensi`),
+  ADD KEY `id_pegawai` (`id_pegawai`);
 
 --
 -- Indexes for table `riwayat_kerja`
@@ -610,6 +922,14 @@ ALTER TABLE `sub_bidang`
   ADD KEY `id_bidang` (`id_bidang`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD KEY `id_pegawai` (`id_pegawai`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -617,7 +937,7 @@ ALTER TABLE `sub_bidang`
 -- AUTO_INCREMENT for table `absensi`
 --
 ALTER TABLE `absensi`
-  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `agama`
@@ -629,7 +949,7 @@ ALTER TABLE `agama`
 -- AUTO_INCREMENT for table `berkas_pegawai`
 --
 ALTER TABLE `berkas_pegawai`
-  MODIFY `id_berkas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_berkas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `bidang`
@@ -641,43 +961,55 @@ ALTER TABLE `bidang`
 -- AUTO_INCREMENT for table `cuti`
 --
 ALTER TABLE `cuti`
-  MODIFY `id_cuti` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cuti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `diklat`
 --
 ALTER TABLE `diklat`
-  MODIFY `id_diklat` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_diklat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `duk_pegawai`
 --
 ALTER TABLE `duk_pegawai`
-  MODIFY `id_duk` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_duk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `jabatan`
 --
 ALTER TABLE `jabatan`
-  MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `keluarga`
 --
 ALTER TABLE `keluarga`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_keluarga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `kgb`
 --
 ALTER TABLE `kgb`
-  MODIFY `id_kgb` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kgb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `masa_kerja_pegawai`
 --
 ALTER TABLE `masa_kerja_pegawai`
-  MODIFY `id_masa_kerja` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_masa_kerja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pangkat_eselon`
@@ -695,43 +1027,55 @@ ALTER TABLE `pangkat_golongan`
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `pendidikan`
 --
 ALTER TABLE `pendidikan`
-  MODIFY `id_pendidikan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pendidikan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `penghargaan`
 --
 ALTER TABLE `penghargaan`
-  MODIFY `id_penghargaan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_penghargaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `pensiun`
+--
+ALTER TABLE `pensiun`
+  MODIFY `id_pensiun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `pttb`
 --
 ALTER TABLE `pttb`
-  MODIFY `id_pttb` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pttb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ptth`
 --
 ALTER TABLE `ptth`
-  MODIFY `id_ptth` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ptth` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `rekap_absensi`
 --
 ALTER TABLE `rekap_absensi`
-  MODIFY `id_rekap_absensi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rekap_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `riwayat_kerja`
 --
 ALTER TABLE `riwayat_kerja`
-  MODIFY `id_riwayat_kerja` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_riwayat_kerja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `status_pegawai`
@@ -744,6 +1088,12 @@ ALTER TABLE `status_pegawai`
 --
 ALTER TABLE `sub_bidang`
   MODIFY `id_sub_bidang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -790,19 +1140,24 @@ ALTER TABLE `kgb`
 -- Constraints for table `masa_kerja_pegawai`
 --
 ALTER TABLE `masa_kerja_pegawai`
-  ADD CONSTRAINT `masa_kerja_pegawai_ibfk_1` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id_pegawai`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `masa_kerja_pegawai_ibfk_1` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id_pegawai`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  ADD CONSTRAINT `pegawai_ibfk_1` FOREIGN KEY (`id_agama`) REFERENCES `agama` (`id_agama`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `pegawai_ibfk_2` FOREIGN KEY (`id_sub_bidang`) REFERENCES `sub_bidang` (`id_sub_bidang`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `pegawai_ibfk_3` FOREIGN KEY (`id_status_pegawai`) REFERENCES `status_pegawai` (`id_status_pegawai`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `pegawai_ibfk_4` FOREIGN KEY (`id_jabatan`) REFERENCES `jabatan` (`id_jabatan`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `pegawai_ibfk_5` FOREIGN KEY (`id_golongan`) REFERENCES `pangkat_golongan` (`id_pangkat_golongan`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `pegawai_ibfk_6` FOREIGN KEY (`id_eselon`) REFERENCES `pangkat_eselon` (`id_pangkat_eselon`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `pegawai_ibfk_7` FOREIGN KEY (`id_pendidikan`) REFERENCES `pendidikan` (`id_pendidikan`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `pegawai_ibfk_1` FOREIGN KEY (`id_agama`) REFERENCES `agama` (`id_agama`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pegawai_ibfk_2` FOREIGN KEY (`id_sub_bidang`) REFERENCES `sub_bidang` (`id_sub_bidang`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pegawai_ibfk_3` FOREIGN KEY (`id_status_pegawai`) REFERENCES `status_pegawai` (`id_status_pegawai`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pegawai_ibfk_4` FOREIGN KEY (`id_jabatan`) REFERENCES `jabatan` (`id_jabatan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pegawai_ibfk_5` FOREIGN KEY (`id_golongan`) REFERENCES `pangkat_golongan` (`id_pangkat_golongan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pegawai_ibfk_6` FOREIGN KEY (`id_eselon`) REFERENCES `pangkat_eselon` (`id_pangkat_eselon`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pendidikan`
+--
+ALTER TABLE `pendidikan`
+  ADD CONSTRAINT `pendidikan_ibfk_1` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id_pegawai`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `penghargaan`
@@ -826,7 +1181,13 @@ ALTER TABLE `pttb`
 -- Constraints for table `ptth`
 --
 ALTER TABLE `ptth`
-  ADD CONSTRAINT `ptth_ibfk_1` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id_pegawai`);
+  ADD CONSTRAINT `ptth_ibfk_1` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id_pegawai`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `rekap_absensi`
+--
+ALTER TABLE `rekap_absensi`
+  ADD CONSTRAINT `rekap_absensi_ibfk_1` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id_pegawai`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `riwayat_kerja`
@@ -839,6 +1200,12 @@ ALTER TABLE `riwayat_kerja`
 --
 ALTER TABLE `sub_bidang`
   ADD CONSTRAINT `sub_bidang_ibfk_1` FOREIGN KEY (`id_bidang`) REFERENCES `bidang` (`id_bidang`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id_pegawai`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

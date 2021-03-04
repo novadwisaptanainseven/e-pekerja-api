@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\PenghargaanController as AdminPenghargaanControll
 use App\Http\Controllers\Admin\PensiunController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\User\AkunController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\DataKepegawaian\BerkasController as DataKepegawaianBerkasController;
@@ -416,17 +417,26 @@ Route::prefix('v1/user/')->group(function () {
     });
 });
 
+// Download File
+// Image
+Route::get('v1/image/{filename}', [FileController::class, "getImage"]);
+// Route::get('v1/image/{filename}', function () {
+//     return response()->json([
+//         "message" => "hello world"
+//     ]);
+// });
+
 // Login User
-Route::post('/login', [AuthController::class, "login"]);
+Route::post('v1/login', [AuthController::class, "login"]);
 
 // Register User
-Route::post('/register', [UsersController::class, "register"]);
+Route::post('v1/register', [UsersController::class, "register"]);
 
 // Login User
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, "logout"]);
+Route::middleware('auth:sanctum')->post('v1/logout', [AuthController::class, "logout"]);
 
 // Cek User Saat Ini
-Route::middleware('auth:sanctum')->get('/user', [AuthController::class, "me"]);
+Route::middleware('auth:sanctum')->get('v1/user', [AuthController::class, "me"]);
 // Route::group(['middleware' => 'auth:sanctum'], function () {
 //     // For Checking User
 //     Route::get('/cek_auth', [AuthController::class, 'me']);
