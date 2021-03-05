@@ -14,6 +14,12 @@ class AgamaController extends Controller
     {
         $data = Agama::all();
 
+        // Tambah nomor urut
+        $no = 1;
+        foreach ($data as $key => $d) {
+            $d->no = $no++;
+        }
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data agama",
             "data" => $data
