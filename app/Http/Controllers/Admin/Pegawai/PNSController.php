@@ -14,6 +14,12 @@ class PNSController extends Controller
     {
         $data = PNS::getAll();
 
+        // Tambah nomor urut
+        $no = 1;
+        foreach ($data as $key => $d) {
+            $d->no = $no++;
+        }
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data pegawai",
             "data" => $data

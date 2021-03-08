@@ -40,6 +40,7 @@ class PNS extends Model
                 "$tbl_pangkat_eselon.keterangan AS ket_eselon",
                 "$tbl_jabatan.nama_jabatan AS jabatan",
             )
+            ->where("$tbl_pegawai.id_status_pegawai", "=", 1)
             ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
             ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
             ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
