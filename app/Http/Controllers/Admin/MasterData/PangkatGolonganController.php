@@ -14,6 +14,12 @@ class PangkatGolonganController extends Controller
     {
         $data = PangkatGolongan::all();
 
+        // Tambah nomor urut
+        $no = 1;
+        foreach ($data as $key => $d) {
+            $d->no = $no++;
+        }
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data pangkat golongan",
             "data" => $data
