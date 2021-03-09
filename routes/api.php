@@ -420,11 +420,7 @@ Route::prefix('v1/user/')->group(function () {
 // Download File
 // Image
 Route::get('v1/image/{filename}', [FileController::class, "getImage"]);
-// Route::get('v1/image/{filename}', function () {
-//     return response()->json([
-//         "message" => "hello world"
-//     ]);
-// });
+Route::get('v1/rekap-pns-pdf', [FileController::class, "generatePDF_RekapPNS"]);
 
 // Login User
 Route::post('v1/login', [AuthController::class, "login"]);

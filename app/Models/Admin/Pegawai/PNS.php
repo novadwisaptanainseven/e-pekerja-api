@@ -5,6 +5,7 @@ namespace App\Models\Admin\Pegawai;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -111,6 +112,7 @@ class PNS extends Model
         $tbl_masa_kerja_pegawai = "masa_kerja_pegawai";
         $tbl_pendidikan = "pendidikan";
         $tbl_duk_pegawai = "duk_pegawai";
+        $tbl_users = "users";
 
         // Cek apakah ada file foto
         if (!$req->file('foto')) {
@@ -189,7 +191,21 @@ class PNS extends Model
         ];
         DB::table($tbl_duk_pegawai)->insert($data_duk_pegawai);
 
-        return $insert_pegawai;
+        // Generate password akun pegawai
+        $password = explode("-", $req->tgl_lahir);
+        $password2 = $password[2] . $password[1] . $password[0];
+        // Register akun pegawai
+        $data_user = [
+            "id_pegawai" => $id_pegawai,
+            "name"       => $req->nama,
+            "username"   => $req->nip,
+            "level"      => 2,
+            "password"   => Hash::make($password2),
+            "foto_profil" => $foto
+        ];
+        DB::table($tbl_users)->insert($data_user);
+
+        return true;
     }
 
     // Edit PNS
