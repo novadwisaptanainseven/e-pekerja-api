@@ -75,7 +75,7 @@ class Penghargaan extends Model
         }
 
         $data = [
-            'id_pegawai'       => null,
+            'id_pegawai'       => $req->id_pegawai ? $req->id_pegawai : null,
             'nama_penerima'    => $req->nama_penerima,
             'nama_penghargaan' => $req->nama_penghargaan,
             "pemberi"          => $req->pemberi,

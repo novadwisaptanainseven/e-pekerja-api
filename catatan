@@ -1,9 +1,11 @@
-15. Akun pegawai dibuat ketika data pegawai ditambahkan
-    - Username: nik_nip
-    - Password: tgl_lahir
-    - Fullname: nama
 22. Isi form input tanggal absen di menu tambah absen dengan current date
-23. Tambah kolom dokumentasi di data diklat bagian level user
+1. Field yang diperlukan untuk hasil cetak pdf PNS
+   - Nama/NIP
+   - Golongan
+   - Jabatan
+   - Eselon
+   - Jenis Kelamin
+   - No. HP
 
 Algoritma Request Absensi
 1. API get absensi menerima request berupa bulan dan tahun

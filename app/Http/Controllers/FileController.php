@@ -30,7 +30,7 @@ class FileController extends Controller
         // return $pdf->download('rekap_pegawai.pdf');
         $view = View('printPegawai.rekap_pegawai', $data);
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($view->render());
+        $pdf->loadHTML($view->render())->setPaper('a4', 'landscape');
         return $pdf->stream("rekap_pns.pdf", array("Attachment" => false));;
         // return response()->json([
         //     "message" => "Hello World"
