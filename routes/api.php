@@ -420,7 +420,10 @@ Route::prefix('v1/user/')->group(function () {
 // Download File
 // Image
 Route::get('v1/image/{filename}', [FileController::class, "getImage"]);
+// Rekap PDF
 Route::get('v1/rekap-pns-pdf', [FileController::class, "generatePDF_RekapPNS"]);
+// Ijazah
+Route::get('v1/ijazah/{filename}', [FileController::class, "getIjazah"]);
 
 // Login User
 Route::post('v1/login', [AuthController::class, "login"]);

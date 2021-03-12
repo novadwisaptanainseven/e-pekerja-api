@@ -43,13 +43,24 @@ class FileController extends Controller
         $fullpath = "/app/images/foto/$filename";
         $message = "Data Gambar Tidak Ditemukan";
 
-        return $this->downloads($fullpath, $message);
+        return $this->downloads($fullpath, $message, $filename);
     }
 
-    public function downloads($fullpath, $message)
+    // Get Ijazah
+    public function getIjazah($filename)
+    {
+        $fullpath = "/app/images/ijazah/$filename";
+        $message = "Data Ijazah Tidak Ditemukan";
+
+        return $this->downloads($fullpath, $message, $filename);
+    }
+
+    public function downloads($fullpath, $message, $filename)
     {
         if (file_exists(storage_path($fullpath))) {
-            return response()->download(storage_path($fullpath));
+            return response()->file(storage_path($fullpath), [
+                'Content-Disposition' => 'inline; filename="' . $filename . '"'
+            ]);
         } else {
             return response()->json([
                 "message" => $message
