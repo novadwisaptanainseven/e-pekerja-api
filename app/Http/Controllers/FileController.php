@@ -55,6 +55,24 @@ class FileController extends Controller
         return $this->downloads($fullpath, $message, $filename);
     }
 
+    // Get Dokumentasi Diklat
+    public function getDokDiklat($filename)
+    {
+        $fullpath = "/app/images/dok_diklat/$filename";
+        $message = "Data Dokumentasi Diklat Tidak Ditemukan";
+
+        return $this->downloads($fullpath, $message, $filename);
+    }
+
+    // Get Dokumentasi Penghargaan
+    public function getDokPenghargaan($filename)
+    {
+        $fullpath = "/app/images/dok_penghargaan/$filename";
+        $message = "Data Dokumentasi Penghargaan Tidak Ditemukan";
+
+        return $this->downloads($fullpath, $message, $filename);
+    }
+
     public function downloads($fullpath, $message, $filename)
     {
         if (file_exists(storage_path($fullpath))) {

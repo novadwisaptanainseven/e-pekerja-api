@@ -424,6 +424,10 @@ Route::get('v1/image/{filename}', [FileController::class, "getImage"]);
 Route::get('v1/rekap-pns-pdf', [FileController::class, "generatePDF_RekapPNS"]);
 // Ijazah
 Route::get('v1/ijazah/{filename}', [FileController::class, "getIjazah"]);
+// Dokumentasi Diklat
+Route::get('v1/dok_diklat/{filename}', [FileController::class, "getDokDiklat"]);
+// Dokumentasi Penghargaan
+Route::get('v1/dok_penghargaan/{filename}', [FileController::class, "getDokPenghargaan"]);
 
 // Login User
 Route::post('v1/login', [AuthController::class, "login"]);
