@@ -422,12 +422,16 @@ Route::prefix('v1/user/')->group(function () {
 Route::get('v1/image/{filename}', [FileController::class, "getImage"]);
 // Rekap PDF
 Route::get('v1/rekap-pns-pdf', [FileController::class, "generatePDF_RekapPNS"]);
+// Rekap PDF Pegawai By ID
+Route::get('v1/print-pegawai/{id_pegawai}/{data}', [FileController::class, "printLaporanPegawai"]);
 // Ijazah
 Route::get('v1/ijazah/{filename}', [FileController::class, "getIjazah"]);
 // Dokumentasi Diklat
 Route::get('v1/dok_diklat/{filename}', [FileController::class, "getDokDiklat"]);
 // Dokumentasi Penghargaan
 Route::get('v1/dok_penghargaan/{filename}', [FileController::class, "getDokPenghargaan"]);
+// Berkas Pegawai
+Route::get('v1/berkas/{filename}', [FileController::class, "getBerkas"]);
 
 // Login User
 Route::post('v1/login', [AuthController::class, "login"]);

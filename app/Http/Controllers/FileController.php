@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\Pegawai\Berkas;
+use App\Models\Admin\Pegawai\Diklat;
+use App\Models\Admin\Pegawai\Keluarga;
+use App\Models\Admin\Pegawai\Pendidikan;
+use App\Models\Admin\Pegawai\Penghargaan;
 use App\Models\Admin\Pegawai\PNS;
+use App\Models\Admin\Pegawai\RiwayatKerja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class FileController extends Controller
@@ -31,10 +38,60 @@ class FileController extends Controller
         $view = View('printPegawai.rekap_pegawai', $data);
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper('a4', 'landscape');
-        return $pdf->stream("rekap_pns.pdf", array("Attachment" => false));;
+        return $pdf->stream("rekap_pns.pdf", array("Attachment" => false));
         // return response()->json([
         //     "message" => "Hello World"
         // ]);
+    }
+
+    // Print laporan pegawai
+    public function printLaporanPegawai($id_pegawai, $d)
+    {
+        $pegawai = DB::table("pegawai")
+            ->where("id_pegawai", "=", $id_pegawai)
+            ->first();
+
+        $output_data = [];
+
+        $title = "Laporan Data " . ucfirst($d);
+
+        switch ($d) {
+            case 'keluarga':
+                $output_data = Keluarga::getAll($id_pegawai);
+                break;
+            case 'pendidikan':
+                $output_data = Pendidikan::getAll($id_pegawai);
+                break;
+            case 'diklat':
+                $output_data = Diklat::getAll($id_pegawai);
+                break;
+            case 'riwayat-kerja':
+                $output_data = RiwayatKerja::getAll($id_pegawai);
+                $title = "Laporan Data Riwayat Kerja";
+                break;
+            case 'penghargaan':
+                $output_data = Penghargaan::getAll($id_pegawai);
+                break;
+            case 'berkas':
+                $output_data = Berkas::getAll($id_pegawai);
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        $data = [
+            "title" => $title,
+            'date' => date('m/d/Y'),
+            "jenis" => $d,
+            "pegawai" => $pegawai->nama,
+            "data" => $output_data
+        ];
+
+        $view = View('printPegawai.print_lap_pegawai', $data);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view->render())->setPaper('a4', 'landscape');
+        return $pdf->stream("lap-$d-pegawai.pdf", array("Attachment" => false));
     }
 
     // Get Image
@@ -69,6 +126,15 @@ class FileController extends Controller
     {
         $fullpath = "/app/images/dok_penghargaan/$filename";
         $message = "Data Dokumentasi Penghargaan Tidak Ditemukan";
+
+        return $this->downloads($fullpath, $message, $filename);
+    }
+
+    // Get Berkas Pegawai
+    public function getBerkas($filename)
+    {
+        $fullpath = "/app/images/berkas/$filename";
+        $message = "Data Berkas Pegawai Tidak Ditemukan";
 
         return $this->downloads($fullpath, $message, $filename);
     }

@@ -23,6 +23,7 @@ class PTTH extends Model
         $tbl_status_pegawai = "status_pegawai";
         $tbl_sub_bidang = "sub_bidang";
         $tbl_ptth = "ptth";
+        $tbl_jabatan = "jabatan";
 
         $data = DB::table($tbl_pegawai)
             ->select(
@@ -35,6 +36,7 @@ class PTTH extends Model
                 "$tbl_pegawai.npwp",
                 "$tbl_pegawai.no_hp",
                 "$tbl_pegawai.foto",
+                "$tbl_jabatan.nama_jabatan AS jabatan",
                 "$tbl_ptth.*",
                 "$tbl_agama.agama",
                 "$tbl_status_pegawai.status_pegawai",
@@ -46,6 +48,7 @@ class PTTH extends Model
             ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
             ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
             ->leftJoin($tbl_ptth, "$tbl_ptth.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->get();
 
         return $data;

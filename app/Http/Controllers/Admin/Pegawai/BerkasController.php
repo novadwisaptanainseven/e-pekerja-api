@@ -36,9 +36,8 @@ class BerkasController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                "nama_berkas" => "mimes:jpg,jpeg,png,pdf|max:1048|required",
+                "nama_berkas" => "mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:1048|required",
                 "keterangan"  => "required",
-                "dokumentasi" => "mimes:jpg,jpeg,png,pdf|max:1048",
             ],
             $messages
         );
