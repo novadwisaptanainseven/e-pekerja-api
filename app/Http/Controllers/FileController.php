@@ -8,6 +8,8 @@ use App\Models\Admin\Pegawai\Keluarga;
 use App\Models\Admin\Pegawai\Pendidikan;
 use App\Models\Admin\Pegawai\Penghargaan;
 use App\Models\Admin\Pegawai\PNS;
+use App\Models\Admin\Pegawai\PTTB;
+use App\Models\Admin\Pegawai\PTTH;
 use App\Models\Admin\Pegawai\RiwayatKerja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -18,18 +20,38 @@ class FileController extends Controller
 {
 
     // Testing Print PDF
-    public function generatePDF_RekapPNS()
+    public function cetakDaftarPegawai($jenis_data)
     {
         /**
          * Display a listing of the resource.
          *
          * @return \Illuminate\Http\Response
          */
+        $output_data = [];
+        $sub_title = "";
+
+        switch ($jenis_data) {
+            case "pns":
+                $output_data = PNS::getAll();
+                $sub_title = "Pegawai Negeri Sipil (PNS)";
+                break;
+            case "ptth":
+                $output_data = PTTH::getAll();
+                $sub_title = "Pegawai Tidak Tetap Harian (PTTH)";
+                break;
+            case 'pttb':
+                $output_data = PTTB::getAll();
+                $sub_title = "Pegawai Tidak Tetap Bulanan (PTTB)";
+                break;
+        }
+
+        $title = "Daftar " . $sub_title;
 
         $data = [
-            'title' => 'Rekap Pegawai Negeri Sipil',
-            'date' => date('m/d/Y'),
-            'data' => PNS::getAll()
+            'title' => $title,
+            'date' => date('d/m/Y'),
+            'jenis' => $jenis_data,
+            'data' => $output_data
         ];
 
         // $pdf = PDF::loadView('printPegawai.rekap_pegawai', $data);
@@ -38,7 +60,7 @@ class FileController extends Controller
         $view = View('printPegawai.rekap_pegawai', $data);
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper('a4', 'landscape');
-        return $pdf->stream("rekap_pns.pdf", array("Attachment" => false));
+        return $pdf->stream("daftar-pegawai-$jenis_data.pdf", array("Attachment" => false));
         // return response()->json([
         //     "message" => "Hello World"
         // ]);
@@ -82,7 +104,7 @@ class FileController extends Controller
 
         $data = [
             "title" => $title,
-            'date' => date('m/d/Y'),
+            'date' => date('d/m/Y'),
             "jenis" => $d,
             "pegawai" => $pegawai->nama,
             "data" => $output_data

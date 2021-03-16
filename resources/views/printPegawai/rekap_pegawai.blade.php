@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekap Pegawai Negeri Sipil</title>
+    <title>{{$title}}</title>
 
     <style>
         body {
@@ -72,6 +72,7 @@
 
 <body>
 
+    <!-- Header -->
     <div class="header">
         <div class="logo-container">
             <img class="logo" src="{{storage_path('/app/public/logo_disperkim.png')}}" alt="logo">
@@ -87,13 +88,16 @@
     </div>
     <div class="line1"></div>
     <div class="line2"></div>
-
-
+    <!-- End of Header -->
 
     <p><b>Tanggal</b> : {{$date}}</p>
 
-    <h2 style="font-family: Arial, Helvetica, sans-serif">Daftar Pegawai Negeri Sipil</h2>
+    <h2 style="font-family: Arial, Helvetica, sans-serif">{{$title}}</h2>
 
+    <!-- Content -->
+
+    @switch($jenis)
+    @case('pns')
     <table class="my-table" cellpadding="5" border="1">
         <tr>
             <th>Nama/NIP</th>
@@ -119,6 +123,41 @@
         </tr>
         @endforeach
     </table>
+    @break
+
+    @case('ptth')
+    <table class="my-table" cellpadding="5" border="1">
+        <tr>
+            <th>Nama/NIP</th>
+            <th>Penetap SK</th>
+            <th>Tgl. Penetapan SK</th>
+            <th>No. SK</th>
+            <th>Tgl. Mulai Tugas</th>
+            <th>Tugas</th>
+            <th>No. HP</th>
+        </tr>
+        @foreach($data as $d)
+        <tr>
+            <td>
+                {{$d->nama}}<br>
+                ({{$d->nik}})
+            </td>
+            <td>{{$d->penetap_sk}}</td>
+            <td>{{date("d/m/Y", strtotime($d->tgl_penetapan_sk))}}</td>
+            <td>{{$d->no_sk}}</td>
+            <td>{{date("d/m/Y", strtotime($d->tgl_mulai_tugas))}}</td>
+            <td>{{$d->jabatan}}</td>
+            <td>{{$d->no_hp}}</td>
+        </tr>
+        @endforeach
+    </table>
+    @break
+
+    @default
+
+    @endswitch
+
+    <!-- End of Content -->
 </body>
 
 </html>

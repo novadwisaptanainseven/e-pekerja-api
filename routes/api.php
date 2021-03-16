@@ -421,7 +421,7 @@ Route::prefix('v1/user/')->group(function () {
 // Image
 Route::get('v1/image/{filename}', [FileController::class, "getImage"]);
 // Rekap PDF
-Route::get('v1/rekap-pns-pdf', [FileController::class, "generatePDF_RekapPNS"]);
+Route::get('v1/print-daftar-pegawai/{jenis_data}', [FileController::class, "cetakDaftarPegawai"]);
 // Rekap PDF Pegawai By ID
 Route::get('v1/print-pegawai/{id_pegawai}/{data}', [FileController::class, "printLaporanPegawai"]);
 // Ijazah
@@ -444,6 +444,11 @@ Route::middleware('auth:sanctum')->post('v1/logout', [AuthController::class, "lo
 
 // Cek User Saat Ini
 Route::middleware('auth:sanctum')->get('v1/user', [AuthController::class, "me"]);
+
+
+
+
+
 // Route::group(['middleware' => 'auth:sanctum'], function () {
 //     // For Checking User
 //     Route::get('/cek_auth', [AuthController::class, 'me']);

@@ -98,11 +98,13 @@ class PNS extends Model
 
             $data_masa_kerja = DB::table($tbl_masa_kerja)->where('id_pegawai', '=', $id)->first();
 
-            $data_pegawai->mk_jabatan = $data_masa_kerja->mk_jabatan;
-            $data_pegawai->mk_sebelum_cpns = $data_masa_kerja->mk_sebelum_cpns;
-            $data_pegawai->mk_golongan = $data_masa_kerja->mk_golongan;
-            $data_pegawai->mk_seluruhnya = $data_masa_kerja->mk_seluruhnya;
-
+            if ($data_masa_kerja) {
+                $data_pegawai->mk_jabatan = $data_masa_kerja->mk_jabatan;
+                $data_pegawai->mk_sebelum_cpns = $data_masa_kerja->mk_sebelum_cpns;
+                $data_pegawai->mk_golongan = $data_masa_kerja->mk_golongan;
+                $data_pegawai->mk_seluruhnya = $data_masa_kerja->mk_seluruhnya;
+            }
+            
             $data_kgb = DB::table($tbl_kgb)
                 ->where('id_pegawai', "=", $id)
                 ->orderBy("id_kgb", "desc")

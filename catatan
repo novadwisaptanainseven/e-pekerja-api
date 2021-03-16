@@ -6,6 +6,7 @@
    - Eselon
    - Jenis Kelamin
    - No. HP
+2. Buat route bidang, sub bidang, dan pegawai secara global 
 
 Algoritma Request Absensi
 1. API get absensi menerima request berupa bulan dan tahun
