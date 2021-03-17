@@ -64,6 +64,7 @@ class PTTB extends Model
         $tbl_sub_bidang = "sub_bidang";
         $tbl_jabatan = "jabatan";
         $tbl_pttb = "pttb";
+        $tbl_bidang = "bidang";
 
         $data = DB::table($tbl_pegawai)
             ->select(
@@ -77,11 +78,14 @@ class PTTB extends Model
                 "$tbl_pegawai.no_hp",
                 "$tbl_pegawai.foto",
                 "$tbl_pttb.*",
-                "$tbl_agama.agama",
+                "$tbl_agama.*",
                 "$tbl_status_pegawai.status_pegawai",
                 "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
                 "$tbl_sub_bidang.nama_sub_bidang AS sub_bidang",
+                "$tbl_sub_bidang.id_sub_bidang",
+                "$tbl_bidang.*",
                 "$tbl_jabatan.nama_jabatan AS jabatan",
+                "$tbl_jabatan.id_jabatan",
             )
             ->where([
                 ["$tbl_pegawai.id_pegawai", '=', $id],
@@ -92,6 +96,7 @@ class PTTB extends Model
             ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->leftJoin($tbl_pttb, "$tbl_pttb.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_bidang.id_bidang")
             ->first();
 
         // Cek apakah data pegawai ditemukan
@@ -155,12 +160,14 @@ class PTTB extends Model
 
         // Tambah data ptth
         $data_pttb = [
+            'nip'                => $req->nip,
             'id_pegawai'         => $id_pegawai,
             'penetap_sk'         => $req->penetap_sk,
             'tgl_penetapan_sk'   => $req->tgl_penetapan_sk,
             'no_sk'              => $req->no_sk,
             'kontrak_ke'         => $req->kontrak_ke,
             'masa_kerja'         => $req->masa_kerja,
+            'tgl_mulai_tugas'    => $req->tgl_mulai_tugas,
             'tugas'              => $req->tugas,
             'gaji_pokok'         => $req->gaji_pokok
         ];
@@ -234,6 +241,7 @@ class PTTB extends Model
             'no_sk'              => $req->no_sk ? $req->no_sk : $data_pegawai->no_sk,
             'kontrak_ke'         => $req->kontrak_ke ? $req->kontrak_ke : $data_pegawai->kontrak_ke,
             'masa_kerja'         => $req->masa_kerja ? $req->masa_kerja : $data_pegawai->masa_kerja,
+            'tgl_mulai_tugas'    => $req->tgl_mulai_tugas ? $req->tgl_mulai_tugas : $data_pegawai->tgl_mulai_tugas,
             'tugas'              => $req->tugas ? $req->tugas : $data_pegawai->tugas,
             'gaji_pokok'         => $req->gaji_pokok ? $req->gaji_pokok : $data_pegawai->gaji_pokok,
         ];
