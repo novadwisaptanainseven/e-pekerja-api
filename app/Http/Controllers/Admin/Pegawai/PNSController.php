@@ -9,6 +9,24 @@ use Illuminate\Support\Facades\Validator;
 
 class PNSController extends Controller
 {
+
+    // Get All Pegawai (PNS, PTTH, PTTB)
+    public function getAllPegawai()
+    {
+        $data = PNS::getAllPegawai();
+
+        // Tambah nomor urut
+        $no = 1;
+        foreach ($data as $key => $d) {
+            $d->no = $no++;
+        }
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua data pegawai",
+            "data" => $data
+        ], 200);
+    }
+
     // Get All Pegawai
     public function getAll()
     {
@@ -74,6 +92,7 @@ class PNSController extends Controller
                 'tmt_jabatan'     => 'required',
                 'tmt_golongan'    => 'required',
                 'no_hp'           => 'required',
+                'gaji_pokok'      => 'required',
                 'foto'            => 'mimes:jpg,jpeg,png|max:1048',
                 'mk_jabatan'      => 'required',
                 'mk_sebelum_cpns' => 'required',

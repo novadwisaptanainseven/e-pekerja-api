@@ -154,6 +154,9 @@ Route::prefix('v1/admin/')->group(function () {
 
             // GROUP PEGAWAI
             Route::prefix("pegawai/")->group(function () {
+                // Get All Pegawai (PNS, PTTH, PTTB)
+                Route::get("semua-pegawai", [PNSController::class, "getAllPegawai"]);
+
                 // GROUP PNS
                 // Get All PNS
                 Route::get("pns", [PNSController::class, 'getAll']);
