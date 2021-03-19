@@ -62,7 +62,7 @@ class PTTBController extends Controller
                 'kontrak_ke'       => 'required',
                 'masa_kerja'       => 'required',
                 'tugas'            => 'required',
-                'id_sub_bidang'    => 'required',
+                'id_bidang'        => 'required',
                 'id_jabatan'       => 'required',
                 'id_agama'         => 'required',
                 'tempat_lahir'     => 'required',
@@ -112,12 +112,21 @@ class PTTBController extends Controller
     public function edit(Request $request, $id_pegawai)
     {
         // Validation
+        $pegawai = PTTB::getById($id_pegawai);
+        if ($request->nip == $pegawai->nip) {
+            $nip_rules = "";
+        } else {
+            $nip_rules = "unique:pttb";
+        }
+
         $messages = [
-            "required" => ":attribute harus diisi!"
+            "required" => ":attribute harus diisi!",
+            "unique"   => ":attribute sudah ada yang punya!"
         ];
         $validator = Validator::make(
             $request->all(),
             [
+                "nip"             => $nip_rules,
                 'foto'            => 'mimes:jpg,jpeg,png|max:1048',
             ],
             $messages

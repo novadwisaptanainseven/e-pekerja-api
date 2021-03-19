@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2021 at 09:30 AM
+-- Generation Time: Mar 19, 2021 at 02:51 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -628,7 +628,8 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (43, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'b7852b73e18bfb7863f85533dd439ebd39f39f6e3665f36c978cfc73b5588b15', '[\"*\"]', '2021-03-14 23:15:50', '2021-03-14 16:54:11', '2021-03-14 23:15:50'),
 (44, 'App\\Models\\User', 2, 'novadwisaptanainseven', '6241f2e294bbc8d795ef4e04652a25e9113e4175833c86a42306127e6d37d2ac', '[\"*\"]', '2021-03-15 21:21:55', '2021-03-15 17:16:56', '2021-03-15 21:21:55'),
 (45, 'App\\Models\\User', 2, 'novadwisaptanainseven', '961572be0c0fa76fabd89a91f47b59822c3cfa62640c11b13638f61d02489e15', '[\"*\"]', '2021-03-16 22:43:01', '2021-03-16 18:17:15', '2021-03-16 22:43:01'),
-(46, 'App\\Models\\User', 2, 'novadwisaptanainseven', '9fc9237d4858147b4a32b2fa6916977743f4439d55466545d57e2e2a7a23a85e', '[\"*\"]', '2021-03-18 00:25:51', '2021-03-17 17:25:17', '2021-03-18 00:25:51');
+(46, 'App\\Models\\User', 2, 'novadwisaptanainseven', '9fc9237d4858147b4a32b2fa6916977743f4439d55466545d57e2e2a7a23a85e', '[\"*\"]', '2021-03-18 00:25:51', '2021-03-17 17:25:17', '2021-03-18 00:25:51'),
+(47, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'd467d677936ef69131a15bc08b700ee6fad721fc990820556d797b6ed2c19295', '[\"*\"]', '2021-03-18 17:47:12', '2021-03-18 17:43:25', '2021-03-18 17:47:12');
 
 -- --------------------------------------------------------
 
@@ -1131,7 +1132,7 @@ ALTER TABLE `pensiun`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `pttb`

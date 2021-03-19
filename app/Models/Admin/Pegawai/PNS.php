@@ -75,7 +75,7 @@ class PNS extends Model
         $tbl_pegawai = "pegawai";
         $tbl_agama = "agama";
         $tbl_status_pegawai = "status_pegawai";
-        $tbl_sub_bidang = "sub_bidang";
+        $tbl_bidang = "bidang";
         $tbl_pangkat_golongan = "pangkat_golongan";
         $tbl_pangkat_eselon = "pangkat_eselon";
         $tbl_jabatan = "jabatan";
@@ -86,17 +86,17 @@ class PNS extends Model
                 "$tbl_agama.agama",
                 "$tbl_status_pegawai.status_pegawai",
                 "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
-                "$tbl_sub_bidang.nama_sub_bidang AS sub_bidang",
                 "$tbl_pangkat_golongan.golongan",
                 "$tbl_pangkat_golongan.keterangan AS ket_golongan",
                 "$tbl_pangkat_eselon.eselon",
                 "$tbl_pangkat_eselon.keterangan AS ket_eselon",
                 "$tbl_jabatan.nama_jabatan AS jabatan",
+                "$tbl_bidang.nama_bidang AS bidang",
             )
             ->where("$tbl_pegawai.id_status_pegawai", "=", 1)
             ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
             ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
-            ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
             ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
@@ -112,7 +112,6 @@ class PNS extends Model
         $tbl_pegawai = "pegawai";
         $tbl_agama = "agama";
         $tbl_status_pegawai = "status_pegawai";
-        $tbl_sub_bidang = "sub_bidang";
         $tbl_bidang = "bidang";
         $tbl_pangkat_golongan = "pangkat_golongan";
         $tbl_pangkat_eselon = "pangkat_eselon";
@@ -126,8 +125,6 @@ class PNS extends Model
                 "$tbl_agama.agama",
                 "$tbl_status_pegawai.status_pegawai",
                 "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
-                "$tbl_sub_bidang.nama_sub_bidang AS sub_bidang",
-                "$tbl_sub_bidang.id_bidang",
                 "$tbl_bidang.nama_bidang AS bidang",
                 "$tbl_pangkat_golongan.golongan",
                 "$tbl_pangkat_golongan.keterangan AS ket_golongan",
@@ -135,11 +132,10 @@ class PNS extends Model
                 "$tbl_pangkat_eselon.keterangan AS ket_eselon",
                 "$tbl_jabatan.nama_jabatan AS jabatan",
             )
-            ->where('id_pegawai', '=', $id)
+            ->where("$tbl_pegawai.id_pegawai", '=', $id)
             ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
             ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
-            ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
-            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_sub_bidang.id_bidang")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
             ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
@@ -219,7 +215,7 @@ class PNS extends Model
             "nip"               => $req->nip,
             "nama"              => $req->nama,
             'id_jabatan'        => $req->id_jabatan,
-            'id_sub_bidang'     => $req->id_sub_bidang,
+            'id_bidang'     => $req->id_bidang,
             'id_golongan'       => $req->id_golongan,
             'id_eselon'         => $req->id_eselon,
             'id_agama'          => $req->id_agama,
@@ -320,7 +316,7 @@ class PNS extends Model
             "nip"               => $req->nip ? $req->nip : $data_pegawai->nip,
             "nama"              => $req->nama ? $req->nama : $data_pegawai->nama,
             'id_jabatan'        => $req->id_jabatan ? $req->id_jabatan : $data_pegawai->id_jabatan,
-            'id_sub_bidang'     => $req->id_sub_bidang ? $req->id_sub_bidang : $data_pegawai->id_sub_bidang,
+            'id_bidang'     => $req->id_bidang ? $req->id_bidang : $data_pegawai->id_bidang,
             'id_golongan'       => $req->id_golongan ? $req->id_golongan : $data_pegawai->id_golongan,
             'id_eselon'         => $req->id_eselon ? $req->id_eselon : $data_pegawai->id_eselon,
             'id_agama'          => $req->id_agama ? $req->id_agama : $data_pegawai->id_agama,

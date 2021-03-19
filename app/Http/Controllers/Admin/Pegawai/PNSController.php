@@ -77,7 +77,7 @@ class PNSController extends Controller
                 "nip"             => "required|unique:pegawai",
                 "nama"            => "required",
                 'id_jabatan'      => 'required',
-                'id_sub_bidang'   => 'required',
+                'id_bidang'       => 'required',
                 'id_golongan'     => 'required',
                 'id_eselon'       => 'required',
                 'id_agama'        => 'required',
@@ -136,12 +136,21 @@ class PNSController extends Controller
     public function edit(Request $request, $id_pegawai)
     {
         // Validation
+        $pegawai = PNS::where("id_pegawai", "=", $id_pegawai)->first();
+        if ($request->nip == $pegawai->nip) {
+            $nip_rules = "";
+        } else {
+            $nip_rules = "unique:pegawai";
+        }
+
         $messages = [
-            "required" => ":attribute harus diisi!"
+            "required" => ":attribute harus diisi!",
+            "unique"   => ":attribute sudah ada yang punya!"
         ];
         $validator = Validator::make(
             $request->all(),
             [
+                "nip"             => $nip_rules,
                 'foto'            => 'mimes:jpg,jpeg,png|max:1048',
             ],
             $messages
