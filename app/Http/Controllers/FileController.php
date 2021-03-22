@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\DUK;
 use App\Models\Admin\Pegawai\Berkas;
 use App\Models\Admin\Pegawai\Diklat;
 use App\Models\Admin\Pegawai\Keluarga;
@@ -11,6 +12,7 @@ use App\Models\Admin\Pegawai\PNS;
 use App\Models\Admin\Pegawai\PTTB;
 use App\Models\Admin\Pegawai\PTTH;
 use App\Models\Admin\Pegawai\RiwayatKerja;
+use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -118,6 +120,20 @@ class FileController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper('a4', 'landscape');
         return $pdf->stream("lap-$d-pegawai.pdf", array("Attachment" => false));
+    }
+
+    public function cetakDUK()
+    {
+        $data = [
+            "title" => "Daftar Urut Kepangkatan Pegawai Negeri Sipil",
+            "date" => date("d/m/Y"),
+            "data" => DUK::getAllForPrint()
+        ];
+
+        $view = View("printPegawai.print_duk_pegawai", $data);
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadHTML($view->render())->setPaper("a4", "landscape");
+        return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
     }
 
     // Get Image

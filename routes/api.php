@@ -323,6 +323,9 @@ Route::prefix('v1/admin/')->group(function () {
             Route::put("duk-pegawai/{id_duk}", [DUKController::class, 'edit']);
             // Get All DUK
             Route::get("duk-pegawai", [DUKController::class, 'getAll']);
+
+            // Get All DUK For Print
+            Route::get("duk-pegawai-print", [DUKController::class, 'getAllForPrint']);
             // Get DUK By Id
             Route::get("duk-pegawai/{id_duk}", [DUKController::class, 'getById']);
 
@@ -427,6 +430,9 @@ Route::get('v1/image/{filename}', [FileController::class, "getImage"]);
 Route::get('v1/print-daftar-pegawai/{jenis_data}', [FileController::class, "cetakDaftarPegawai"]);
 // Rekap PDF Pegawai By ID
 Route::get('v1/print-pegawai/{id_pegawai}/{data}', [FileController::class, "printLaporanPegawai"]);
+// Cetak DUK pegawai
+Route::get('v1/print-duk-pegawai', [FileController::class, "cetakDUK"]);
+
 // Ijazah
 Route::get('v1/ijazah/{filename}', [FileController::class, "getIjazah"]);
 // Dokumentasi Diklat

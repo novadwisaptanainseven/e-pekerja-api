@@ -15,6 +15,21 @@ class DUKController extends Controller
     {
         $data = DUK::getAll();
 
+        foreach ($data as $i => $d) {
+            $d->no = $i + 1;
+        }
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua data duk pegawai",
+            "data" => $data
+        ], 200);
+    }
+
+    // Get All DUK For Print
+    public function getAllForPrint()
+    {
+        $data = DUK::getAllForPrint();
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data duk pegawai",
             "data" => $data

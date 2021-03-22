@@ -104,7 +104,7 @@
             <th>Golongan</th>
             <th>Jabatan</th>
             <th>Eselon</th>
-            <th>Sub Bidang</th>
+            <th>Bidang</th>
             <th>Jenis Kelamin</th>
             <th>No. HP</th>
         </tr>
@@ -117,7 +117,7 @@
             <td>{{$d->ket_golongan . "(" . $d->golongan . ")"}}</td>
             <td>{{$d->jabatan}}</td>
             <td>{{$d->ket_eselon . "(" . $d->eselon . ")"}}</td>
-            <td>{{$d->sub_bidang}}</td>
+            <td>{{$d->bidang}}</td>
             <td>{{$d->jenis_kelamin}}</td>
             <td>{{$d->no_hp}}</td>
         </tr>
@@ -210,7 +210,7 @@
             <th>NIP/NIK</th>
             <th>Jabatan</th>
             <th>Status Pegawai</th>
-            <th>Sub Bidang</th>
+            <th>Bidang</th>
             <th>Jenis Kelamin</th>
             <th>No. HP</th>
         </tr>
@@ -220,7 +220,7 @@
             <td>({{$d->nip ? $d->nip : $d->nik}})</td>
             <td>{{$d->jabatan}}</td>
             <td align="center">{{$d->status_pegawai}}</td>
-            <td>{{$d->sub_bidang}}</td>
+            <td>{{$d->bidang}}</td>
             <td>{{$d->jenis_kelamin}}</td>
             <td>{{$d->no_hp}}</td>
         </tr>
