@@ -323,7 +323,6 @@ Route::prefix('v1/admin/')->group(function () {
             Route::put("duk-pegawai/{id_duk}", [DUKController::class, 'edit']);
             // Get All DUK
             Route::get("duk-pegawai", [DUKController::class, 'getAll']);
-
             // Get All DUK For Print
             Route::get("duk-pegawai-print", [DUKController::class, 'getAllForPrint']);
             // Get DUK By Id
@@ -334,6 +333,8 @@ Route::prefix('v1/admin/')->group(function () {
             Route::put("masa-kerja/{id_masa_kerja}", [MasaKerjaController::class, 'edit']);
             // Get All Masa Kerja
             Route::get("masa-kerja", [MasaKerjaController::class, 'getAll']);
+            // Get All Masa Kerja For Print
+            Route::get("masa-kerja-pegawai-print", [MasaKerjaController::class, 'getAllForPrint']);
             // Get Masa Kerja By Id
             Route::get("masa-kerja/{id_masa_kerja}", [MasaKerjaController::class, 'getById']);
 
@@ -432,6 +433,8 @@ Route::get('v1/print-daftar-pegawai/{jenis_data}', [FileController::class, "ceta
 Route::get('v1/print-pegawai/{id_pegawai}/{data}', [FileController::class, "printLaporanPegawai"]);
 // Cetak DUK pegawai
 Route::get('v1/print-duk-pegawai', [FileController::class, "cetakDUK"]);
+// Cetak Masa Kerja Pegawai
+Route::get('v1/print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerja"]);
 
 // Ijazah
 Route::get('v1/ijazah/{filename}', [FileController::class, "getIjazah"]);

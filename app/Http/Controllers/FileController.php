@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin\DUK;
+use App\Models\Admin\MasaKerja;
 use App\Models\Admin\Pegawai\Berkas;
 use App\Models\Admin\Pegawai\Diklat;
 use App\Models\Admin\Pegawai\Keluarga;
@@ -57,7 +58,9 @@ class FileController extends Controller
             'title' => $title,
             'date' => date('d/m/Y'),
             'jenis' => $jenis_data,
-            'data' => $output_data
+            'data' => $output_data,
+            "ttd" => PNS::getDataKadis()
+
         ];
 
         // $pdf = PDF::loadView('printPegawai.rekap_pegawai', $data);
@@ -113,7 +116,8 @@ class FileController extends Controller
             'date' => date('d/m/Y'),
             "jenis" => $d,
             "pegawai" => $pegawai->nama,
-            "data" => $output_data
+            "data" => $output_data,
+            "ttd" => PNS::getDataKadis()
         ];
 
         $view = View('printPegawai.print_lap_pegawai', $data);
@@ -122,15 +126,37 @@ class FileController extends Controller
         return $pdf->stream("lap-$d-pegawai.pdf", array("Attachment" => false));
     }
 
+    // Print DUK Pegawai
     public function cetakDUK()
     {
         $data = [
             "title" => "Daftar Urut Kepangkatan Pegawai Negeri Sipil",
             "date" => date("d/m/Y"),
-            "data" => DUK::getAllForPrint()
+            "data" => DUK::getAllForPrint(),
+            "ttd" => PNS::getDataKadis()
         ];
 
         $view = View("printPegawai.print_duk_pegawai", $data);
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadHTML($view->render())->setPaper("a4", "landscape");
+        return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
+    }
+
+    // Print Masa Kerja Pegawai
+    public function cetakMasaKerja()
+    {
+        // Fungsi dari helpers.php
+        $keadaan = formatTanggalIndonesia(date("Y-m-d"));
+
+        $data = [
+            "title" => "Daftar Nama-Nama PNS Dinas Perumahan dan <br> Kawasan Permukiman Kota Samarinda Berdasarkan Masa Kerja Seluruhnya",
+            "date" => date("d/m/Y"),
+            "keadaan" => $keadaan,
+            "data" => MasaKerja::getAllForPrint(),
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $view = View("printPegawai.print_masakerja_pegawai", $data);
         $pdf = App::make("dompdf.wrapper");
         $pdf->loadHTML($view->render())->setPaper("a4", "landscape");
         return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));

@@ -30,6 +30,7 @@ class MasaKerja extends Model
                 "$tbl_pegawai.nama",
                 "$tbl_pegawai.tmt_cpns",
                 "$tbl_pegawai.tmt_golongan",
+                "$tbl_pegawai.tmt_jabatan",
                 "$tbl_golongan.golongan",
                 "$tbl_golongan.keterangan AS ket_golongan",
                 "$tbl_eselon.eselon",
@@ -44,6 +45,69 @@ class MasaKerja extends Model
             ->get();
 
         return $data;
+    }
+
+    // Get All Masa Kerja For Print
+    public static function getAllForPrint()
+    {
+        // Tabel - tabel
+        $tbl_masa_kerja = "masa_kerja_pegawai";
+        $tbl_pegawai = "pegawai";
+        $tbl_golongan = "pangkat_golongan";
+        $tbl_eselon = "pangkat_eselon";
+        $tbl_masa_kerja = "masa_kerja_pegawai";
+        $tbl_pendidikan = "pendidikan";
+        $tbl_jabatan = "jabatan";
+        $tbl_diklat = "diklat";
+
+        // Get data masa_kerja
+        $data_masa_kerja = DB::table($tbl_masa_kerja)
+            ->select(
+                "$tbl_masa_kerja.*",
+                "$tbl_pegawai.nip",
+                "$tbl_pegawai.id_pegawai",
+                "$tbl_pegawai.nama",
+                "$tbl_pegawai.tgl_lahir",
+                "$tbl_pegawai.tmt_cpns",
+                "$tbl_pegawai.tmt_golongan",
+                "$tbl_pegawai.tmt_jabatan",
+                "$tbl_pegawai.foto",
+                "$tbl_golongan.golongan",
+                "$tbl_golongan.keterangan AS ket_golongan",
+                "$tbl_eselon.eselon",
+                "$tbl_eselon.keterangan AS ket_eselon",
+                "$tbl_jabatan.nama_jabatan AS jabatan",
+                "$tbl_masa_kerja.mk_golongan"
+            )
+            ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_masa_kerja.id_pegawai")
+            ->leftJoin($tbl_golongan, "$tbl_golongan.id_pangkat_golongan", '=', "$tbl_pegawai.id_golongan")
+            ->leftJoin($tbl_eselon, "$tbl_eselon.id_pangkat_eselon", '=', "$tbl_pegawai.id_eselon")
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", '=', "$tbl_pegawai.id_jabatan")
+            ->orderBy("$tbl_golongan.id_pangkat_golongan", "asc")
+            ->get();
+
+        foreach ($data_masa_kerja as $i => $d) {
+            // Get data pendidikan
+            $data_pendidikan = DB::table($tbl_pendidikan)
+                ->where('id_pegawai', '=', $d->id_pegawai)
+                ->orderBy("id_pendidikan", "asc")
+                ->first();
+
+            // Get data diklat
+            $data_diklat = DB::table($tbl_diklat)
+                ->where('id_pegawai', '=', $d->id_pegawai)
+                ->get();
+
+            $d->pendidikan = $data_pendidikan;
+
+            if (count($data_diklat) == 0) {
+                $d->diklat = [];
+            }
+            $d->diklat = $data_diklat;
+            $d->no = $i + 1;
+        }
+
+        return $data_masa_kerja;
     }
 
     // Get Masa Kerja By Id
@@ -65,6 +129,7 @@ class MasaKerja extends Model
                 "$tbl_pegawai.tgl_lahir",
                 "$tbl_pegawai.tmt_cpns",
                 "$tbl_pegawai.tmt_golongan",
+                "$tbl_pegawai.tmt_jabatan",
                 "$tbl_pegawai.foto",
                 "$tbl_golongan.golongan",
                 "$tbl_golongan.keterangan AS ket_golongan",
@@ -100,7 +165,7 @@ class MasaKerja extends Model
 
         $data = [
             "mk_golongan" => $req->mk_golongan ? $req->mk_golongan : $masa_kerja->mk_golongan,
-            "mk_jabatan" => $req->jabatan ? $req->jabatan : $masa_kerja->jabatan,
+            "mk_jabatan" => $req->mk_jabatan ? $req->mk_jabatan : $masa_kerja->mk_jabatan,
             "mk_sebelum_cpns" => $req->mk_sebelum_cpns ? $req->mk_sebelum_cpns : $masa_kerja->mk_sebelum_cpns,
             "mk_seluruhnya" => $req->mk_seluruhnya ? $req->mk_seluruhnya : $masa_kerja->mk_seluruhnya,
         ];

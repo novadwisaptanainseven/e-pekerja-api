@@ -14,6 +14,10 @@ class KGBController extends Controller
     {
         $data = KGB::getAll($id_pegawai);
 
+        foreach ($data as $i => $d) {
+            $d->no = $i + 1;
+        }
+
         if ($data) {
             return response()->json([
                 "message" => "Berhasil mendapatkan semua data kenaikan gaji berkala pegawai dengan id: {$id_pegawai}",

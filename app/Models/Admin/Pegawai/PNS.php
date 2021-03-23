@@ -106,6 +106,44 @@ class PNS extends Model
         return $data;
     }
 
+    // Get data TTD Kepala Dinas
+    public static function getDataKadis()
+    {
+        // Tabel - tabel
+        $tbl_pegawai = "pegawai";
+        $tbl_agama = "agama";
+        $tbl_status_pegawai = "status_pegawai";
+        $tbl_bidang = "bidang";
+        $tbl_pangkat_golongan = "pangkat_golongan";
+        $tbl_pangkat_eselon = "pangkat_eselon";
+        $tbl_jabatan = "jabatan";
+
+        $data = DB::table($tbl_pegawai)
+            ->select(
+                "$tbl_pegawai.*",
+                "$tbl_agama.agama",
+                "$tbl_status_pegawai.status_pegawai",
+                "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
+                "$tbl_pangkat_golongan.golongan",
+                "$tbl_pangkat_golongan.keterangan AS ket_golongan",
+                "$tbl_pangkat_eselon.eselon",
+                "$tbl_pangkat_eselon.keterangan AS ket_eselon",
+                "$tbl_jabatan.nama_jabatan AS jabatan",
+                "$tbl_bidang.nama_bidang AS bidang",
+            )
+            ->where("$tbl_pegawai.id_jabatan", "=", 1)
+            ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
+            ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
+            ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
+            ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
+            ->orderBy("$tbl_pegawai.id_pegawai", "asc")
+            ->first();
+
+        return $data;
+    }
+
     // Get PNS By Id
     public static function getById($id)
     {

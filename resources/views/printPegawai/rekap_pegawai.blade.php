@@ -233,6 +233,8 @@
     @endswitch
 
     <!-- End of Content -->
+
+    @include('templates.ttd')
 </body>
 
 </html>

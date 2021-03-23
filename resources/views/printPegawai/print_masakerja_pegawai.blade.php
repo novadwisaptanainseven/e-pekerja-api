@@ -95,74 +95,62 @@
 
     <p><b>Tanggal : </b> {{$date}}</p>
 
-    <h2 style="font-family: Arial, Helvetica, sans-serif">{{$title}}</h2>
+    <h2 style="font-family: Arial, Helvetica, sans-serif">{!!$title!!}</h2>
+    <h3 style="text-align: center">Keadaan {{$keadaan["tgl"] . " " . $keadaan["bulan"] . " " . $keadaan["tahun"]}}</h3>
 
     <!-- Content -->
 
     <table class="my-table" cellpadding="5" border="1">
         <tr>
-            <th rowspan="2">No</th>
-            <th rowspan="2">Nama / NIP</th>
-            <th colspan="2">Pangkat</th>
-            <th colspan="2">Jabatan</th>
-            <th rowspan="2">Masa Kerja Golongan Pada Pangkat</th>
-            <th colspan="3">Latihan Jabatan</th>
-            <th colspan="3">Pendidikan</th>
-            <th rowspan="2">Usia Tgl/Bln/Thn Lahir</th>
-            <th rowspan="2">Catatan Mutasi Kepegawaian</th>
-            <th rowspan="2">Keterangan Tgl/Bln/Thn Diangkat Menjadi Capeg</th>
-        </tr>
-        <tr>
-            <th>Gol/Ruang</th>
+            <th>No</th>
+            <th>Nama/NIP</th>
+            <th>Gol/TMT</th>
+            <th>MK Golongan</th>
+            <th>Jabatan</th>
             <th>TMT</th>
-            <th>Nama</th>
-            <th>TMT</th>
-            <!-- <th>Tahun</th> -->
-            <!-- <th>Bulan</th> -->
-            <th>Nama</th>
-            <th>Jumlah Bln/Th</th>
-            <th>Jumlah Jam</th>
-            <th>Nama</th>
-            <th>Lulus Tahun</th>
-            <th>Tingkat Ijazah</th>
+            <th>MK Jabatan</th>
+            <th>Eselon</th>
+            <th>Latihan Jabatan</th>
+            <th>Pendidikan</th>
+            <th>Tgl. Lahir</th>
+            <th>TMT CPNS</th>
+            <th>MK Sebelum CPNS</th>
+            <th>MK Seluruhnya</th>
         </tr>
-        @foreach($data as $d)
+        @foreach($data as $i => $item)
         <tr>
-            <td>{{$d->no}}</td>
+            <td>{{$i + 1}}</td>
             <td>
-                {{$d->nama}} <br>
-                {{$d->nip}}
+                {{$item->nama}} <br>
+                {{$item->nip}}
             </td>
-            <td>{{$d->golongan}}</td>
-            <td>{{date("d/m/Y", strtotime($d->tmt_golongan))}}</td>
             <td>
-                {{$d->nama_jabatan}} <br>
-                (Eselon {{$d->eselon}})
+                {{$item->golongan}} <br>
+                {{date("d/m/Y", strtotime($item->tmt_golongan))}}
             </td>
-            <td>{{date("d/m/Y", strtotime($d->tmt_jabatan))}}</td>
-            <td>{{$d->mk_golongan}}</td>
-            <td valign="top" colspan="3">
+            <td>{{$item->mk_golongan}}</td>
+            <td>{{$item->jabatan}}</td>
+            <td> {{date("d/m/Y", strtotime($item->tmt_jabatan))}}</td>
+            <td>{{$item->mk_jabatan}}</td>
+            <td>{{$item->eselon}}</td>
+            <td>
                 <ul style="padding-left: 10px">
-                    @foreach($d->diklat as $item)
+                    @foreach($item->diklat as $diklat)
                     <li>
-                        {{$item->nama_diklat}} ({{$item->tahun_diklat}}) ({{$item->jumlah_jam}})
+                        {{$diklat->nama_diklat}} ({{$diklat->tahun_diklat}})
                     </li>
                     @endforeach
                 </ul>
             </td>
-
-            <td>{{$d->pendidikan->nama_akademi}}</td>
-            <td>{{$d->pendidikan->tahun_lulus}}</td>
-            <td>{{$d->pendidikan->jenjang}}</td>
-            <td>{{date("d/m/Y", strtotime($d->tgl_lahir))}}</td>
-            <td>{{$d->catatan_mutasi}}</td>
-            <td>{{date("d/m/Y", strtotime($d->tmt_cpns))}}</td>
+            <td>{{$item->pendidikan->nama_akademi}} Thn. {{$item->pendidikan->tahun_lulus}}</td>
+            <td> {{date("d/m/Y", strtotime($item->tgl_lahir))}}</td>
+            <td> {{date("d/m/Y", strtotime($item->tmt_cpns))}}</td>
+            <td>{{$item->mk_sebelum_cpns}}</td>
+            <td>{{$item->mk_seluruhnya}}</td>
 
         </tr>
         @endforeach
-
     </table>
-
 
     @include('templates.ttd')
 
