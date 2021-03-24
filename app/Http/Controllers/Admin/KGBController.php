@@ -30,7 +30,24 @@ class KGBController extends Controller
         }
     }
 
-    // Get Cuti by Id Cuti
+    // Get KGB Terbaru
+    public function getKGBTerbaru($id_pegawai)
+    {
+        $data = KGB::getKGBTerbaru($id_pegawai);
+
+        if ($data) {
+            return response()->json([
+                "message" => "Berhasil mendapatkan gaji pokok terakhir pegawai dengan id: {$id_pegawai}",
+                "data" => $data
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
+            ], 404);
+        }
+    }
+
+    // Get KGB by Id KGB
     public function getById($id_pegawai, $id_kgb)
     {
         $data = KGB::getById($id_pegawai, $id_kgb);

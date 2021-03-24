@@ -44,7 +44,44 @@ class KGB extends Model
         return $data;
     }
 
-    // Get Cuti By Id
+    // Get KGB Terbaru
+    public static function getKGBTerbaru($id_pegawai)
+    {
+        // Tabel - tabel
+        $tbl_kgb = "kgb";
+        $tbl_pegawai = "pegawai";
+
+        // Cek apakah data pegawai ditemukan
+        $data_pegawai = DB::table($tbl_pegawai)
+            ->where("id_pegawai", "=", $id_pegawai)
+            ->first();
+        if (!$data_pegawai) {
+            return null;
+        }
+
+        $data_gaji_pokok_pertama = DB::table($tbl_pegawai)
+            ->where("id_pegawai", "=", $id_pegawai)
+            ->first()->gaji_pokok;
+
+        $data_gaji_pokok_terakhir = DB::table($tbl_kgb)
+            ->select(
+                "$tbl_kgb.*",
+                "$tbl_pegawai.nip",
+                "$tbl_pegawai.nama",
+            )
+            ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_kgb.id_pegawai")
+            ->where("$tbl_kgb.id_pegawai", "=", $id_pegawai)
+            ->orderBy("id_kgb", "desc")
+            ->first();
+
+        if ($data_gaji_pokok_terakhir) {
+            return $data_gaji_pokok_terakhir->gaji_pokok_baru;
+        } else {
+            return $data_gaji_pokok_pertama;
+        }
+    }
+
+    // Get KGB By Id
     public static function getById($id_pegawai, $id_kgb)
     {
         // Tabel - tabel
@@ -100,6 +137,7 @@ class KGB extends Model
             "tmt_kenaikan_gaji" => $req->tmt_kenaikan_gaji,
             "kenaikan_gaji_yad" => $req->kenaikan_gaji_yad,
             "peraturan"         => $req->peraturan,
+            "created_at"        => date("Y-m-d")
         ];
 
         DB::table($tbl_kgb)->insert($data);

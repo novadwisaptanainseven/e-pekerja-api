@@ -50,6 +50,7 @@ class PTTB extends Model
             ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->leftJoin($tbl_pttb, "$tbl_pttb.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
+            ->where("$tbl_pegawai.status_kerja", "=", "aktif")
             ->get();
 
         return $data;

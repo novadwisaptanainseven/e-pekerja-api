@@ -50,6 +50,7 @@ class PTTH extends Model
             ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
             ->leftJoin($tbl_ptth, "$tbl_ptth.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
+            ->where("$tbl_pegawai.status_kerja", "=", "aktif")
             ->get();
 
         return $data;

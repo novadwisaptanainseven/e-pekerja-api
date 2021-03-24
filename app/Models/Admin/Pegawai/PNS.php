@@ -49,6 +49,7 @@ class PNS extends Model
             ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->orderBy("$tbl_status_pegawai.id_status_pegawai", "asc")
+            ->where("$tbl_pegawai.status_kerja", "=", "aktif")
             ->get();
 
         foreach ($data as $d) {
@@ -101,6 +102,7 @@ class PNS extends Model
             ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
+            ->where("$tbl_pegawai.status_kerja", "=", "aktif")
             ->get();
 
         return $data;

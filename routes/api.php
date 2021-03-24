@@ -272,6 +272,8 @@ Route::prefix('v1/admin/')->group(function () {
                 Route::put("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'edit']);
                 // Get All Kenaikan Gaji Berkala
                 Route::get("{id_pegawai}/kgb", [KGBController::class, 'getAll']);
+                // Get Kenaikan Gaji Berkala Terbaru
+                Route::get("{id_pegawai}/kgb-terbaru", [KGBController::class, 'getKGBTerbaru']);
                 // Get Kenaikan Gaji Berkala By Id
                 Route::get("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'getById']);
                 // Delete Kenaikan Gaji Berkala By Id
@@ -435,6 +437,8 @@ Route::get('v1/print-pegawai/{id_pegawai}/{data}', [FileController::class, "prin
 Route::get('v1/print-duk-pegawai', [FileController::class, "cetakDUK"]);
 // Cetak Masa Kerja Pegawai
 Route::get('v1/print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerja"]);
+// Cetak KGB Pegawai
+Route::get('v1/print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
 
 // Ijazah
 Route::get('v1/ijazah/{filename}', [FileController::class, "getIjazah"]);

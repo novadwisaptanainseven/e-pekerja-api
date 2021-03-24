@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin\DUK;
+use App\Models\Admin\KGB;
 use App\Models\Admin\MasaKerja;
 use App\Models\Admin\Pegawai\Berkas;
 use App\Models\Admin\Pegawai\Diklat;
@@ -159,6 +160,30 @@ class FileController extends Controller
         $view = View("printPegawai.print_masakerja_pegawai", $data);
         $pdf = App::make("dompdf.wrapper");
         $pdf->loadHTML($view->render())->setPaper("a4", "landscape");
+        return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
+    }
+
+    // Print KGB Pegawai
+    public function cetakKGBPegawai($id_pegawai)
+    {
+        // Fungsi dari helpers.php
+        // $keadaan = formatTanggalIndonesia(date("Y-m-d"));
+
+        // Get Data Pegawai by Id
+        $pegawai = PNS::getById($id_pegawai);
+
+        $data = [
+            "title" => "Daftar Histori Kenaikan Gaji Pegawai Negeri Sipil",
+            "date" => date("d/m/Y"),
+            // "keadaan" => $keadaan,
+            "data" => KGB::getAll($id_pegawai),
+            "ttd" => PNS::getDataKadis(),
+            "pegawai" => $pegawai
+        ];
+
+        $view = View("printPegawai.print_kgb_pegawai", $data);
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadHTML($view->render())->setPaper("a4", "portrait");
         return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
     }
 
