@@ -14,6 +14,10 @@ class CutiController extends Controller
     {
         $data = Cuti::getAllCuti();
 
+        foreach ($data as $i => $item) {
+            $item->no = $i + 1;
+        }
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data cuti pegawai",
             "data" => $data
