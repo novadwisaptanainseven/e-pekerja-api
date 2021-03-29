@@ -296,6 +296,8 @@ Route::prefix('v1/admin/')->group(function () {
                 Route::delete("{id_pegawai}/cuti/{id_cuti}", [CutiController::class, 'delete']);
                 // Search Cuti By Nama Pegawai
                 Route::get("cuti-nama", [CutiController::class, 'getByName']);
+                // Get All Pegawai Cuti
+                Route::get("pegawai-cuti", [CutiController::class, 'getPegawaiCuti']);
 
                 // GROUP ABSENSI
                 // Get All Absensi by Id Pegawai and Query Parameters

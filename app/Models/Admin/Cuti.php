@@ -261,4 +261,45 @@ class Cuti extends Model
 
         return true;
     }
+
+    // Get All Pegawai Cuti
+    public static function getPegawaiCuti()
+    {
+        // Tabel - tabel
+        $tbl_pegawai = "pegawai";
+        $tbl_cuti = "cuti";
+
+        $data_pegawai = DB::table($tbl_pegawai)
+            ->where("id_status_pegawai", "=", 1)
+            ->get();
+
+        $data_pegawai_cuti = [];
+        foreach ($data_pegawai as $i => $item) {
+            $cuti = DB::table($tbl_cuti)
+                ->select(
+                    "$tbl_cuti.*",
+                    "$tbl_pegawai.nama",
+                    "$tbl_pegawai.nip",
+                )
+                ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", "=", "$tbl_cuti.id_pegawai")
+                ->where("$tbl_cuti.id_pegawai", "=", $item->id_pegawai)
+                ->orderBy("id_cuti", "desc")
+                ->first();
+
+            if ($cuti) {
+                $current_timestamp = time();
+                $tgl_mulai_timestamp = strtotime($cuti->tgl_mulai);
+                $tgl_selesai_timestamp = strtotime($cuti->tgl_selesai);
+
+                if (
+                    ($current_timestamp >= $tgl_mulai_timestamp) &&
+                    ($current_timestamp <= $tgl_selesai_timestamp)
+                ) {
+                    array_push($data_pegawai_cuti, $cuti);
+                }
+            }
+        }
+
+        return $data_pegawai_cuti;
+    }
 }

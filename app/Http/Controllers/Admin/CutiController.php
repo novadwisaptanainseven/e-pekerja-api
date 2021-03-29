@@ -47,6 +47,10 @@ class CutiController extends Controller
     {
         $data = Cuti::getAll($id_pegawai);
 
+        foreach ($data as $i => $item) {
+            $item->no = $i + 1;
+        }
+
         if ($data) {
             return response()->json([
                 "message" => "Berhasil mendapatkan semua data cuti dari pegawai dengan id: {$id_pegawai}",
@@ -241,5 +245,20 @@ class CutiController extends Controller
                 "message" => "Data cuti pegawai dengan id: {$id_cuti} tidak ditemukan"
             ], 404);
         }
+    }
+
+    // Get All Pegawai Cuti
+    public function getPegawaiCuti()
+    {
+        $data = Cuti::getPegawaiCuti();
+
+        foreach ($data as $i => $item) {
+            $item->no = $i + 1;
+        }
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua data pegawai yang sedang cuti",
+            "data" => $data
+        ], 200);
     }
 }
