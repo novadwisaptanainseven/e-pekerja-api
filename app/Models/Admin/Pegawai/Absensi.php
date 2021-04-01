@@ -5,6 +5,7 @@ namespace App\Models\Admin\Pegawai;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use stdClass;
 
 class Absensi extends Model
@@ -30,7 +31,7 @@ class Absensi extends Model
 
         // Jika pegawai ditemukan lanjutkan proses get
         // Tentukan range nilai first dan last date
-        $firstYear = 2018;
+        $firstYear = date("Y") - 4;
         $currentYear = date("Y");
 
         $data = [];
@@ -89,6 +90,85 @@ class Absensi extends Model
         }
 
         return $data;
+    }
+
+    // Get Informasi Rekap Absensi Per Tahun by Status Pegawai
+    public static function getByStatusPegawai($jenis_data)
+    {
+        // Tabel - Tabel
+        $tbl_pegawai = "pegawai";
+        $tbl_absensi = "absensi";
+        $tbl_jabatan = "jabatan";
+
+        if ($jenis_data === "pns") {
+            $id_status_pegawai = 1;
+        } elseif ($jenis_data === "ptth") {
+            $id_status_pegawai = 2;
+        } elseif ($jenis_data === "pttb") {
+            $id_status_pegawai = 3;
+        }
+
+        $data_pegawai = DB::table($tbl_pegawai)
+            ->select(
+                "$tbl_pegawai.id_pegawai",
+                "$tbl_pegawai.nama",
+                "$tbl_jabatan.nama_jabatan AS jabatan"
+            )
+            ->where("$tbl_pegawai.id_status_pegawai", "=", $id_status_pegawai)
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
+            ->get();
+
+        $tahun = date("Y");
+
+        foreach ($data_pegawai as $data) {
+
+            // Hitung total tanpa keterangan
+            $data->tanpa_keterangan = DB::table($tbl_absensi)
+                ->where([
+                    ["id_pegawai", "=", $data->id_pegawai],
+                    ["absen", "=", 0],
+                ])
+                ->whereYear("tgl_absen", "=", $tahun)
+                ->get()->count();
+            // Hitung total hadir
+
+            $data->hadir = DB::table($tbl_absensi)
+                ->where([
+                    ["id_pegawai", "=", $data->id_pegawai],
+                    ["absen", "=", 1],
+                ])
+                ->whereYear("tgl_absen", "=", $tahun)
+                ->get()->count();
+
+            // Hitung total izin
+            $data->izin = DB::table($tbl_absensi)
+                ->where([
+                    ["id_pegawai", "=", $data->id_pegawai],
+                    ["absen", "=", 2],
+                ])
+                ->whereYear("tgl_absen", "=", $tahun)
+                ->get()->count();
+
+            // Hitung total sakit
+            $data->sakit = DB::table($tbl_absensi)
+                ->where([
+                    ["id_pegawai", "=", $data->id_pegawai],
+                    ["absen", "=", 3],
+                ])
+                ->whereYear("tgl_absen", "=", $tahun)
+                ->get()->count();
+
+            // Hitung total cuti
+            $data->cuti = DB::table($tbl_absensi)
+                ->where([
+                    ["id_pegawai", "=", $data->id_pegawai],
+                    ["absen", "=", 4],
+                ])
+                ->whereYear("tgl_absen", "=", $tahun)
+                ->get()->count();
+        }
+
+        return $data_pegawai;
     }
 
     // Get Informasi Rekap Absensi Per Tahun
@@ -265,6 +345,7 @@ class Absensi extends Model
         $data_absensi = DB::table($tbl_absensi)
             ->whereBetween("tgl_absen", [$firstDate, $lastDate])
             ->where("id_pegawai", "=", $id_pegawai)
+            ->orderBy("tgl_absen", "asc")
             ->get();
 
         return $data_absensi;
@@ -277,7 +358,7 @@ class Absensi extends Model
         $tbl_pegawai = "pegawai";
         $tbl_absensi = "absensi";
 
-        // Cek apakah data pegawai ditemukan
+        // Cek apakah data pegawai ditemukaxn
         $data_pegawai = DB::table($tbl_pegawai)
             ->where("id_pegawai", "=", $id_pegawai)
             ->first();
@@ -288,7 +369,7 @@ class Absensi extends Model
         // Jika pegawai ditemukan lanjutkan proses get
         // Tentukan range nilai first dan last date
         $currentTahun = date("Y");
-        $currentBulan = date("M");
+        $currentBulan = date("m");
 
         $firstDate = $req->first_date ? $req->first_date : "$currentTahun-$currentBulan-1";
         $lastDate = $req->last_date ? $req->last_date : "$currentTahun-$currentBulan-31";
@@ -296,6 +377,7 @@ class Absensi extends Model
         $data_absensi = DB::table($tbl_absensi)
             ->whereBetween("tgl_absen", [$firstDate, $lastDate])
             ->where("id_pegawai", "=", $id_pegawai)
+            ->orderBy("tgl_absen", "desc")
             ->get();
 
         return $data_absensi;

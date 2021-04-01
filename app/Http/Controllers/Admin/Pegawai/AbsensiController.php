@@ -75,6 +75,10 @@ class AbsensiController extends Controller
     {
         $data = Absensi::getAbsensiByFilter($request, $id_pegawai);
 
+        foreach ($data as $i => $item) {
+            $item->no = $i + 1;
+        }
+
         if ($data === 404) {
             return response()->json([
                 "message" => "Data pegawai dengan id: $id_pegawai tidak ditemukan"

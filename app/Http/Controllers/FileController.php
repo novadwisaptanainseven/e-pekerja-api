@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin\DUK;
 use App\Models\Admin\KGB;
 use App\Models\Admin\MasaKerja;
+use App\Models\Admin\Pegawai\Absensi;
 use App\Models\Admin\Pegawai\Berkas;
 use App\Models\Admin\Pegawai\Diklat;
 use App\Models\Admin\Pegawai\Keluarga;
@@ -243,5 +244,46 @@ class FileController extends Controller
                 "message" => $message
             ], 404);
         }
+    }
+
+    // Print Rekap Absensi Pegawai
+    public function cetakRekapAbsensi($jenis_data)
+    {
+
+        $output_data = [];
+
+        $title = "Laporan Rekap Absensi ";
+
+        switch ($jenis_data) {
+            case 'pns':
+                $output_data = Absensi::getByStatusPegawai($jenis_data);
+                $title .= "Pegawai Negeri Sipil (PNS)";
+                break;
+            case 'ptth':
+                $output_data = Absensi::getByStatusPegawai($jenis_data);
+                $title .= "Pegawai Tidak Tetap Harian (PTTH)";
+                break;
+            case 'pttb':
+                $output_data = Absensi::getByStatusPegawai($jenis_data);
+                $title .= "Pegawai Tidak Tetap Bulanan (PTTB)";
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            "jenis" => $jenis_data,
+            "data" => $output_data,
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $view = View('printAbsensi.lap_rekap_absensi', $data);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
+        return $pdf->stream("rekap-absensi-$jenis_data.pdf", array("Attachment" => false));
     }
 }

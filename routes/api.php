@@ -36,6 +36,7 @@ use App\Http\Controllers\User\DataKepegawaian\KeluargaController as DataKepegawa
 use App\Http\Controllers\User\DataKepegawaian\PendidikanController as DataKepegawaianPendidikanController;
 use App\Http\Controllers\User\DataKepegawaian\PenghargaanController as DataKepegawaianPenghargaanController;
 use App\Http\Controllers\User\DataKepegawaian\RiwayatKerjaController as DataKepegawaianRiwayatKerjaController;
+use App\Models\Admin\Pegawai\Absensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -441,6 +442,14 @@ Route::get('v1/print-duk-pegawai', [FileController::class, "cetakDUK"]);
 Route::get('v1/print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerja"]);
 // Cetak KGB Pegawai
 Route::get('v1/print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
+
+// Cetak Tekap Absensi Pegawai
+Route::get('v1/print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);
+// Test
+Route::get('v1/rekap-absensi/{jenis_data}', function ($jenis_data) {
+    $data = Absensi::getByStatusPegawai($jenis_data);
+    return response($data, 200);
+});
 
 // Ijazah
 Route::get('v1/ijazah/{filename}', [FileController::class, "getIjazah"]);
