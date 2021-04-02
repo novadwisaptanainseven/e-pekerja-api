@@ -543,6 +543,36 @@ class Absensi extends Model
         return 201;
     }
 
+    // Get Absensi by Id Pegawai & Id Absensi
+    public static function getById($id_pegawai, $id_absensi)
+    {
+        // Tabel - tabel
+        $tbl_pegawai = "pegawai";
+        $tbl_absensi = "absensi";
+
+        // Cek apakah data pegawai ditemukan
+        $data_pegawai = DB::table($tbl_pegawai)
+            ->where("id_pegawai", "=", $id_pegawai)
+            ->first();
+        if (!$data_pegawai) {
+            return 404; // NOT FOUND
+        }
+
+        // Cek apakah data absensi ditemukan
+        $data_absensi = DB::table($tbl_absensi)
+            ->where([
+                ["id_absensi", "=", $id_absensi],
+                ["id_pegawai", "=", $id_pegawai],
+            ])
+            ->first();
+
+        if (!$data_absensi) {
+            return 405;
+        }
+
+        return $data_absensi;
+    }
+
     // Delete Absensi
     public static function deleteAbsensi($id_pegawai, $id_absensi)
     {

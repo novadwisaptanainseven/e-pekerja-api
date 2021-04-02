@@ -93,6 +93,27 @@ class AbsensiController extends Controller
         }
     }
 
+    // Get Absensi by Id Pegawai & Id Absensi
+    public function getById($id_pegawai, $id_absensi)
+    {
+        $data = Absensi::getById($id_pegawai, $id_absensi);
+
+        if ($data === 404) {
+            return response()->json([
+                "message" => "Data pegawai dengan id: $id_pegawai tidak ditemukan"
+            ], 404);
+        } elseif ($data === 405) {
+            return response()->json([
+                "message" => "Data absensi dari id_pegawai: $id_pegawai dan id_absensi: $id_absensi, tidak ditemukan"
+            ], 404);
+        } else {
+            return response()->json([
+                "message" => "Berhasil mendapatkan data rekap absensi per tahun dari pegawai dengan id: $id_pegawai",
+                "data" => $data,
+            ], 200);
+        }
+    }
+
     // Insert Absensi
     public function insert(Request $request, $id_pegawai)
     {
@@ -210,7 +231,7 @@ class AbsensiController extends Controller
             [
                 "tgl_absen"  => "required",
                 "hari"       => "required",
-                "absen"      => "required",
+                "absen"      => "required"
             ],
             $messages
         );

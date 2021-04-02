@@ -311,6 +311,8 @@ Route::prefix('v1/admin/')->group(function () {
                 Route::post("{id_pegawai}/absensi/insert-update", [AbsensiController::class, "insertOrUpdate"]);
                 // Edit Absensi
                 Route::put("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "edit"]);
+                // Get Absensi by Id Pegawai & Id Absensi
+                Route::get("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "getById"]);
                 // Delete Absensi
                 Route::delete("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "delete"]);
                 // Get Informasi Rekap Absensi per Tahun by Id Pegawai
