@@ -28,7 +28,7 @@
 
         .logo {
             width: 90px;
-            margin-left: 70px;
+            margin-left: 50px;
         }
 
         /* .logo-container {
@@ -69,7 +69,11 @@
         }
 
         @page {
-            margin: 15px 15px 10px 15px;
+            /* margin: 15px 15px 10px 15px; */
+        }
+
+        td {
+            text-align: center;
         }
     </style>
 
@@ -94,36 +98,55 @@
     <div class="line2"></div>
 
     <p><b>Tanggal : </b> {{$date}}</p>
+    <p><b>Pegawai : </b> {{$pegawai->nama}}</p>
 
     <h2 style="font-family: Arial, Helvetica, sans-serif">{{$title}}</h2>
-    <h3 style="font-family: Arial, Helvetica, sans-serif; text-align:center">Keadaan Tahun {{$tahun}}</h3>
+    <h3 style="font-family: Arial, Helvetica, sans-serif; text-align:center">Dari Tanggal: {{$firstDate}} - {{$lastDate}}</h3>
 
     <!-- Content -->
 
     <table class="my-table" cellpadding="5" border="1">
         <tr>
             <th>No</th>
-            <th>Nama</th>
-            <th>Jabatan</th>
-            <th>Hadir</th>
-            <th>Izin</th>
-            <th>Sakit</th>
-            <th>Cuti</th>
-            <th>Tanpa Keterangan</th>
+            <th>Tanggal</th>
+            <th>Hari</th>
+            <th>Absen</th>
+            <th>Keterangan</th>
         </tr>
 
         @foreach($data as $i => $item)
         <tr>
             <td>{{$i + 1}}</td>
             <td>
-                {{$item->nama}} <br>
+                {{date('d/m/Y', strtotime($item->tgl_absen))}} <br>
             </td>
-            <td>{{$item->jabatan}}</td>
-            <td>{{$item->hadir}}</td>
-            <td>{{$item->izin}}</td>
-            <td>{{$item->sakit}}</td>
-            <td>{{$item->cuti}}</td>
-            <td>{{$item->tanpa_keterangan}}</td>
+            <td>{{ucfirst($item->hari)}}</td>
+            <td>
+                @switch($item->absen)
+                @case (1)
+                Hadir
+                @break
+
+                @case (2)
+                Izin
+                @break
+
+                @case (3)
+                Sakit
+                @break
+
+                @case (4)
+                Cuti
+                @break
+
+                @case (5)
+                Tanpa Keterangan
+
+                @break
+                @default
+                @endswitch
+            </td>
+            <td>{{$item->keterangan}}</td>
         </tr>
         @endforeach
 

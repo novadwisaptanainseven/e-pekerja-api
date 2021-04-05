@@ -445,8 +445,12 @@ Route::get('v1/print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerj
 // Cetak KGB Pegawai
 Route::get('v1/print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
 
-// Cetak Tekap Absensi Pegawai
+// Cetak Rekap Absensi Pegawai
 Route::get('v1/print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);
+// Cetak Rekap Absensi Pegawai berdasarkan filter tanggal
+Route::get('v1/print-rekap-absensi-filter/{id_pegawai}', [FileController::class, "cetakRekapAbsensiByFilterTanggal"]);
+// Cetak Rekap Absensi Per Tahun by Id Pegawai
+Route::get('v1/print-rekap-absensi-pegawai/{id_pegawai}', [FileController::class, "cetakRekapAbsensiPerTahun"]);
 // Test
 Route::get('v1/rekap-absensi/{jenis_data}', function ($jenis_data) {
     $data = Absensi::getByStatusPegawai($jenis_data);

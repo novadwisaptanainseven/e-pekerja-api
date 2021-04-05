@@ -69,7 +69,11 @@
         }
 
         @page {
-            margin: 15px 15px 10px 15px;
+            /* margin: 15px 15px 10px 15px; */
+        }
+
+        td {
+            text-align: center;
         }
     </style>
 
@@ -94,31 +98,44 @@
     <div class="line2"></div>
 
     <p><b>Tanggal : </b> {{$date}}</p>
+    <p><b>Pegawai : </b> {{$pegawai->nama}}</p>
 
     <h2 style="font-family: Arial, Helvetica, sans-serif">{{$title}}</h2>
-    <h3 style="font-family: Arial, Helvetica, sans-serif; text-align:center">Keadaan Tahun {{$tahun}}</h3>
+
 
     <!-- Content -->
 
     <table class="my-table" cellpadding="5" border="1">
         <tr>
             <th>No</th>
-            <th>Nama</th>
-            <th>Jabatan</th>
+            <th>Tahun</th>
             <th>Hadir</th>
             <th>Izin</th>
             <th>Sakit</th>
             <th>Cuti</th>
             <th>Tanpa Keterangan</th>
         </tr>
+        @php
+        {{
+            $totHadir = 0;
+            $totIzin = 0;
+            $totSakit = 0;
+            $totCuti = 0;
+            $totTK = 0;
+        }}
+        @endphp
 
         @foreach($data as $i => $item)
+        @php
+        $totHadir += $item->hadir;
+        $totIzin += $item->izin;
+        $totSakit += $item->sakit;
+        $totCuti += $item->cuti;
+        $totTK += $item->tanpa_keterangan;
+        @endphp
         <tr>
             <td>{{$i + 1}}</td>
-            <td>
-                {{$item->nama}} <br>
-            </td>
-            <td>{{$item->jabatan}}</td>
+            <td>{{$item->tahun}}</td>
             <td>{{$item->hadir}}</td>
             <td>{{$item->izin}}</td>
             <td>{{$item->sakit}}</td>
@@ -126,6 +143,15 @@
             <td>{{$item->tanpa_keterangan}}</td>
         </tr>
         @endforeach
+
+        <tr>
+            <td colspan="2"><b>Total</b></td>
+            <td>{{$totHadir}}</td>
+            <td>{{$totIzin}}</td>
+            <td>{{$totSakit}}</td>
+            <td>{{$totCuti}}</td>
+            <td>{{$totTK}}</td>
+        </tr>
 
     </table>
 

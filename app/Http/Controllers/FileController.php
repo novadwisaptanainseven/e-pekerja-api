@@ -247,7 +247,7 @@ class FileController extends Controller
     }
 
     // Print Rekap Absensi Pegawai
-    public function cetakRekapAbsensi($jenis_data)
+    public function cetakRekapAbsensi(Request $req, $jenis_data)
     {
 
         $output_data = [];
@@ -267,6 +267,10 @@ class FileController extends Controller
                 $output_data = Absensi::getByStatusPegawai($jenis_data);
                 $title .= "Pegawai Tidak Tetap Bulanan (PTTB)";
                 break;
+            case 'semua':
+                $output_data = Absensi::getAllRekapAbsensiPerTahun($req);
+                $title .= "PNS, PTTH, dan PTTB";
+                break;
 
             default:
                 # code...
@@ -278,6 +282,7 @@ class FileController extends Controller
             'date' => date('d/m/Y'),
             "jenis" => $jenis_data,
             "data" => $output_data,
+            "tahun" => $req->tahun,
             "ttd" => PNS::getDataKadis()
         ];
 
@@ -285,5 +290,59 @@ class FileController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
         return $pdf->stream("rekap-absensi-$jenis_data.pdf", array("Attachment" => false));
+    }
+
+    // Print Rekap Absensi Pegawai by Filter Tanggal
+    public function cetakRekapAbsensiByFilterTanggal(Request $req, $id_pegawai)
+    {
+        $pegawai = DB::table("pegawai")->where("id_pegawai", "=", $id_pegawai)->first();
+
+        $currentTahun = date("Y");
+        $currentBulan = date("m");
+
+        $firstDate = $req->first_date ? $req->first_date : "$currentTahun-$currentBulan-1";
+        $lastDate = $req->last_date ? $req->last_date : "$currentTahun-$currentBulan-31";
+
+        $output_data = Absensi::getAbsensiByFilter($req, $id_pegawai);
+
+        $title = "Laporan Rekap Absensi";
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            'firstDate' => date('d/m/Y', strtotime($firstDate)),
+            'lastDate' => date('d/m/Y', strtotime($lastDate)),
+            'pegawai' => $pegawai,
+            "data" => $output_data,
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $view = View('printAbsensi.lap_rekap_absensi_filter_tanggal', $data);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
+        return $pdf->stream("rekap-absensi-pegawai.pdf", array("Attachment" => false));
+    }
+
+    // Print Rekap Absensi Pegawai Per Tahun
+    public function cetakRekapAbsensiPerTahun($id_pegawai)
+    {
+
+        $output_data = Absensi::getRekapAbsensiPerTahun($id_pegawai);
+        $pegawai = DB::table("pegawai")->where("id_pegawai", "=", $id_pegawai)->first();
+
+        $title = "Laporan Rekap Absensi";
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            "data" => $output_data,
+            "pegawai" => $pegawai,
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $view = View('printAbsensi.lap_rekap_absensi_per_tahun', $data);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
+        return $pdf->stream("rekap-absensi-pegawai.pdf", array("Attachment" => false));
     }
 }

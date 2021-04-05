@@ -35,6 +35,7 @@ class Absensi extends Model
         $currentYear = date("Y");
 
         $data = [];
+        
 
         for ($i = $firstYear; $i <= $currentYear; $i++) {
             // Instantiate Object
@@ -88,6 +89,8 @@ class Absensi extends Model
 
             array_push($data, $obj);
         }
+
+
 
         return $data;
     }

@@ -202,7 +202,7 @@
         @endforeach
     </table>
     @break
-
+    
     @case('semua-pegawai')
     <table class="my-table" cellpadding="5" border="1">
         <tr>
