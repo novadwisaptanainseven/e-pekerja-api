@@ -447,6 +447,8 @@ Route::get('v1/print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKG
 
 // Cetak Rekap Absensi Pegawai
 Route::get('v1/print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);
+// Cetak Rekap Absensi Pegawai
+Route::get('v1/print-rekap-absensi-tanggal/{jenis_data}', [FileController::class, "cetakRekapAbsensiByDate"]);
 // Cetak Rekap Absensi Pegawai berdasarkan filter tanggal
 Route::get('v1/print-rekap-absensi-filter/{id_pegawai}', [FileController::class, "cetakRekapAbsensiByFilterTanggal"]);
 // Cetak Rekap Absensi Per Tahun by Id Pegawai

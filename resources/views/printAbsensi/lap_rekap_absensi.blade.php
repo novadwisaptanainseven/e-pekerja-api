@@ -71,6 +71,10 @@
         @page {
             margin: 15px 15px 10px 15px;
         }
+
+        td.colCenter {
+            text-align: center;
+        }
     </style>
 
 </head>
@@ -96,7 +100,11 @@
     <p><b>Tanggal : </b> {{$date}}</p>
 
     <h2 style="font-family: Arial, Helvetica, sans-serif">{{$title}}</h2>
+    @if(!empty($tahun))
     <h3 style="font-family: Arial, Helvetica, sans-serif; text-align:center">Keadaan Tahun {{$tahun}}</h3>
+    @else
+    <h3 style="font-family: Arial, Helvetica, sans-serif; text-align:center">Dari Tanggal: {{$filterTanggal["first_date"]}} - {{$filterTanggal["last_date"]}}</h3>
+    @endif
 
     <!-- Content -->
 
@@ -119,11 +127,11 @@
                 {{$item->nama}} <br>
             </td>
             <td>{{$item->jabatan}}</td>
-            <td>{{$item->hadir}}</td>
-            <td>{{$item->izin}}</td>
-            <td>{{$item->sakit}}</td>
-            <td>{{$item->cuti}}</td>
-            <td>{{$item->tanpa_keterangan}}</td>
+            <td class="colCenter">{{$item->hadir}}</td>
+            <td class="colCenter">{{$item->izin}}</td>
+            <td class="colCenter">{{$item->sakit}}</td>
+            <td class="colCenter">{{$item->cuti}}</td>
+            <td class="colCenter">{{$item->tanpa_keterangan}}</td>
         </tr>
         @endforeach
 

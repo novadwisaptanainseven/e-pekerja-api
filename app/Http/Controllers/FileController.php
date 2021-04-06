@@ -282,7 +282,61 @@ class FileController extends Controller
             'date' => date('d/m/Y'),
             "jenis" => $jenis_data,
             "data" => $output_data,
-            "tahun" => $req->tahun,
+            "tahun" => $req->tahun ? $req->tahun : date('Y'),
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $view = View('printAbsensi.lap_rekap_absensi', $data);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
+        return $pdf->stream("rekap-absensi-$jenis_data.pdf", array("Attachment" => false));
+    }
+    // Print Rekap Absensi Pegawai
+    public function cetakRekapAbsensiByDate(Request $req, $jenis_data)
+    {
+
+        $currentTahun = date("Y");
+        $currentBulan = date("m");
+
+        $firstDate = $req->first_date ? $req->first_date : "$currentTahun-$currentBulan-1";
+        $lastDate = $req->last_date ? $req->last_date : "$currentTahun-$currentBulan-31";
+
+        $output_data = [];
+
+        $title = "Laporan Rekap Absensi ";
+
+        switch ($jenis_data) {
+            case 'pns':
+                $output_data = Absensi::getByStatusPegawai($jenis_data);
+                $title .= "Pegawai Negeri Sipil (PNS)";
+                break;
+            case 'ptth':
+                $output_data = Absensi::getByStatusPegawai($jenis_data);
+                $title .= "Pegawai Tidak Tetap Harian (PTTH)";
+                break;
+            case 'pttb':
+                $output_data = Absensi::getByStatusPegawai($jenis_data);
+                $title .= "Pegawai Tidak Tetap Bulanan (PTTB)";
+                break;
+            case 'semua':
+                $output_data = Absensi::getRekapAbsensiByDate($req);
+                $title .= "PNS, PTTH, dan PTTB";
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            "jenis" => $jenis_data,
+            "data" => $output_data,
+            "filterTanggal" => [
+                "first_date" => date("d/m/Y", strtotime($firstDate)),
+                "last_date" => date("d/m/Y", strtotime($lastDate))
+            ],
             "ttd" => PNS::getDataKadis()
         ];
 
