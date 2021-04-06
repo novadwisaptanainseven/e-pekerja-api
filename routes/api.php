@@ -435,7 +435,7 @@ Route::post('v1/login', [AuthController::class, "login"]);
 // Register User
 Route::post('v1/register', [UsersController::class, "register"]);
 
-// Login User
+// Logout User
 Route::middleware('auth:sanctum')->post('v1/logout', [AuthController::class, "logout"]);
 
 // Cek User Saat Ini
