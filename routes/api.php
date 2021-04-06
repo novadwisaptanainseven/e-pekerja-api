@@ -36,6 +36,7 @@ use App\Http\Controllers\User\DataKepegawaian\KeluargaController as DataKepegawa
 use App\Http\Controllers\User\DataKepegawaian\PendidikanController as DataKepegawaianPendidikanController;
 use App\Http\Controllers\User\DataKepegawaian\PenghargaanController as DataKepegawaianPenghargaanController;
 use App\Http\Controllers\User\DataKepegawaian\RiwayatKerjaController as DataKepegawaianRiwayatKerjaController;
+use App\Models\Admin\Pegawai\Absensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -154,6 +155,9 @@ Route::prefix('v1/admin/')->group(function () {
 
             // GROUP PEGAWAI
             Route::prefix("pegawai/")->group(function () {
+                // Get All Pegawai (PNS, PTTH, PTTB)
+                Route::get("semua-pegawai", [PNSController::class, "getAllPegawai"]);
+
                 // GROUP PNS
                 // Get All PNS
                 Route::get("pns", [PNSController::class, 'getAll']);
@@ -269,6 +273,8 @@ Route::prefix('v1/admin/')->group(function () {
                 Route::put("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'edit']);
                 // Get All Kenaikan Gaji Berkala
                 Route::get("{id_pegawai}/kgb", [KGBController::class, 'getAll']);
+                // Get Kenaikan Gaji Berkala Terbaru
+                Route::get("{id_pegawai}/kgb-terbaru", [KGBController::class, 'getKGBTerbaru']);
                 // Get Kenaikan Gaji Berkala By Id
                 Route::get("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'getById']);
                 // Delete Kenaikan Gaji Berkala By Id
@@ -291,6 +297,8 @@ Route::prefix('v1/admin/')->group(function () {
                 Route::delete("{id_pegawai}/cuti/{id_cuti}", [CutiController::class, 'delete']);
                 // Search Cuti By Nama Pegawai
                 Route::get("cuti-nama", [CutiController::class, 'getByName']);
+                // Get All Pegawai Cuti
+                Route::get("pegawai-cuti", [CutiController::class, 'getPegawaiCuti']);
 
                 // GROUP ABSENSI
                 // Get All Absensi by Id Pegawai and Query Parameters
@@ -303,6 +311,8 @@ Route::prefix('v1/admin/')->group(function () {
                 Route::post("{id_pegawai}/absensi/insert-update", [AbsensiController::class, "insertOrUpdate"]);
                 // Edit Absensi
                 Route::put("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "edit"]);
+                // Get Absensi by Id Pegawai & Id Absensi
+                Route::get("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "getById"]);
                 // Delete Absensi
                 Route::delete("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "delete"]);
                 // Get Informasi Rekap Absensi per Tahun by Id Pegawai
@@ -320,6 +330,8 @@ Route::prefix('v1/admin/')->group(function () {
             Route::put("duk-pegawai/{id_duk}", [DUKController::class, 'edit']);
             // Get All DUK
             Route::get("duk-pegawai", [DUKController::class, 'getAll']);
+            // Get All DUK For Print
+            Route::get("duk-pegawai-print", [DUKController::class, 'getAllForPrint']);
             // Get DUK By Id
             Route::get("duk-pegawai/{id_duk}", [DUKController::class, 'getById']);
 
@@ -328,6 +340,8 @@ Route::prefix('v1/admin/')->group(function () {
             Route::put("masa-kerja/{id_masa_kerja}", [MasaKerjaController::class, 'edit']);
             // Get All Masa Kerja
             Route::get("masa-kerja", [MasaKerjaController::class, 'getAll']);
+            // Get All Masa Kerja For Print
+            Route::get("masa-kerja-pegawai-print", [MasaKerjaController::class, 'getAllForPrint']);
             // Get Masa Kerja By Id
             Route::get("masa-kerja/{id_masa_kerja}", [MasaKerjaController::class, 'getById']);
 
@@ -421,13 +435,38 @@ Route::prefix('v1/user/')->group(function () {
 // Image
 Route::get('v1/image/{filename}', [FileController::class, "getImage"]);
 // Rekap PDF
-Route::get('v1/rekap-pns-pdf', [FileController::class, "generatePDF_RekapPNS"]);
+Route::get('v1/print-daftar-pegawai/{jenis_data}', [FileController::class, "cetakDaftarPegawai"]);
+// Rekap PDF Pegawai By ID
+Route::get('v1/print-pegawai/{id_pegawai}/{data}', [FileController::class, "printLaporanPegawai"]);
+// Cetak DUK pegawai
+Route::get('v1/print-duk-pegawai', [FileController::class, "cetakDUK"]);
+// Cetak Masa Kerja Pegawai
+Route::get('v1/print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerja"]);
+// Cetak KGB Pegawai
+Route::get('v1/print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
+
+// Cetak Rekap Absensi Pegawai
+Route::get('v1/print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);
+// Cetak Rekap Absensi Pegawai
+Route::get('v1/print-rekap-absensi-tanggal/{jenis_data}', [FileController::class, "cetakRekapAbsensiByDate"]);
+// Cetak Rekap Absensi Pegawai berdasarkan filter tanggal
+Route::get('v1/print-rekap-absensi-filter/{id_pegawai}', [FileController::class, "cetakRekapAbsensiByFilterTanggal"]);
+// Cetak Rekap Absensi Per Tahun by Id Pegawai
+Route::get('v1/print-rekap-absensi-pegawai/{id_pegawai}', [FileController::class, "cetakRekapAbsensiPerTahun"]);
+// Test
+Route::get('v1/rekap-absensi/{jenis_data}', function ($jenis_data) {
+    $data = Absensi::getByStatusPegawai($jenis_data);
+    return response($data, 200);
+});
+
 // Ijazah
 Route::get('v1/ijazah/{filename}', [FileController::class, "getIjazah"]);
 // Dokumentasi Diklat
 Route::get('v1/dok_diklat/{filename}', [FileController::class, "getDokDiklat"]);
 // Dokumentasi Penghargaan
 Route::get('v1/dok_penghargaan/{filename}', [FileController::class, "getDokPenghargaan"]);
+// Berkas Pegawai
+Route::get('v1/berkas/{filename}', [FileController::class, "getBerkas"]);
 
 // Login User
 Route::post('v1/login', [AuthController::class, "login"]);
@@ -440,6 +479,11 @@ Route::middleware('auth:sanctum')->post('v1/logout', [AuthController::class, "lo
 
 // Cek User Saat Ini
 Route::middleware('auth:sanctum')->get('v1/user', [AuthController::class, "me"]);
+
+
+
+
+
 // Route::group(['middleware' => 'auth:sanctum'], function () {
 //     // For Checking User
 //     Route::get('/cek_auth', [AuthController::class, 'me']);

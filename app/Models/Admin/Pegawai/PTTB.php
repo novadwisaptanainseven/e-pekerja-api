@@ -5,6 +5,7 @@ namespace App\Models\Admin\Pegawai;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class PTTB extends Model
@@ -21,7 +22,7 @@ class PTTB extends Model
         $tbl_pegawai = "pegawai";
         $tbl_agama = "agama";
         $tbl_status_pegawai = "status_pegawai";
-        $tbl_sub_bidang = "sub_bidang";
+        $tbl_bidang = "bidang";
         $tbl_jabatan = "jabatan";
         $tbl_pttb = "pttb";
 
@@ -40,15 +41,16 @@ class PTTB extends Model
                 "$tbl_agama.agama",
                 "$tbl_status_pegawai.status_pegawai",
                 "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
-                "$tbl_sub_bidang.nama_sub_bidang AS sub_bidang",
+                "$tbl_bidang.nama_bidang AS bidang",
                 "$tbl_jabatan.nama_jabatan AS jabatan",
             )
             ->where("$tbl_pegawai.id_status_pegawai", '=', 3)
             ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
             ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
-            ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->leftJoin($tbl_pttb, "$tbl_pttb.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
+            ->where("$tbl_pegawai.status_kerja", "=", "aktif")
             ->get();
 
         return $data;
@@ -61,9 +63,10 @@ class PTTB extends Model
         $tbl_pegawai = "pegawai";
         $tbl_agama = "agama";
         $tbl_status_pegawai = "status_pegawai";
-        $tbl_sub_bidang = "sub_bidang";
+        $tbl_bidang = "bidang";
         $tbl_jabatan = "jabatan";
         $tbl_pttb = "pttb";
+        $tbl_bidang = "bidang";
 
         $data = DB::table($tbl_pegawai)
             ->select(
@@ -77,11 +80,14 @@ class PTTB extends Model
                 "$tbl_pegawai.no_hp",
                 "$tbl_pegawai.foto",
                 "$tbl_pttb.*",
-                "$tbl_agama.agama",
+                "$tbl_agama.*",
                 "$tbl_status_pegawai.status_pegawai",
                 "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
-                "$tbl_sub_bidang.nama_sub_bidang AS sub_bidang",
+                "$tbl_bidang.nama_bidang AS bidang",
+                "$tbl_bidang.id_bidang",
+                "$tbl_bidang.*",
                 "$tbl_jabatan.nama_jabatan AS jabatan",
+                "$tbl_jabatan.id_jabatan",
             )
             ->where([
                 ["$tbl_pegawai.id_pegawai", '=', $id],
@@ -89,9 +95,9 @@ class PTTB extends Model
             ])
             ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
             ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
-            ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->leftJoin($tbl_pttb, "$tbl_pttb.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
             ->first();
 
         // Cek apakah data pegawai ditemukan
@@ -109,6 +115,7 @@ class PTTB extends Model
         $tbl_pegawai = "pegawai";
         $tbl_pendidikan = "pendidikan";
         $tbl_pttb = "pttb";
+        $tbl_users = "users";
 
         // Cek apakah ada file foto
         if (!$req->file('foto')) {
@@ -137,7 +144,7 @@ class PTTB extends Model
         $data_pegawai = [
             "nip"                => $req->nip,
             "nama"               => $req->nama,
-            'id_sub_bidang'      => $req->id_sub_bidang,
+            'id_bidang'      => $req->id_bidang,
             'id_jabatan'         => $req->id_jabatan,
             'id_agama'           => $req->id_agama,
             'tempat_lahir'       => $req->tempat_lahir,
@@ -155,12 +162,14 @@ class PTTB extends Model
 
         // Tambah data ptth
         $data_pttb = [
+            'nip'                => $req->nip,
             'id_pegawai'         => $id_pegawai,
             'penetap_sk'         => $req->penetap_sk,
             'tgl_penetapan_sk'   => $req->tgl_penetapan_sk,
             'no_sk'              => $req->no_sk,
             'kontrak_ke'         => $req->kontrak_ke,
             'masa_kerja'         => $req->masa_kerja,
+            'tgl_mulai_tugas'    => $req->tgl_mulai_tugas,
             'tugas'              => $req->tugas,
             'gaji_pokok'         => $req->gaji_pokok
         ];
@@ -177,6 +186,20 @@ class PTTB extends Model
             'foto_ijazah'     => $foto_ijazah,
         ];
         DB::table($tbl_pendidikan)->insert($data_pendidikan);
+
+        // Generate password akun pegawai
+        $password = explode("-", $req->tgl_lahir);
+        $password2 = $password[2] . $password[1] . $password[0];
+        // Register akun pegawai
+        $data_user = [
+            "id_pegawai" => $id_pegawai,
+            "name"       => $req->nama,
+            "username"   => $req->nip,
+            "level"      => 2,
+            "password"   => Hash::make($password2),
+            "foto_profil" => $foto
+        ];
+        DB::table($tbl_users)->insert($data_user);
 
         return $insert_pegawai;
     }
@@ -215,7 +238,7 @@ class PTTB extends Model
         $data_pegawai2 = [
             "nip"                => $req->nip ? $req->nip : $data_pegawai->nip,
             "nama"               => $req->nama ? $req->nama : $data_pegawai->nama,
-            'id_sub_bidang'      => $req->id_sub_bidang ? $req->id_sub_bidang : $data_pegawai->id_sub_bidang,
+            'id_bidang'      => $req->id_bidang ? $req->id_bidang : $data_pegawai->id_bidang,
             'id_jabatan'         => $req->id_jabatan ? $req->id_jabatan : $data_pegawai->id_jabatan,
             'id_agama'           => $req->id_agama ? $req->id_agama : $data_pegawai->id_agama,
             'tempat_lahir'       => $req->tempat_lahir ? $req->tempat_lahir : $data_pegawai->tempat_lahir,
@@ -229,11 +252,13 @@ class PTTB extends Model
             "id_status_pegawai"  => 3
         ];
         $data_pttb = [
+            "nip"                => $req->nip ? $req->nip : $data_pegawai->nip,
             'penetap_sk'         => $req->penetap_sk ? $req->penetap_sk : $data_pegawai->penetap_sk,
             'tgl_penetapan_sk'   => $req->tgl_penetapan_sk ? $req->tgl_penetapan_sk : $data_pegawai->tgl_penetapan_sk,
             'no_sk'              => $req->no_sk ? $req->no_sk : $data_pegawai->no_sk,
             'kontrak_ke'         => $req->kontrak_ke ? $req->kontrak_ke : $data_pegawai->kontrak_ke,
             'masa_kerja'         => $req->masa_kerja ? $req->masa_kerja : $data_pegawai->masa_kerja,
+            'tgl_mulai_tugas'    => $req->tgl_mulai_tugas ? $req->tgl_mulai_tugas : $data_pegawai->tgl_mulai_tugas,
             'tugas'              => $req->tugas ? $req->tugas : $data_pegawai->tugas,
             'gaji_pokok'         => $req->gaji_pokok ? $req->gaji_pokok : $data_pegawai->gaji_pokok,
         ];

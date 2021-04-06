@@ -14,6 +14,10 @@ class PenghargaanController extends Controller
     {
         $data = Penghargaan::getAll();
 
+        foreach ($data as $i => $item) {
+            $item->no = $i + 1;
+        }
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data penghargaan",
             "data" => $data

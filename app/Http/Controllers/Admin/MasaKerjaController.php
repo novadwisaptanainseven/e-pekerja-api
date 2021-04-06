@@ -21,6 +21,17 @@ class MasaKerjaController extends Controller
         ], 200);
     }
 
+    // Get All DUK For Print
+    public function getAllForPrint()
+    {
+        $data = MasaKerja::getAllForPrint();
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua data masa kerja pegawai",
+            "data" => $data
+        ], 200);
+    }
+
     // Get Masa Kerja By Id
     public function getById($id_masa_kerja)
     {

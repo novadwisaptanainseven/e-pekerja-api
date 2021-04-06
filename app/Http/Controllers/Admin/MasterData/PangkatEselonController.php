@@ -56,7 +56,7 @@ class PangkatEselonController extends Controller
             $request->all(),
             [
                 "eselon"   => "required",
-                "keterangan" => "required"
+                // "keterangan" => "required"
             ],
             $messages
         );
@@ -99,7 +99,7 @@ class PangkatEselonController extends Controller
             $request->all(),
             [
                 "eselon"   => "required",
-                "keterangan" => "required"
+                // "keterangan" => "required"
             ],
             $messages
         );

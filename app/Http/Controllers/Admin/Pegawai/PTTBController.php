@@ -14,6 +14,10 @@ class PTTBController extends Controller
     {
         $data = PTTB::getAll();
 
+        foreach ($data as $i => $d) {
+            $d->no = $i + 1;
+        }
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data pegawai",
             "data" => $data
@@ -50,7 +54,7 @@ class PTTBController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                "nip"              => "required|unique:pegawai",
+                "nip"              => "required|unique:pttb",
                 "nama"             => "required",
                 'penetap_sk'       => 'required',
                 'tgl_penetapan_sk' => 'required',
@@ -58,15 +62,15 @@ class PTTBController extends Controller
                 'kontrak_ke'       => 'required',
                 'masa_kerja'       => 'required',
                 'tugas'            => 'required',
-                'id_sub_bidang'    => 'required',
+                'id_bidang'        => 'required',
                 'id_jabatan'       => 'required',
                 'id_agama'         => 'required',
                 'tempat_lahir'     => 'required',
                 'tgl_lahir'        => 'required',
                 'alamat'           => 'required',
                 'jenis_kelamin'    => 'required',
-                'bpjs'             => 'required',
-                'npwp'             => 'required',
+                // 'bpjs'             => 'required',
+                // 'npwp'             => 'required',
                 'no_hp'            => 'required',
                 'foto'             => 'mimes:jpg,jpeg,png|max:1048',
                 'nama_akademi'     => 'required',
@@ -108,12 +112,21 @@ class PTTBController extends Controller
     public function edit(Request $request, $id_pegawai)
     {
         // Validation
+        $pegawai = PTTB::getById($id_pegawai);
+        if ($request->nip == $pegawai->nip) {
+            $nip_rules = "";
+        } else {
+            $nip_rules = "unique:pttb";
+        }
+
         $messages = [
-            "required" => ":attribute harus diisi!"
+            "required" => ":attribute harus diisi!",
+            "unique"   => ":attribute sudah ada yang punya!"
         ];
         $validator = Validator::make(
             $request->all(),
             [
+                "nip"             => $nip_rules,
                 'foto'            => 'mimes:jpg,jpeg,png|max:1048',
             ],
             $messages

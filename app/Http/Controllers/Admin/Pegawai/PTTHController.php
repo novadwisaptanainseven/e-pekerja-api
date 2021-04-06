@@ -14,6 +14,12 @@ class PTTHController extends Controller
     {
         $data = PTTH::getAll();
 
+        // Tambah nomor urut
+        $no = 1;
+        foreach ($data as $key => $d) {
+            $d->no = $no++;
+        }
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data pegawai",
             "data" => $data
@@ -58,7 +64,7 @@ class PTTHController extends Controller
                 'tgl_mulai_tugas'  => 'required',
                 'tugas'            => 'required',
                 'id_jabatan'       => 'required',
-                'id_sub_bidang'    => 'required',
+                'id_bidang'        => 'required',
                 'id_agama'         => 'required',
                 'tempat_lahir'     => 'required',
                 'tgl_lahir'        => 'required',
@@ -107,12 +113,21 @@ class PTTHController extends Controller
     public function edit(Request $request, $id_pegawai)
     {
         // Validation
+        $pegawai = PTTH::getById($id_pegawai);
+        if ($request->nik == $pegawai->nik) {
+            $nik_rules = "";
+        } else {
+            $nik_rules = "unique:ptth";
+        }
+
         $messages = [
-            "required" => ":attribute harus diisi!"
+            "required" => ":attribute harus diisi!",
+            "unique"   => ":attribute sudah ada yang punya!"
         ];
         $validator = Validator::make(
             $request->all(),
             [
+                "nik"             => $nik_rules,
                 'foto'            => 'mimes:jpg,jpeg,png|max:1048',
             ],
             $messages

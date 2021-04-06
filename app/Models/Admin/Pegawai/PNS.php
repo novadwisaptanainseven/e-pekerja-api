@@ -16,6 +16,60 @@ class PNS extends Model
     protected $table = "pegawai";
     protected $primaryKey = "id_pegawai";
 
+    // Get All Pegawai (PNS, PTTH, PTTB)
+    public static function getAllPegawai()
+    {
+        // Tabel - tabel
+        $tbl_pegawai = "pegawai";
+        $tbl_agama = "agama";
+        $tbl_status_pegawai = "status_pegawai";
+        $tbl_bidang = "bidang";
+        $tbl_pangkat_golongan = "pangkat_golongan";
+        $tbl_pangkat_eselon = "pangkat_eselon";
+        $tbl_jabatan = "jabatan";
+        $tbl_ptth = "ptth";
+
+        $data = DB::table($tbl_pegawai)
+            ->select(
+                "$tbl_pegawai.*",
+                "$tbl_agama.agama",
+                "$tbl_status_pegawai.status_pegawai",
+                "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
+                "$tbl_bidang.nama_bidang AS bidang",
+                "$tbl_pangkat_golongan.golongan",
+                "$tbl_pangkat_golongan.keterangan AS ket_golongan",
+                "$tbl_pangkat_eselon.eselon",
+                "$tbl_pangkat_eselon.keterangan AS ket_eselon",
+                "$tbl_jabatan.nama_jabatan AS jabatan",
+            )
+            ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
+            ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
+            ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
+            ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
+            ->orderBy("$tbl_status_pegawai.id_status_pegawai", "asc")
+            ->where("$tbl_pegawai.status_kerja", "=", "aktif")
+            ->get();
+
+        foreach ($data as $d) {
+            if ($d->id_status_pegawai === 2) {
+                $ptth = DB::table($tbl_ptth)
+                    ->where("id_pegawai", "=", $d->id_pegawai)
+                    ->first();
+
+                if ($ptth) {
+                    $d->nik = $ptth->nik;
+                } else {
+                    $d->nik = "";
+                }
+            }
+            // $d->test = "Hello";
+        }
+
+        return $data;
+    }
+
     // Get All Pegawai
     public static function getAll()
     {
@@ -23,7 +77,7 @@ class PNS extends Model
         $tbl_pegawai = "pegawai";
         $tbl_agama = "agama";
         $tbl_status_pegawai = "status_pegawai";
-        $tbl_sub_bidang = "sub_bidang";
+        $tbl_bidang = "bidang";
         $tbl_pangkat_golongan = "pangkat_golongan";
         $tbl_pangkat_eselon = "pangkat_eselon";
         $tbl_jabatan = "jabatan";
@@ -34,21 +88,60 @@ class PNS extends Model
                 "$tbl_agama.agama",
                 "$tbl_status_pegawai.status_pegawai",
                 "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
-                "$tbl_sub_bidang.nama_sub_bidang AS sub_bidang",
                 "$tbl_pangkat_golongan.golongan",
                 "$tbl_pangkat_golongan.keterangan AS ket_golongan",
                 "$tbl_pangkat_eselon.eselon",
                 "$tbl_pangkat_eselon.keterangan AS ket_eselon",
                 "$tbl_jabatan.nama_jabatan AS jabatan",
+                "$tbl_bidang.nama_bidang AS bidang",
             )
             ->where("$tbl_pegawai.id_status_pegawai", "=", 1)
             ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
             ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
-            ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
             ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
+            ->where("$tbl_pegawai.status_kerja", "=", "aktif")
             ->get();
+
+        return $data;
+    }
+
+    // Get data TTD Kepala Dinas
+    public static function getDataKadis()
+    {
+        // Tabel - tabel
+        $tbl_pegawai = "pegawai";
+        $tbl_agama = "agama";
+        $tbl_status_pegawai = "status_pegawai";
+        $tbl_bidang = "bidang";
+        $tbl_pangkat_golongan = "pangkat_golongan";
+        $tbl_pangkat_eselon = "pangkat_eselon";
+        $tbl_jabatan = "jabatan";
+
+        $data = DB::table($tbl_pegawai)
+            ->select(
+                "$tbl_pegawai.*",
+                "$tbl_agama.agama",
+                "$tbl_status_pegawai.status_pegawai",
+                "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
+                "$tbl_pangkat_golongan.golongan",
+                "$tbl_pangkat_golongan.keterangan AS ket_golongan",
+                "$tbl_pangkat_eselon.eselon",
+                "$tbl_pangkat_eselon.keterangan AS ket_eselon",
+                "$tbl_jabatan.nama_jabatan AS jabatan",
+                "$tbl_bidang.nama_bidang AS bidang",
+            )
+            ->where("$tbl_pegawai.id_jabatan", "=", 1)
+            ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
+            ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
+            ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
+            ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
+            ->orderBy("$tbl_pegawai.id_pegawai", "asc")
+            ->first();
 
         return $data;
     }
@@ -60,7 +153,6 @@ class PNS extends Model
         $tbl_pegawai = "pegawai";
         $tbl_agama = "agama";
         $tbl_status_pegawai = "status_pegawai";
-        $tbl_sub_bidang = "sub_bidang";
         $tbl_bidang = "bidang";
         $tbl_pangkat_golongan = "pangkat_golongan";
         $tbl_pangkat_eselon = "pangkat_eselon";
@@ -74,8 +166,6 @@ class PNS extends Model
                 "$tbl_agama.agama",
                 "$tbl_status_pegawai.status_pegawai",
                 "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
-                "$tbl_sub_bidang.nama_sub_bidang AS sub_bidang",
-                "$tbl_sub_bidang.id_bidang",
                 "$tbl_bidang.nama_bidang AS bidang",
                 "$tbl_pangkat_golongan.golongan",
                 "$tbl_pangkat_golongan.keterangan AS ket_golongan",
@@ -83,11 +173,10 @@ class PNS extends Model
                 "$tbl_pangkat_eselon.keterangan AS ket_eselon",
                 "$tbl_jabatan.nama_jabatan AS jabatan",
             )
-            ->where('id_pegawai', '=', $id)
+            ->where("$tbl_pegawai.id_pegawai", '=', $id)
             ->leftJoin($tbl_agama, "$tbl_agama.id_agama", "=", "$tbl_pegawai.id_agama")
             ->leftJoin($tbl_status_pegawai, "$tbl_status_pegawai.id_status_pegawai", "=", "$tbl_pegawai.id_status_pegawai")
-            ->leftJoin($tbl_sub_bidang, "$tbl_sub_bidang.id_sub_bidang", "=", "$tbl_pegawai.id_sub_bidang")
-            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_sub_bidang.id_bidang")
+            ->leftJoin($tbl_bidang, "$tbl_bidang.id_bidang", "=", "$tbl_pegawai.id_bidang")
             ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
@@ -98,17 +187,30 @@ class PNS extends Model
 
             $data_masa_kerja = DB::table($tbl_masa_kerja)->where('id_pegawai', '=', $id)->first();
 
-            $data_pegawai->mk_jabatan = $data_masa_kerja->mk_jabatan;
-            $data_pegawai->mk_sebelum_cpns = $data_masa_kerja->mk_sebelum_cpns;
-            $data_pegawai->mk_golongan = $data_masa_kerja->mk_golongan;
-            $data_pegawai->mk_seluruhnya = $data_masa_kerja->mk_seluruhnya;
+            if ($data_masa_kerja) {
+                $data_pegawai->mk_jabatan = $data_masa_kerja->mk_jabatan;
+                $data_pegawai->mk_sebelum_cpns = $data_masa_kerja->mk_sebelum_cpns;
+                $data_pegawai->mk_golongan = $data_masa_kerja->mk_golongan;
+                $data_pegawai->mk_seluruhnya = $data_masa_kerja->mk_seluruhnya;
+            }
+
+            // if ($data_pegawai->gaji_pokok == 0) {
+            //     $data_kgb = DB::table($tbl_kgb)
+            //         ->where('id_pegawai', "=", $id)
+            //         ->orderBy("id_kgb", "desc")
+            //         ->first();
+            //     $data_pegawai->gaji_pokok = $data_kgb->gaji_pokok_baru;
+            // }
 
             $data_kgb = DB::table($tbl_kgb)
                 ->where('id_pegawai', "=", $id)
                 ->orderBy("id_kgb", "desc")
                 ->first();
 
-            $data_pegawai->kgb = $data_kgb;
+            if ($data_kgb) {
+                $data_pegawai->gaji_pokok = $data_kgb->gaji_pokok_baru;
+            }
+
 
             return $data_pegawai;
         } else {
@@ -154,7 +256,7 @@ class PNS extends Model
             "nip"               => $req->nip,
             "nama"              => $req->nama,
             'id_jabatan'        => $req->id_jabatan,
-            'id_sub_bidang'     => $req->id_sub_bidang,
+            'id_bidang'     => $req->id_bidang,
             'id_golongan'       => $req->id_golongan,
             'id_eselon'         => $req->id_eselon,
             'id_agama'          => $req->id_agama,
@@ -170,6 +272,7 @@ class PNS extends Model
             'tmt_cpns'          => $req->tmt_cpns,
             'tmt_jabatan'       => $req->tmt_jabatan,
             'no_hp'             => $req->no_hp,
+            'gaji_pokok'        => $req->gaji_pokok,
             'foto'              => $foto,
         ];
         $insert_pegawai = DB::table($tbl_pegawai)->insert($data_pegawai);
@@ -254,7 +357,7 @@ class PNS extends Model
             "nip"               => $req->nip ? $req->nip : $data_pegawai->nip,
             "nama"              => $req->nama ? $req->nama : $data_pegawai->nama,
             'id_jabatan'        => $req->id_jabatan ? $req->id_jabatan : $data_pegawai->id_jabatan,
-            'id_sub_bidang'     => $req->id_sub_bidang ? $req->id_sub_bidang : $data_pegawai->id_sub_bidang,
+            'id_bidang'     => $req->id_bidang ? $req->id_bidang : $data_pegawai->id_bidang,
             'id_golongan'       => $req->id_golongan ? $req->id_golongan : $data_pegawai->id_golongan,
             'id_eselon'         => $req->id_eselon ? $req->id_eselon : $data_pegawai->id_eselon,
             'id_agama'          => $req->id_agama ? $req->id_agama : $data_pegawai->id_agama,
@@ -270,6 +373,7 @@ class PNS extends Model
             'tmt_cpns'          => $req->tmt_cpns ? $req->tmt_cpns : $data_pegawai->tmt_cpns,
             'tmt_jabatan'       => $req->tmt_jabatan ? $req->tmt_jabatan : $data_pegawai->tmt_jabatan,
             'no_hp'             => $req->no_hp ? $req->no_hp : $data_pegawai->no_hp,
+            'gaji_pokok'        => $req->gaji_pokok ? $req->gaji_pokok : $data_pegawai->gaji_pokok,
             'foto'              => $foto,
         ];
         DB::table($tbl_pegawai)->where('id_pegawai', '=', $id_pegawai)->update($data_pegawai);

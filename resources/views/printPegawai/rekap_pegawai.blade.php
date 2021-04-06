@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekap Pegawai Negeri Sipil</title>
+    <title>{{$title}}</title>
 
     <style>
         body {
@@ -72,6 +72,7 @@
 
 <body>
 
+    <!-- Header -->
     <div class="header">
         <div class="logo-container">
             <img class="logo" src="{{storage_path('/app/public/logo_disperkim.png')}}" alt="logo">
@@ -87,20 +88,23 @@
     </div>
     <div class="line1"></div>
     <div class="line2"></div>
-
-
+    <!-- End of Header -->
 
     <p><b>Tanggal</b> : {{$date}}</p>
 
-    <h2 style="font-family: Arial, Helvetica, sans-serif">Daftar Pegawai Negeri Sipil</h2>
+    <h2 style="font-family: Arial, Helvetica, sans-serif">{{$title}}</h2>
 
+    <!-- Content -->
+
+    @switch($jenis)
+    @case('pns')
     <table class="my-table" cellpadding="5" border="1">
         <tr>
             <th>Nama/NIP</th>
             <th>Golongan</th>
             <th>Jabatan</th>
             <th>Eselon</th>
-            <th>Sub Bidang</th>
+            <th>Bidang</th>
             <th>Jenis Kelamin</th>
             <th>No. HP</th>
         </tr>
@@ -113,12 +117,124 @@
             <td>{{$d->ket_golongan . "(" . $d->golongan . ")"}}</td>
             <td>{{$d->jabatan}}</td>
             <td>{{$d->ket_eselon . "(" . $d->eselon . ")"}}</td>
-            <td>{{$d->sub_bidang}}</td>
+            <td>{{$d->bidang}}</td>
             <td>{{$d->jenis_kelamin}}</td>
             <td>{{$d->no_hp}}</td>
         </tr>
         @endforeach
     </table>
+    @break
+
+    @case('ptth')
+    <table class="my-table" cellpadding="5" border="1">
+        <tr>
+            <th>Nama/NIP</th>
+            <th>Penetap SK, No. SK, Tanggal, TMT</th>
+            <!-- <th>Tgl. Penetapan SK</th>
+            <th>No. SK</th>
+            <th>Tgl. Mulai Tugas</th> -->
+            <th>Tugas</th>
+            <th>Gaji Pokok</th>
+            <th>Jenis Kelamin</th>
+            <th>No. HP</th>
+        </tr>
+        @foreach($data as $d)
+        <tr>
+            <td>
+                {{$d->nama}}<br>
+                ({{$d->nik}})
+            </td>
+            <td>
+                - Penetap: {{$d->penetap_sk}} <br>
+                - NO. {{$d->no_sk}} <br>
+                - TGL. {{date("d/m/Y", strtotime($d->tgl_penetapan_sk))}} <br>
+                - TMT. {{date("d/m/Y", strtotime($d->tgl_mulai_tugas))}}
+            </td>
+            <!-- <td>{{date("d/m/Y", strtotime($d->tgl_penetapan_sk))}}</td>
+            <td>{{$d->no_sk}}</td>
+            <td>{{date("d/m/Y", strtotime($d->tgl_mulai_tugas))}}</td> -->
+            <td>{{$d->jabatan}}</td>
+            <td>Rp. {{number_format($d->gaji_pokok,2,',','.')}}</td>
+            <td>{{$d->jenis_kelamin}}</td>
+            <td>{{$d->no_hp}}</td>
+        </tr>
+        @endforeach
+    </table>
+    @break
+
+    @case('pttb')
+    <table class="my-table" cellpadding="5" border="1">
+        <tr>
+            <th style="width: 150px;">Nama/NIP</th>
+            <th>Penetap SK, No. SK, Tanggal, TMT</th>
+            <!-- <th>Tgl. Penetapan SK</th>
+            <th>No. SK</th>
+            <th>Tgl. Mulai Tugas</th> -->
+            <th>Kontrak Ke</th>
+            <th>Masa Kerja</th>
+            <th>Gaji Pokok</th>
+            <th>Tugas</th>
+            <th>Jenis Kelamin</th>
+            <th>No. HP</th>
+        </tr>
+        @foreach($data as $d)
+        <tr>
+            <td>
+                {{$d->nama}}<br>
+                ({{$d->nip}})
+            </td>
+            <td>
+                - Penetap: {{$d->penetap_sk}} <br>
+                - NO. {{$d->no_sk}} <br>
+                - TGL. {{date("d/m/Y", strtotime($d->tgl_penetapan_sk))}} <br>
+                - TMT. {{date("d/m/Y", strtotime($d->tgl_mulai_tugas))}}
+            </td>
+            <!-- <td>{{date("d/m/Y", strtotime($d->tgl_penetapan_sk))}}</td>
+            <td>{{$d->no_sk}}</td>
+            <td>{{date("d/m/Y", strtotime($d->tgl_mulai_tugas))}}</td> -->
+            <td style="text-align: center;">Ke-{{$d->kontrak_ke}}</td>
+            <td>{{$d->masa_kerja}}</td>
+            <td>Rp. {{number_format($d->gaji_pokok,2,',','.')}}</td>
+            <td>{{$d->jabatan}}</td>
+            <td>{{$d->jenis_kelamin}}</td>
+            <td>{{$d->no_hp}}</td>
+        </tr>
+        @endforeach
+    </table>
+    @break
+    
+    @case('semua-pegawai')
+    <table class="my-table" cellpadding="5" border="1">
+        <tr>
+            <th style="width: 150px;">Nama</th>
+            <th>NIP/NIK</th>
+            <th>Jabatan</th>
+            <th>Status Pegawai</th>
+            <th>Bidang</th>
+            <th>Jenis Kelamin</th>
+            <th>No. HP</th>
+        </tr>
+        @foreach($data as $d)
+        <tr>
+            <td>{{$d->nama}}</td>
+            <td>({{$d->nip ? $d->nip : $d->nik}})</td>
+            <td>{{$d->jabatan}}</td>
+            <td align="center">{{$d->status_pegawai}}</td>
+            <td>{{$d->bidang}}</td>
+            <td>{{$d->jenis_kelamin}}</td>
+            <td>{{$d->no_hp}}</td>
+        </tr>
+        @endforeach
+    </table>
+    @break
+
+    @default
+
+    @endswitch
+
+    <!-- End of Content -->
+
+    @include('templates.ttd')
 </body>
 
 </html>
