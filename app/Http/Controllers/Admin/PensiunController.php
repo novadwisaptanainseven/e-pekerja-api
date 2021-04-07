@@ -14,6 +14,10 @@ class PensiunController extends Controller
     {
         $data = Pensiun::getAll();
 
+        foreach ($data as $i => $item) {
+            $item->no = $i + 1;
+        }
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data pensiun",
             "data" => $data
@@ -134,6 +138,28 @@ class PensiunController extends Controller
         } else {
             return response()->json([
                 "message" => "Berhasil menghapus data pensiun dengan id: {$id_pensiun}",
+                "deleted_data" => $data
+            ], 201);
+        }
+    }
+
+    // Batalkan Pensiun
+    public function batalkanPensiun($id_pensiun)
+    {
+        // Get data penghargaan by id
+        $data = Pensiun::where('id_pensiun', '=', $id_pensiun)
+            ->first();
+
+        $batal = Pensiun::batalkanPensiun($id_pensiun);
+
+        if ($batal === 404) {
+            // Jika data pensiun tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data pensiun dengan id: {$id_pensiun} tidak ditemukan",
+            ], 404);
+        } else {
+            return response()->json([
+                "message" => "Berhasil membatalkan pensiun untuk pegawai dengan id: {$data->id_pegawai}",
                 "deleted_data" => $data
             ], 201);
         }

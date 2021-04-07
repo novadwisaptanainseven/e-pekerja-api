@@ -353,7 +353,7 @@ Route::prefix('v1/admin/')->group(function () {
             // Detail Penghargaan
             Route::get("penghargaan/{id_penghargaan}", [AdminPenghargaanController::class, "getById"]);
             // Edit Penghargaan
-            Route::put("penghargaan/{id_penghargaan}", [AdminPenghargaanController::class, "edit"]);
+            Route::post("penghargaan/{id_penghargaan}", [AdminPenghargaanController::class, "edit"]);
             // Delete Penghargaan
             Route::delete("penghargaan/{id_penghargaan}", [AdminPenghargaanController::class, "delete"]);
 
@@ -368,6 +368,8 @@ Route::prefix('v1/admin/')->group(function () {
             Route::put("pensiun/{id_pensiun}", [PensiunController::class, "edit"]);
             // Delete Pensiun
             Route::delete("pensiun/{id_pensiun}", [PensiunController::class, "delete"]);
+            // Batalkan Pensiun
+            Route::delete("pensiun-batal/{id_pensiun}", [PensiunController::class, "batalkanPensiun"]);
 
             // GROUP USERS
             // Get All Users

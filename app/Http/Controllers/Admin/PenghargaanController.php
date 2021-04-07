@@ -93,7 +93,7 @@ class PenghargaanController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                "nama_penerima"    => "required",
+                "id_pegawai"       => "required",
                 "nama_penghargaan" => "required",
                 "pemberi"          => "required",
                 "tgl_penghargaan"  => "required",

@@ -119,7 +119,7 @@ class Penghargaan extends Model
         }
 
         $data = [
-            "nama_penerima"   => $req->nama_penerima ? $req->nama_penerima : $penghargaan->nama_penerima,
+            "id_pegawai"   => $req->id_pegawai ? $req->id_pegawai : $penghargaan->id_pegawai,
             "nama_penghargaan"   => $req->nama_penghargaan ? $req->nama_penghargaan : $penghargaan->nama_penghargaan,
             "pemberi"  => $req->pemberi ? $req->pemberi : $penghargaan->pemberi,
             "tgl_penghargaan" => $req->tgl_penghargaan ? $req->tgl_penghargaan : $penghargaan->tgl_penghargaan,
