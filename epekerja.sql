@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2021 at 02:51 AM
+-- Generation Time: Apr 08, 2021 at 10:02 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -43,15 +43,22 @@ CREATE TABLE `absensi` (
 --
 
 INSERT INTO `absensi` (`id_absensi`, `id_pegawai`, `tgl_absen`, `hari`, `absen`, `keterangan`, `created_at`, `updated_at`) VALUES
-(1, 5, '2021-02-01', 'senin', 1, 'edited', '2021-02-24 02:28:29', '2021-02-24 03:36:44'),
-(2, 5, '2021-02-02', 'selasa', 1, 'edited', '2021-02-24 02:35:07', '2021-02-24 03:37:28'),
-(3, 5, '2021-02-03', 'rabu', 2, 'Ada acara pernikahan keluarga', '2021-02-24 02:35:49', '2021-02-24 02:35:49'),
-(4, 5, '2021-02-04', 'kamis', 3, 'Sakit demam', '2021-02-24 02:36:29', '2021-02-24 02:36:29'),
-(5, 5, '2021-02-05', 'jumat', 0, NULL, '2021-02-24 02:39:24', '2021-02-24 02:39:24'),
-(6, 5, '2018-02-06', 'sabtu', 4, NULL, '2021-02-24 02:39:53', '2021-02-24 05:28:40'),
-(9, 22, '2021-02-06', 'sabtu', 4, NULL, '2021-02-24 06:58:02', '2021-02-24 06:58:02'),
-(10, 22, '2021-02-07', 'senin', 3, 'Sakit hati', '2021-02-24 06:58:25', '2021-02-24 06:58:25'),
-(11, 5, '2021-02-03', 'rabu', 2, 'Ada acara pernikahan keluarga', '2021-02-24 07:38:36', '2021-02-24 07:38:36');
+(2, 5, '2021-04-02', 'jumat', 1, 'lorem ipsum dolor sit amet', '2021-04-01 04:31:19', '2021-04-01 04:31:19'),
+(3, 5, '2021-04-03', 'sabtu', 2, 'lorem ipsum dolor sit amet', '2021-04-01 04:31:29', '2021-04-01 04:31:29'),
+(4, 5, '2021-03-01', 'senin', 1, 'lorem ipsum dolor sit amet', '2021-04-01 05:52:02', '2021-04-01 05:52:02'),
+(5, 5, '2021-03-02', 'selasa', 2, 'lorem ipsum dolor sit amet edit', '2021-04-01 05:52:11', '2021-04-01 05:52:11'),
+(6, 5, '2021-03-03', 'rabu', 1, 'lorem ipsum dolor sit amet edit', '2021-04-01 05:52:21', '2021-04-01 05:52:21'),
+(7, 5, '2021-03-04', 'kamis', 3, 'lorem ipsum dolor sit amet edit', '2021-04-01 05:52:27', '2021-04-01 05:52:27'),
+(8, 5, '2020-01-01', 'rabu', 1, 'lorem ipsum dolor sit amet', '2021-04-01 06:14:02', '2021-04-01 06:14:02'),
+(9, 5, '2021-04-04', 'minggu', 1, 'Hadir', '2021-04-01 06:26:41', '2021-04-01 06:27:00'),
+(10, 5, '2021-03-30', 'selasa', 2, 'lorem ipsum dolor sit amet123', '2021-04-01 07:01:54', '2021-04-05 02:14:54'),
+(19, 5, '2021-04-05', 'senin', 1, 'lorem ipsum dolor sit amet', '2021-04-05 02:19:26', '2021-04-05 02:19:26'),
+(20, 7, '2021-04-05', 'senin', 1, 'Hadir', '2021-04-05 03:41:01', '2021-04-05 03:41:01'),
+(21, 13, '2021-04-01', 'kamis', 1, 'Hadir', '2021-04-05 03:52:10', '2021-04-05 03:52:10'),
+(22, 18, '2021-04-01', 'kamis', 2, 'Sakit demam', '2021-04-05 04:03:57', '2021-04-05 04:03:57'),
+(23, 18, '2021-04-02', 'jumat', 1, 'lorem ipsum dolor sit amet edit', '2021-04-05 04:04:04', '2021-04-05 04:04:04'),
+(24, 5, '2021-04-01', 'kamis', 1, 'Hadir', '2021-04-05 07:37:29', '2021-04-05 07:37:29'),
+(25, 5, '2021-04-16', 'jumat', 5, 'Sakit demam', '2021-04-05 07:37:40', '2021-04-05 07:37:51');
 
 -- --------------------------------------------------------
 
@@ -142,9 +149,13 @@ CREATE TABLE `cuti` (
 --
 
 INSERT INTO `cuti` (`id_cuti`, `id_pegawai`, `lama_cuti`, `keterangan`, `tgl_mulai`, `tgl_selesai`, `status_cuti`, `created_at`, `updated_at`) VALUES
-(1, 5, '14 Hari', 'Isolasi mandiri 14 hari', '2021-02-10', '2021-02-24', 0, '2021-02-22 05:11:08', '2021-02-22'),
 (2, 5, '1 Bulan', 'Liburan ke Amerika Serikat', '2021-02-10', '2021-02-24', 0, '2021-02-22 05:14:30', NULL),
-(3, 5, '1 Minggu', 'Daftar CPNS', '2021-02-20', '2021-02-27', 0, '2021-02-22 05:15:08', NULL);
+(3, 5, '1 Minggu', 'Daftar CPNS', '2021-02-20', '2021-02-27', 0, '2021-02-22 05:15:08', NULL),
+(5, 5, '1 hari', 'lorem ipsum dolor sit amet', '2021-03-26', '2021-03-27', 0, '2021-03-26 02:46:22', '2021-03-29'),
+(6, 5, '1 hari', 'lorem ipsum dolor sit amet', '2021-03-30', '2021-04-06', 0, '2021-03-26 03:14:45', '2021-03-29'),
+(7, 5, '1 bulan', 'lorem ipsum dolor sit amet', '2021-03-27', '2021-04-26', 0, '2021-03-26 03:18:13', NULL),
+(8, 7, '6 hari', 'lorem ipsum dolor sit amet edit', '2021-03-28', '2021-04-03', 0, '2021-03-26 03:21:24', '2021-03-29'),
+(9, 24, '3 hari', 'lorem ipsum dolor sit amet', '2021-03-29', '2021-04-01', 0, '2021-03-29 06:59:26', NULL);
 
 -- --------------------------------------------------------
 
@@ -169,7 +180,9 @@ CREATE TABLE `diklat` (
 
 INSERT INTO `diklat` (`id_diklat`, `id_pegawai`, `jenis_diklat`, `nama_diklat`, `penyelenggara`, `tahun_diklat`, `jumlah_jam`, `dokumentasi`) VALUES
 (1, 5, 'Jenis Diklat', 'Adumla', 'Walikota Samarinda', '1997', 500, 'images/ijazah/961613625299-react.png'),
-(2, 5, 'Jenis Diklat 2', 'Adumla 2', 'Walikota Samarinda 2', '1997', 500, 'images/ijazah/57961613625332-react.png');
+(2, 5, 'Jenis Diklat 2', 'Adumla 2', 'Walikota Samarinda 2', '1997', 500, 'images/ijazah/57961613625332-react.png'),
+(4, 33, 'Jenis Diklat 1', 'Adumla', 'Walikota Samarinda', '2001', 198, 'images/dok_diklat/26261616395967-file-pdf.pdf'),
+(5, 33, 'Jenis Diklat 2', 'Diklat PIM TK.1', 'Walikota Samarinda', '2005', 150, 'images/dok_diklat/49151616396055-file-pdf.pdf');
 
 -- --------------------------------------------------------
 
@@ -188,10 +201,10 @@ CREATE TABLE `duk_pegawai` (
 --
 
 INSERT INTO `duk_pegawai` (`id_duk`, `id_pegawai`, `catatan_mutasi`) VALUES
-(1, 9, 'Kepala Dinas Kebersihan dan Pertamanan 123'),
+(1, 9, 'Kepala Dinas Kebersihan dan Pertamanan'),
 (3, 24, '-'),
 (4, 25, '-'),
-(5, 32, '-');
+(6, 33, 'Dinas Lingkungan Hidup');
 
 -- --------------------------------------------------------
 
@@ -302,8 +315,12 @@ INSERT INTO `kgb` (`id_kgb`, `id_pegawai`, `gaji_pokok_lama`, `gaji_pokok_baru`,
 (1, 5, 3831900, 3952600, '2021-02-01', 'PP No. 30 Tahun 2015', NULL, '2023-02-01', '2021-02-22', NULL),
 (2, 5, 3952600, 4500000, '2023-02-01', 'PP No. 30 Tahun 2015', NULL, '2025-02-01', '2021-02-22', NULL),
 (3, 5, 4500000, 5000000, '2025-02-01', 'PP No. 30 Tahun 2015', NULL, '2028-04-03', '2021-02-22', NULL),
-(6, 5, 1000, 100, '2021-02-01', 'edit', NULL, '2021-02-01', '2021-02-22', '2021-02-22'),
-(7, 5, 4500000, 5000000, '2025-02-01', 'PP No. 30 Tahun 2015', NULL, '2028-04-03', '2021-03-10', NULL);
+(7, 5, 4500000, 5000000, '2025-02-01', 'PP No. 30 Tahun 2015', NULL, '2028-04-03', '2021-03-10', NULL),
+(8, 5, 5000000, 5500000, '2021-03-24', 'Peraturan KGB', NULL, '2021-03-26', '2021-03-24', NULL),
+(10, 7, 1500000, 1800000, '2021-03-26', 'Peraturan KGB', NULL, '2021-03-28', '2021-03-24', NULL),
+(11, 7, 1800000, 2000000, '2021-03-26', 'Peraturan KGB', NULL, '2021-03-28', '2021-03-24', NULL),
+(12, 7, 2000000, 2300000, '2021-03-24', 'Peraturan KGB', NULL, '2021-03-26', '2021-03-24', NULL),
+(13, 5, 5500000, 6000000, '2021-03-22', 'Peraturan KGB', NULL, '2021-03-25', '2021-03-24', NULL);
 
 -- --------------------------------------------------------
 
@@ -327,11 +344,11 @@ CREATE TABLE `masa_kerja_pegawai` (
 
 INSERT INTO `masa_kerja_pegawai` (`id_masa_kerja`, `id_pegawai`, `mk_jabatan`, `mk_sebelum_cpns`, `mk_golongan`, `mk_seluruhnya`, `updated_at`) VALUES
 (4, 5, '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2021-02-22 01:26:01'),
-(5, 7, '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2021-02-16 07:54:40'),
-(7, 9, '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2021-02-17 03:12:10'),
+(5, 7, '8 Tahun 2 Bulan', '22 Tahun 8 Bulan', '3 Tahun 4 Bulan', '15 Tahun 6 Bulan', '2021-03-23 03:28:27'),
+(7, 9, '2 Tahun 4 Bulan', '12 Tahun 6 Bulan', '3 Tahun 5 Bulan', '2 Tahun 4 Bulan', '2021-03-23 03:30:05'),
 (9, 24, '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2 tahun 4 bulan', '2021-03-09 04:34:27'),
 (10, 25, '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2021-03-09 06:44:30'),
-(11, 32, 'dsd', 'sdsd', 'sdsd', 'sdsd', '2021-03-18 03:50:15');
+(12, 33, '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2 Tahun 3 Bulan', '2021-03-19 02:49:16');
 
 -- --------------------------------------------------------
 
@@ -433,7 +450,7 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `pegawai` (
   `id_pegawai` int(11) NOT NULL,
-  `id_sub_bidang` int(11) NOT NULL,
+  `id_bidang` int(11) DEFAULT NULL,
   `id_status_pegawai` int(11) NOT NULL,
   `id_jabatan` int(11) DEFAULT NULL,
   `id_golongan` int(11) DEFAULT NULL,
@@ -462,20 +479,22 @@ CREATE TABLE `pegawai` (
 -- Dumping data for table `pegawai`
 --
 
-INSERT INTO `pegawai` (`id_pegawai`, `id_sub_bidang`, `id_status_pegawai`, `id_jabatan`, `id_golongan`, `id_eselon`, `id_agama`, `nip`, `nama`, `alamat`, `tempat_lahir`, `tgl_lahir`, `jenis_kelamin`, `karpeg`, `bpjs`, `npwp`, `tmt_golongan`, `tmt_cpns`, `tmt_jabatan`, `no_hp`, `gaji_pokok`, `foto`, `status_kerja`, `id_user`) VALUES
+INSERT INTO `pegawai` (`id_pegawai`, `id_bidang`, `id_status_pegawai`, `id_jabatan`, `id_golongan`, `id_eselon`, `id_agama`, `nip`, `nama`, `alamat`, `tempat_lahir`, `tgl_lahir`, `jenis_kelamin`, `karpeg`, `bpjs`, `npwp`, `tmt_golongan`, `tmt_cpns`, `tmt_jabatan`, `no_hp`, `gaji_pokok`, `foto`, `status_kerja`, `id_user`) VALUES
 (5, 1, 1, 1, 1, 1, 1, '196511235 343432 3432', 'Ir. H. Dadang N, MMT', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', '6563442', '23123123', '12321323', '2021-10-10', '2021-10-10', '2021-10-10', '08123455674', 5000000, 'images/foto/14471613461591-react.png', 'aktif', 0),
 (7, 1, 1, 1, 1, 1, 1, '196511235 343432 1232', 'Nova Dwi Sapta Nain Seven', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', '6563442', '23123123', '12321323', '2021-10-10', '2021-10-10', '2021-10-10', '08123455674', 1000000, 'images/foto/26601615775369-3x4-resize.jpg', 'aktif', 0),
-(9, 3, 1, 1, 1, 1, 1, '196511235 343432 3432123', 'Iqbal Wahyudi', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', '6563442', '23123123', '12321323', '2021-10-10', '2021-10-10', '2021-10-10', '08123455674', 0, 'images/foto/98981613531530-react.png', 'aktif', 0),
-(13, 1, 2, 7, NULL, NULL, 1, NULL, 'Deddy Corbuzier', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, '123123', '123123', NULL, NULL, NULL, '08123453213', 0, 'images/foto/95541613537480-583px-logo-kota-samarinda.png', 'aktif', 0),
-(14, 1, 2, 2, NULL, NULL, 1, NULL, 'Uzumaki Naruto', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, '123123', '123123', NULL, NULL, NULL, '08123453213', 0, 'images/foto/23861615861451-foto1.jpg', 'aktif', 0),
+(9, 1, 1, 1, 1, 1, 1, '196511235 343432 3432123', 'Iqbal Wahyudi', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', '6563442', '23123123', '12321323', '2021-10-10', '2021-10-10', '2021-10-10', '08123455674', 0, 'images/foto/98981613531530-react.png', 'aktif', 0),
+(13, 2, 2, 7, NULL, NULL, 1, NULL, 'Deddy Corbuzier', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, '123123', '123123', NULL, NULL, NULL, '08123453213', 0, 'images/foto/95541613537480-583px-logo-kota-samarinda.png', 'aktif', 0),
+(14, 2, 2, 2, NULL, NULL, 1, NULL, 'Uzumaki Naruto', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, '123123', '123123', NULL, NULL, NULL, '08123453213', 0, 'images/foto/23861615861451-foto1.jpg', 'aktif', 0),
 (18, 1, 3, 5, NULL, NULL, 1, '123456', 'Ariana Grande 123', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Perempuan', NULL, '123123', '123123', NULL, NULL, NULL, '08123453213', 0, 'images/foto/73151613548996-583px-logo-kota-samarinda.png', 'aktif', 0),
-(19, 1, 3, 5, NULL, NULL, 1, '198009142008011023', 'Iker Casillas', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, '123123', '123123', NULL, NULL, NULL, '08123453213', 0, 'images/foto/46091613548625-583px-logo-kota-samarinda.png', 'aktif', 0),
-(22, 1, 2, 6, NULL, NULL, 1, NULL, 'Ma\'ruf', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, '123123', '123123', NULL, NULL, NULL, '08123453213', 0, 'images/foto/92731615870141-foto2.jpg', 'aktif', 0),
+(19, 2, 3, 5, NULL, NULL, 1, '198009142008011023', 'Iker Casillas', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, '123123', '123123', NULL, NULL, NULL, '08123453213', 0, 'images/foto/46091613548625-583px-logo-kota-samarinda.png', 'aktif', 0),
+(22, 3, 2, 6, NULL, NULL, 1, NULL, 'Ma\'ruf', 'Jalan Slamet Riyadi', 'Tanjung Redeb', '1997-11-27', 'Laki - Laki', NULL, '123123', '123123', NULL, NULL, NULL, '08123453213', 0, 'images/foto/92731615870141-foto2.jpg', 'pensiun', 0),
 (24, 3, 1, 1, 4, 1, 3, '12345', 'Yuki Kato', 'Jalan Slamet Riyadi', 'Samarinda', '1997-11-27', 'Perempuan', '6563442', '23123123', '12321323', '2021-10-10', '2021-10-10', '2021-10-10', '08123455674', 0, 'images/foto/77001615264466-3x4-resize.jpg', 'aktif', NULL),
-(25, 1, 1, 5, 2, 2, 1, '123456', 'Fitri Tropica S.E', 'Jalan Pangeran Antasari', 'Tanjung Redeb', '2021-03-19', 'Perempuan', '123', '123', '773806096722000', '2021-03-05', '2021-03-09', '2021-03-09', '08123456789', 0, 'images/foto/42271615349916-react.png', 'aktif', NULL),
-(26, 3, 2, 7, NULL, NULL, 1, NULL, 'Irman Maulana', 'Jalan KH. Agus Salim', 'Samarinda', '2021-03-09', 'Laki - Laki', NULL, '123', '123', NULL, NULL, NULL, '08123456789', 0, 'images/foto/51631615789776-foto1.jpg', 'aktif', NULL),
-(30, 1, 3, 6, NULL, NULL, 2, '198009142008011023', 'Ilham Dwi Arifin', 'Jalan AWS. Syahranie 3', 'Kutai Barat', '2000-10-08', 'Laki - Laki', NULL, '123', '123', NULL, NULL, NULL, '08123456789', 0, 'images/foto/38451615956842-foto2.jpg', 'aktif', NULL),
-(32, 3, 1, 5, 1, 2, 1, '1234test', 'Muhammad Yudi', 'sdsds', 'Tenggarong', '2021-03-17', 'Laki - Laki', '6563442', 'sdsd', 'sdsd', '2021-03-01', '2021-03-10', '2021-03-17', '08123453213', 1350000, 'images/foto/18891616039414-foto2.jpg', 'aktif', NULL);
+(25, 3, 1, 5, 2, 2, 1, '123456', 'Fitri Tropica S.E', 'Jalan Pangeran Antasari', 'Tanjung Redeb', '2021-03-19', 'Perempuan', '123', '123', '773806096722000', '2021-03-05', '2021-03-09', '2021-03-09', '08123456789', 0, 'images/foto/42271615349916-react.png', 'aktif', NULL),
+(26, 8, 2, 7, NULL, NULL, 1, NULL, 'Irman Maulana', 'Jalan KH. Agus Salim', 'Samarinda', '2021-03-09', 'Laki - Laki', NULL, '123', '123', NULL, NULL, NULL, '08123456789', 0, 'images/foto/51631615789776-foto1.jpg', 'aktif', NULL),
+(30, 8, 3, 6, NULL, NULL, 2, '198009142008011023', 'Ilham Dwi Arifin', 'Jalan AWS. Syahranie 3', 'Kutai Barat', '2000-10-08', 'Laki - Laki', NULL, '123', '123', NULL, NULL, NULL, '08123456789', 0, 'images/foto/38451615956842-foto2.jpg', 'aktif', NULL),
+(33, 1, 1, 5, 9, 3, 1, '198009142008011024', 'Roman Apricon', 'Jalan Cipto Mangunkusumo', 'Berau', '1997-03-17', 'Laki - Laki', '6563442', '123123', '12321323', '2021-03-19', '2021-03-19', '2021-03-12', '08123456789', 1350000, 'images/foto/87501616122155-foto1.jpg', 'pensiun', NULL),
+(35, 2, 2, 12, NULL, NULL, 3, NULL, 'Andi Sadam Anan', 'Jalan Cipto Mangunkusumo', 'Balikpapan', '2021-03-03', 'Laki - Laki', NULL, '123', '123', NULL, NULL, NULL, '123', 0, 'images/foto/39761616124618-foto2.jpg', 'aktif', NULL),
+(36, 8, 3, 18, NULL, NULL, 1, '1999283847134', 'Rani Nurani', 'Jalan Pangeran Antasari', 'Tanjung Redeb', '2021-03-19', 'Perempuan', NULL, '23123123', '12321323', NULL, NULL, NULL, '08123456789', 0, 'images/foto/31461616133343-foto4.jpg', 'aktif', NULL);
 
 -- --------------------------------------------------------
 
@@ -513,7 +532,9 @@ INSERT INTO `pendidikan` (`id_pendidikan`, `id_pegawai`, `jenjang`, `nama_akadem
 (20, 7, 'S1', 'Universitas Mulawarman', 'Ekonomi', '1234', '2018', 'images/ijazah/22861615527331-ijazah-sample.jpg'),
 (22, 26, 'D3', 'STIMIK WICIDA', 'Manajemen Informatika', '123', '2018', 'images/ijazah/92301615789777-ijazah-sample.jpg'),
 (24, 30, 'S1', 'Widya Gama', 'Hukum', '123', '2018', 'images/ijazah/84611615956842-ijazah-sample.jpg'),
-(26, 32, 'smp', 'sdsd', 'sdsd', 'sdsd', 'sdsd', 'images/ijazah/90431616039415-ijazah-sample.jpg');
+(27, 33, 'S1', 'Politeknik Negeri Samarinda', 'Teknologi Informasi', '2323211', '2018', 'images/ijazah/57871616122156-ijazah-sample.jpg'),
+(29, 35, 'S1', 'Politeknik Negeri Samarinda', 'Teknologi Informasi', '2323211', '2021', 'images/ijazah/23651616124618-ijazah-sample.jpg'),
+(30, 36, 'S1', 'Universitas Mulawarman', 'Ilmu Pemerintahan', '2323211', '2017', 'images/ijazah/32991616130877-ijazah-sample.jpg');
 
 -- --------------------------------------------------------
 
@@ -538,12 +559,13 @@ CREATE TABLE `penghargaan` (
 INSERT INTO `penghargaan` (`id_penghargaan`, `id_pegawai`, `nama_penerima`, `nama_penghargaan`, `pemberi`, `tgl_penghargaan`, `dokumentasi`) VALUES
 (1, 5, NULL, 'Penghargaan sebagai Kepala Dinas Terbaik 2021', 'Walikota Samarinda', '2021-12-10', 'images/dok_penghargaan/85301613634561-file-pdf.pdf'),
 (2, 5, NULL, 'Penghargaan sebagai Kepala Dinas Terbaik 2021 2', 'Walikota Samarinda 2', '2021-12-10', 'images/dok_penghargaan/42691613634587-file-pdf.pdf'),
-(5, NULL, 'Rony Purnomo', 'Futsal juara 3', 'Gubernur Kaltim', '2021-10-08', 'images/dok_penghargaan/99161614216695-file-pdf.pdf'),
-(6, NULL, 'Rony Purnomo', 'Futsal juara 3', 'Gubernur Kaltim', '2021-10-08', ''),
-(7, NULL, 'Rony Purnomo', 'Futsal juara 3', 'Gubernur Kaltim', '2021-10-08', ''),
+(7, 14, 'Rony Purnomo', 'Futsal juara 3', 'Gubernur Kaltim', '2021-10-08', ''),
 (8, 9, 'Rony Purnomo', 'Futsal juara 3', 'Gubernur Kaltim', '2021-10-08', ''),
 (9, 7, NULL, 'Penghargaan atas kepimpinan selama bekerja', 'Walikota Samarinda', '2021-03-15', 'images/dok_penghargaan/95971615771010-sertifikat-sample.JPG'),
-(10, 13, NULL, 'Penghargaan atas kepimpinan selama bekerja 2', 'Walikota Samarinda', '2021-03-17', 'images/dok_penghargaan/91471615951069-sertifikat-sample.JPG');
+(10, 13, NULL, 'Penghargaan atas kepimpinan selama bekerja 2', 'Walikota Samarinda', '2021-03-17', 'images/dok_penghargaan/91471615951069-sertifikat-sample.JPG'),
+(11, 24, NULL, 'Penghargaan atas kepimpinan selama bekerja testing', 'Walikota Samarinda', '2021-04-07', 'images/dok_penghargaan/15801617763499-sertifikat-sample.JPG'),
+(12, 7, NULL, 'Penghargaan atas kepimpinan selama bekerja 2', 'Walikota Samarinda', '2021-04-07', 'images/dok_penghargaan/70611617758906-file-pdf.pdf'),
+(13, 13, NULL, 'Penghargaan atas kepimpinan selama bekerja', 'Walikota Samarinda', '2021-04-05', 'images/dok_penghargaan/23861617761414-sertifikat-sample.JPG');
 
 -- --------------------------------------------------------
 
@@ -566,7 +588,8 @@ CREATE TABLE `pensiun` (
 --
 
 INSERT INTO `pensiun` (`id_pensiun`, `id_pegawai`, `tgl_pensiun`, `keterangan`, `status_pensiun`, `created_at`, `updated_at`) VALUES
-(1, 5, '2021-10-08', 'Mutasi', 2, '2021-02-25 02:13:22', '2021-02-25');
+(5, 22, '2021-04-07', 'Mencapai umur 65 Tahun', 1, '2021-04-07 05:50:34', NULL),
+(6, 33, '2021-04-09', 'Memutuskan berhenti untuk beristirahat', 1, '2021-04-07 05:51:00', '2021-04-08');
 
 -- --------------------------------------------------------
 
@@ -593,7 +616,7 @@ CREATE TABLE `personal_access_tokens` (
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES
 (1, 'App\\Models\\User', 1, 'user-token', 'e6084ed5de45048b2e4715d19424cbe69395030c7a71b9428afc5b37d81adb47', '[\"*\"]', '2021-02-24 20:29:53', '2021-02-24 20:28:24', '2021-02-24 20:29:53'),
 (3, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'dd340c094e7370645137d020e2c72ed37746d3513c190c369b9321f10fdc4d6f', '[\"*\"]', '2021-02-28 19:27:44', '2021-02-25 22:44:43', '2021-02-28 19:27:44'),
-(4, 'App\\Models\\User', 2, 'novadwisaptanainseven', '116dc1f16304417c12a9c8fcae3df62aca14e03e9c4283e43417674b67907617', '[\"*\"]', '2021-03-11 19:26:16', '2021-02-28 18:28:04', '2021-03-11 19:26:16'),
+(4, 'App\\Models\\User', 2, 'novadwisaptanainseven', '116dc1f16304417c12a9c8fcae3df62aca14e03e9c4283e43417674b67907617', '[\"*\"]', '2021-04-05 20:30:22', '2021-02-28 18:28:04', '2021-04-05 20:30:22'),
 (5, 'App\\Models\\User', 3, 'iqbalwahyudi', '17bf2c6e7b2d44460536e59d9558b09013c19ebe540b6e3129447e3f716779bd', '[\"*\"]', '2021-02-28 19:55:25', '2021-02-28 19:52:53', '2021-02-28 19:55:25'),
 (6, 'App\\Models\\User', 3, 'iqbalwahyudi', '56d67705cf4a6287a99d01bf6b26d9104938e8b5c2716ecb08ae8d370700fa0e', '[\"*\"]', NULL, '2021-03-02 22:16:46', '2021-03-02 22:16:46'),
 (7, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'c872e6562a64a86cadf6e7d6e0021238ad819cb7a9f5e1005754dd364a95d54d', '[\"*\"]', NULL, '2021-03-02 23:08:21', '2021-03-02 23:08:21'),
@@ -629,7 +652,23 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (44, 'App\\Models\\User', 2, 'novadwisaptanainseven', '6241f2e294bbc8d795ef4e04652a25e9113e4175833c86a42306127e6d37d2ac', '[\"*\"]', '2021-03-15 21:21:55', '2021-03-15 17:16:56', '2021-03-15 21:21:55'),
 (45, 'App\\Models\\User', 2, 'novadwisaptanainseven', '961572be0c0fa76fabd89a91f47b59822c3cfa62640c11b13638f61d02489e15', '[\"*\"]', '2021-03-16 22:43:01', '2021-03-16 18:17:15', '2021-03-16 22:43:01'),
 (46, 'App\\Models\\User', 2, 'novadwisaptanainseven', '9fc9237d4858147b4a32b2fa6916977743f4439d55466545d57e2e2a7a23a85e', '[\"*\"]', '2021-03-18 00:25:51', '2021-03-17 17:25:17', '2021-03-18 00:25:51'),
-(47, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'd467d677936ef69131a15bc08b700ee6fad721fc990820556d797b6ed2c19295', '[\"*\"]', '2021-03-18 17:47:12', '2021-03-18 17:43:25', '2021-03-18 17:47:12');
+(47, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'd467d677936ef69131a15bc08b700ee6fad721fc990820556d797b6ed2c19295', '[\"*\"]', '2021-03-18 21:56:04', '2021-03-18 17:43:25', '2021-03-18 21:56:04'),
+(48, 'App\\Models\\User', 2, 'novadwisaptanainseven', '8194250c0f71201d5d688f8f0963782b23c513d2266b7dfb59d04557773a1ed4', '[\"*\"]', '2021-03-21 22:55:00', '2021-03-21 17:44:03', '2021-03-21 22:55:00'),
+(49, 'App\\Models\\User', 2, 'novadwisaptanainseven', '2978492f1ab933aeb3ca47ae0a44d32875d1179de64c049173a109c6e451387d', '[\"*\"]', '2021-03-22 23:44:48', '2021-03-22 17:59:07', '2021-03-22 23:44:48'),
+(50, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'a225da660c6dc57d52e26fdfd4214256e3981b78db22a9ad228885f4b40f89fc', '[\"*\"]', '2021-03-23 23:37:34', '2021-03-23 17:09:41', '2021-03-23 23:37:34'),
+(51, 'App\\Models\\User', 2, 'novadwisaptanainseven', '93fbe2934a21d6fb27a4a36c578c8fda02fbef0856285b269cfcd2225988fd05', '[\"*\"]', '2021-03-24 18:16:16', '2021-03-24 18:15:02', '2021-03-24 18:16:16'),
+(52, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'c40d0be476e1cbc6cef11a9d6019d8213068d680bfa43fee63b28529bae40c01', '[\"*\"]', '2021-03-24 21:57:22', '2021-03-24 18:25:57', '2021-03-24 21:57:22'),
+(53, 'App\\Models\\User', 2, 'novadwisaptanainseven', '6838230a7ac68d5a5e862b7f232d74124e221e64cc24d69a687674d608ab8dec', '[\"*\"]', '2021-03-25 19:23:23', '2021-03-25 16:46:59', '2021-03-25 19:23:23'),
+(54, 'App\\Models\\User', 2, 'novadwisaptanainseven', '442ef03757cbe11e09eebc5134a9903a7b6bf7bf07aa1f33ea63e4f6b790a842', '[\"*\"]', '2021-03-28 23:54:22', '2021-03-28 18:48:49', '2021-03-28 23:54:22'),
+(55, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'b8388480082498d6f5374354e76a6929c675c6721922eb6ece2ac67996500d4f', '[\"*\"]', '2021-03-29 19:45:51', '2021-03-29 17:03:42', '2021-03-29 19:45:51'),
+(56, 'App\\Models\\User', 2, 'novadwisaptanainseven', '75392d0364c9b0b5a555267de3689116ff8c4c70c4c104dc37234d629588c398', '[\"*\"]', '2021-03-29 23:45:59', '2021-03-29 19:47:32', '2021-03-29 23:45:59'),
+(57, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'f62dbdbb293357a47fcd9149f7825f8539c8fd95d4b88898a6b472599bcf8b77', '[\"*\"]', '2021-03-31 22:33:34', '2021-03-31 17:17:37', '2021-03-31 22:33:34'),
+(58, 'App\\Models\\User', 2, 'novadwisaptanainseven', 'a638898dc3c10f96d0cd526de5facb3dd74cb25f979412b1efbaae4d712fe04a', '[\"*\"]', '2021-03-31 23:23:47', '2021-03-31 22:49:22', '2021-03-31 23:23:47'),
+(59, 'App\\Models\\User', 2, 'novadwisaptanainseven', '131ab285e755f43615d3aa125b787befff9b33a317d46c1ff7b5b3956160b6c5', '[\"*\"]', '2021-04-01 21:45:03', '2021-04-01 17:49:35', '2021-04-01 21:45:03'),
+(60, 'App\\Models\\User', 2, 'novadwisaptanainseven', '7e9d52dcfebaa5cc03aa6f4c3ccd7e6c0d23184c68663c89b73bab4df20f7ade', '[\"*\"]', '2021-04-04 23:48:23', '2021-04-04 18:10:26', '2021-04-04 23:48:23'),
+(61, 'App\\Models\\User', 2, 'novadwisaptanainseven', '91678e3ab1f0d1406d920885f5c36a83dfde28b9afb7801001c9073f4dbae70f', '[\"*\"]', '2021-04-05 23:01:22', '2021-04-05 17:43:51', '2021-04-05 23:01:22'),
+(62, 'App\\Models\\User', 2, 'novadwisaptanainseven', '91ce9fe8dcf00cef9aedd468cd932e7edc3fbc3056175b3dc2f2b3f21332133b', '[\"*\"]', '2021-04-06 22:20:46', '2021-04-06 17:12:17', '2021-04-06 22:20:46'),
+(63, 'App\\Models\\User', 2, 'novadwisaptanainseven', '5125b3d904d6ee7b7e209a98ff1f362748a125146ee9dadf82f8a46a6a4d2bfe', '[\"*\"]', '2021-04-07 22:46:38', '2021-04-07 19:31:27', '2021-04-07 22:46:38');
 
 -- --------------------------------------------------------
 
@@ -658,7 +697,8 @@ CREATE TABLE `pttb` (
 INSERT INTO `pttb` (`id_pttb`, `id_pegawai`, `nip`, `penetap_sk`, `tgl_penetapan_sk`, `no_sk`, `tgl_mulai_tugas`, `kontrak_ke`, `masa_kerja`, `tugas`, `gaji_pokok`) VALUES
 (1, 18, '123456', 'Ir. H. Dadang', '2021-10-15', '102321312', '2021-03-16', 1, '2 Tahun 3 Bulan', '5', 5000000),
 (2, 19, '198009142008011023', 'Ir. H. Dadang', '2021-10-15', '102321312', '2021-03-18', 1, '2 Tahun 3 Bulan', '5', 3500000),
-(4, 30, '198009142008011023', 'Karyanto S.Pd', '2021-03-17', '123', '2021-03-17', 2, '2 Tahun 3 Bulan', '6', 2000000);
+(4, 30, '198009142008011023', 'Karyanto S.Pd', '2021-03-17', '123', '2021-03-17', 2, '2 Tahun 3 Bulan', '6', 2000000),
+(6, 36, '1999283847134', 'Kepala Dinas', '2021-03-23', '123123', '2021-03-19', 3, '4 Tahun 5 Bulan', '18', 1350000);
 
 -- --------------------------------------------------------
 
@@ -685,8 +725,9 @@ CREATE TABLE `ptth` (
 INSERT INTO `ptth` (`id_ptth`, `id_pegawai`, `nik`, `penetap_sk`, `tgl_penetapan_sk`, `no_sk`, `tgl_mulai_tugas`, `tugas`, `gaji_pokok`) VALUES
 (2, 13, '19651127 199301 1 122', 'Ir. H. Dadang', '2021-10-15', '102321312', '2021-10-20', '7', 1300000),
 (3, 14, '19651127 199301 1 122', 'Ir. H. Dadang', '2021-10-15', '102321312', '2021-10-20', '2', 1250000),
-(6, 22, '19651127 199301 1 143', 'Ir. H. Dadang', '2021-10-15', '102321312', '2021-10-20', '6', 1350000),
-(7, 26, '6472044812020002', 'H. Widodo S.E, M.A', '2021-03-15', '123', '2021-03-15', '7', 2500000);
+(6, 22, '19651127 199301 1 142', 'Kepala Dinas', '2021-10-15', '102321312', '2021-10-20', '6', 1350000),
+(7, 26, '6472044812020002', 'H. Widodo S.E, M.A', '2021-03-15', '123', '2021-03-15', '7', 2500000),
+(11, 35, '64030567119712321', 'Sekretaris Daerah', '2021-03-09', '123123', '2021-03-11', '12', 2500000);
 
 -- --------------------------------------------------------
 
@@ -809,7 +850,10 @@ INSERT INTO `users` (`id`, `id_pegawai`, `name`, `username`, `email`, `email_ver
 (3, 7, 'Iqbal Wahyudi', 'iqbalwahyudi', NULL, NULL, 2, '$2y$10$avQ1QHYFmr.Q.A78J06Qsu1j5Ujnek7Dklk7le63u9cMduaxkZ37a', NULL, 'images/foto/75751614570861-3x4-resize.jpg', '2021-02-28 19:52:27', '2021-02-28 19:52:27'),
 (4, 24, 'Yuki Kato', '12345', NULL, NULL, 2, '$2y$10$pDzQIU0ADvSfA/WD8px1NeukOvGSyahnvXKBUR06JE2ckiSONg2Mu', NULL, 'images/foto/77001615264466-3x4-resize.jpg', NULL, NULL),
 (5, 25, 'Fitri Tropica S.E', '123456', NULL, NULL, 2, '$2y$10$qJjAADfwadgJu8C0noYd1e5dbt7k7HmZNtaddGtgP/uRdd4FkwEly', NULL, 'images/foto/2321615272270-583px-logo-kota-samarinda.png', NULL, NULL),
-(6, 32, 'Muhammad Yudi', '1234test', NULL, NULL, 2, '$2y$10$uzBHmWt8MkkvVajA82QCueLZB3y/7W8OV47/WepoxXiacMiuD6yB2', NULL, 'images/foto/18891616039414-foto2.jpg', NULL, NULL);
+(6, NULL, 'Muhammad Yudi', '1234test', NULL, NULL, 2, '$2y$10$uzBHmWt8MkkvVajA82QCueLZB3y/7W8OV47/WepoxXiacMiuD6yB2', NULL, 'images/foto/18891616039414-foto2.jpg', NULL, NULL),
+(7, 33, 'Roman Apricon', '198009142008011024', NULL, NULL, 2, '$2y$10$9P9rfX4Zru3m3cE0c8ycoOIBZHHD7U/FngnhyjitBXpSS/5g8rsUG', NULL, 'images/foto/87501616122155-foto1.jpg', NULL, NULL),
+(8, 35, 'Andi Sadam Anan', '64030567119712321', NULL, NULL, 2, '$2y$10$ztIT2NKhQeg.JTAANe31AOSXN.HGviHCzRlZ4ff6URmnfTLF4czi2', NULL, 'images/foto/39761616124618-foto2.jpg', NULL, NULL),
+(9, 36, 'Rani Nurani', '19992838471', NULL, NULL, 2, '$2y$10$/qHUjJdimzfrZ6Q6EuZQU.bZR2U7q82fG2PlzqhPQs8sk3AyDAliq', NULL, 'images/foto/96201616130877-foto3.jpg', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -925,12 +969,12 @@ ALTER TABLE `password_resets`
 --
 ALTER TABLE `pegawai`
   ADD PRIMARY KEY (`id_pegawai`),
-  ADD KEY `id_sub_bidang` (`id_sub_bidang`),
   ADD KEY `id_status_pegawai` (`id_status_pegawai`),
   ADD KEY `id_jabatan` (`id_jabatan`),
   ADD KEY `id_golongan` (`id_golongan`),
   ADD KEY `id_eselon` (`id_eselon`),
-  ADD KEY `id_agama` (`id_agama`);
+  ADD KEY `id_agama` (`id_agama`),
+  ADD KEY `id_bidang` (`id_bidang`);
 
 --
 -- Indexes for table `pendidikan`
@@ -1018,7 +1062,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `absensi`
 --
 ALTER TABLE `absensi`
-  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `agama`
@@ -1042,19 +1086,19 @@ ALTER TABLE `bidang`
 -- AUTO_INCREMENT for table `cuti`
 --
 ALTER TABLE `cuti`
-  MODIFY `id_cuti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_cuti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `diklat`
 --
 ALTER TABLE `diklat`
-  MODIFY `id_diklat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_diklat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `duk_pegawai`
 --
 ALTER TABLE `duk_pegawai`
-  MODIFY `id_duk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_duk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1078,13 +1122,13 @@ ALTER TABLE `keluarga`
 -- AUTO_INCREMENT for table `kgb`
 --
 ALTER TABLE `kgb`
-  MODIFY `id_kgb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_kgb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `masa_kerja_pegawai`
 --
 ALTER TABLE `masa_kerja_pegawai`
-  MODIFY `id_masa_kerja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_masa_kerja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1108,43 +1152,43 @@ ALTER TABLE `pangkat_golongan`
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `pendidikan`
 --
 ALTER TABLE `pendidikan`
-  MODIFY `id_pendidikan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_pendidikan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `penghargaan`
 --
 ALTER TABLE `penghargaan`
-  MODIFY `id_penghargaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_penghargaan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `pensiun`
 --
 ALTER TABLE `pensiun`
-  MODIFY `id_pensiun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pensiun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `pttb`
 --
 ALTER TABLE `pttb`
-  MODIFY `id_pttb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_pttb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ptth`
 --
 ALTER TABLE `ptth`
-  MODIFY `id_ptth` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_ptth` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `rekap_absensi`
@@ -1174,7 +1218,7 @@ ALTER TABLE `sub_bidang`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -1228,11 +1272,11 @@ ALTER TABLE `masa_kerja_pegawai`
 --
 ALTER TABLE `pegawai`
   ADD CONSTRAINT `pegawai_ibfk_1` FOREIGN KEY (`id_agama`) REFERENCES `agama` (`id_agama`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `pegawai_ibfk_2` FOREIGN KEY (`id_sub_bidang`) REFERENCES `sub_bidang` (`id_sub_bidang`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `pegawai_ibfk_3` FOREIGN KEY (`id_status_pegawai`) REFERENCES `status_pegawai` (`id_status_pegawai`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `pegawai_ibfk_4` FOREIGN KEY (`id_jabatan`) REFERENCES `jabatan` (`id_jabatan`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `pegawai_ibfk_5` FOREIGN KEY (`id_golongan`) REFERENCES `pangkat_golongan` (`id_pangkat_golongan`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `pegawai_ibfk_6` FOREIGN KEY (`id_eselon`) REFERENCES `pangkat_eselon` (`id_pangkat_eselon`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `pegawai_ibfk_6` FOREIGN KEY (`id_eselon`) REFERENCES `pangkat_eselon` (`id_pangkat_eselon`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pegawai_ibfk_7` FOREIGN KEY (`id_bidang`) REFERENCES `bidang` (`id_bidang`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pendidikan`
@@ -1275,12 +1319,6 @@ ALTER TABLE `rekap_absensi`
 --
 ALTER TABLE `riwayat_kerja`
   ADD CONSTRAINT `riwayat_kerja_ibfk_1` FOREIGN KEY (`id_pegawai`) REFERENCES `pegawai` (`id_pegawai`);
-
---
--- Constraints for table `sub_bidang`
---
-ALTER TABLE `sub_bidang`
-  ADD CONSTRAINT `sub_bidang_ibfk_1` FOREIGN KEY (`id_bidang`) REFERENCES `bidang` (`id_bidang`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
