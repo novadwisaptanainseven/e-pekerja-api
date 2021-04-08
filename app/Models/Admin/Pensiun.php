@@ -139,7 +139,7 @@ class Pensiun extends Model
         $data = [
             "tgl_pensiun"    => $req->tgl_pensiun ? $req->tgl_pensiun : $pensiun->tgl_pensiun,
             "keterangan"     => $req->keterangan ? $req->keterangan : $pensiun->keterangan,
-            "status_pensiun" => $req->status_pensiun ? $req->status_pensiun : $pensiun->status_pensiun,
+            // "status_pensiun" => $req->status_pensiun ? $req->status_pensiun : $pensiun->status_pensiun,
             "updated_at"     => $current_date
         ];
 

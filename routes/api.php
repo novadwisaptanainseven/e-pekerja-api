@@ -446,6 +446,8 @@ Route::get('v1/print-duk-pegawai', [FileController::class, "cetakDUK"]);
 Route::get('v1/print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerja"]);
 // Cetak KGB Pegawai
 Route::get('v1/print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
+// Cetak Pensiun Pegawai
+Route::get('v1/print-pensiun-pegawai', [FileController::class, "cetakPensiunPegawai"]);
 
 // Cetak Rekap Absensi Pegawai
 Route::get('v1/print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);

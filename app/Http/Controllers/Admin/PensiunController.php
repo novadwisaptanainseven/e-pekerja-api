@@ -94,7 +94,7 @@ class PensiunController extends Controller
             [
                 "tgl_pensiun"     => "required",
                 "keterangan"      => "required",
-                "status_pensiun"  => "required",
+                // "status_pensiun"  => "required",
             ],
             $messages
         );

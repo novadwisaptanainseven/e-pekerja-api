@@ -15,6 +15,7 @@ use App\Models\Admin\Pegawai\PNS;
 use App\Models\Admin\Pegawai\PTTB;
 use App\Models\Admin\Pegawai\PTTH;
 use App\Models\Admin\Pegawai\RiwayatKerja;
+use App\Models\Admin\Pensiun;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -377,26 +378,23 @@ class FileController extends Controller
         return $pdf->stream("rekap-absensi-pegawai.pdf", array("Attachment" => false));
     }
 
-    // Print Rekap Absensi Pegawai Per Tahun
-    public function cetakRekapAbsensiPerTahun($id_pegawai)
+    // Print Pensiun Pegawai
+    public function cetakPensiunPegawai()
     {
+        $output_data = Pensiun::getAll();
 
-        $output_data = Absensi::getRekapAbsensiPerTahun($id_pegawai);
-        $pegawai = DB::table("pegawai")->where("id_pegawai", "=", $id_pegawai)->first();
-
-        $title = "Laporan Rekap Absensi";
+        $title = "Laporan Data Pensiunan Pegawai";
 
         $data = [
             "title" => $title,
             'date' => date('d/m/Y'),
             "data" => $output_data,
-            "pegawai" => $pegawai,
             "ttd" => PNS::getDataKadis()
         ];
 
-        $view = View('printAbsensi.lap_rekap_absensi_per_tahun', $data);
+        $view = View('printPensiun.lap_pensiun_pegawai', $data);
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
-        return $pdf->stream("rekap-absensi-pegawai.pdf", array("Attachment" => false));
+        return $pdf->stream("lap-pensiun-pegawai.pdf", array("Attachment" => false));
     }
 }
