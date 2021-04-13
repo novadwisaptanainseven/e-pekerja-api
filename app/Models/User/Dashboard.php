@@ -20,6 +20,7 @@ class Dashboard extends Model
         $tbl_keluarga = "keluarga";
         $tbl_absensi = "absensi";
         $tbl_status_pegawai = "status_pegawai";
+        $tbl_kgb = "kgb";
 
         // Get Current User
         $user = Auth::user();
@@ -72,6 +73,18 @@ class Dashboard extends Model
                 ["absen", "=", 4],
             ])
             ->get()->count();
+
+        // Get data gaji pegawai
+        $data_gaji = DB::table($tbl_kgb)
+            ->where('id_pegawai', '=', $data_pegawai->id_pegawai)
+            ->orderBy('id_kgb', 'desc')
+            ->first();
+        if ($data_gaji) {
+            $gaji_pokok = $data_gaji->gaji_pokok_baru;
+        } else {
+            $gaji_pokok = $data_pegawai->gaji_pokok;
+        }
+
         $data = [
             "foto_pegawai" => $data_pegawai->foto,
             "total_keluarga" => $total_keluarga,
@@ -81,6 +94,7 @@ class Dashboard extends Model
             "izin" => $izin,
             "sakit" => $sakit,
             "cuti" => $cuti,
+            "gaji_pokok" => $gaji_pokok
         ];
 
         return $data;

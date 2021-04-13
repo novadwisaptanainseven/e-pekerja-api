@@ -86,11 +86,11 @@ class User extends Authenticatable
             ->update($data);
 
         // Dapatkan data setelah diedit
-        DB::table($tbl_users)
+        $edited_data = DB::table($tbl_users)
             ->where("id", "=", $id_user)
             ->first();
 
-        return $data;
+        return $edited_data;
     }
 
     // Edit Password

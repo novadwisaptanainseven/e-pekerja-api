@@ -375,7 +375,7 @@ Route::prefix('v1/admin/')->group(function () {
             // Get All Users
             Route::get("users", [UsersController::class, "getAll"]);
             // Insert Users
-            Route::post("users", [UsersController::class, "insert"]);
+            Route::post("users", [UsersController::class, "register"]);
             // Detail Users
             Route::get("users/{id_user}", [UsersController::class, "getById"]);
             // Edit Users

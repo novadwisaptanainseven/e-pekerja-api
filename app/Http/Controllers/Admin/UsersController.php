@@ -15,7 +15,7 @@ class UsersController extends Controller
     // Get All Users
     public function getAll()
     {
-        $data = User::all();
+        $data = User::orderBy("level", "asc")->get();
 
         foreach ($data as $i => $item) {
             $item->no = $i + 1;
@@ -49,7 +49,7 @@ class UsersController extends Controller
     {
         // Validation
         $messages = [
-            'required'     => ':attribute is required!',
+            'required'     => ':attribute harus diisi!',
             'unique'       => ':attribute sudah ada yang punya'
         ];
         $validator = Validator::make(
@@ -59,6 +59,7 @@ class UsersController extends Controller
                 'password' => 'required',
                 'level'    => 'required',
                 'name'     => 'required',
+                'foto_profil'     => 'required|mimes:jpg,jpeg,png|max:1048',
             ],
             $messages
         );
@@ -69,11 +70,22 @@ class UsersController extends Controller
             ], 400);
         }
         // Jika Validasi Berhasil
+        if (!$request->hasFile("foto_profil")) {
+            $foto = "";
+        } else {
+            $file = $request->file("foto_profil");
+
+            // Sanitasi nama file
+            $sanitize = sanitizeFile($file);
+            $foto = $file->storeAs("images/foto", rand(0, 9999) . time() . '-' . $sanitize);
+        }
+
         $user = new User();
         $user->name = $request->name;
         $user->username = $request->username;
         $user->password = Hash::make($request->password);
-        $user->level = 2; // Level User 
+        $user->level = $request->level;
+        $user->foto_profil = $foto;
         $user->save();
 
         return response()->json([
@@ -95,7 +107,7 @@ class UsersController extends Controller
 
         // Validation
         $messages = [
-            'required'     => ':attribute is required!',
+            'required'     => ':attribute harus diisi!',
             'unique'       => ':attribute sudah ada yang punya'
         ];
         $validator = Validator::make(
@@ -103,7 +115,7 @@ class UsersController extends Controller
             [
                 'username'    => $username_rules,
                 'name'        => 'required',
-                'foto_profil' => 'required'
+                'foto_profil' => 'mimes:jpg,jpeg,png|max:1048'
             ],
             $messages
         );
@@ -155,7 +167,7 @@ class UsersController extends Controller
         $user = User::where('id', "=", $id_user)->first();
         if (!Hash::check($request->password_lama, $user->password)) {
             return response()->json([
-                "errors" => "Password lama salah"
+                "errors" => ["Password lama salah"]
             ], 400);
         }
         // Jika Validasi Berhasil
