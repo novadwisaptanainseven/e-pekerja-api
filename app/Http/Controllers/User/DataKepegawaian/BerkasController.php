@@ -74,7 +74,7 @@ class BerkasController extends Controller
     }
 
     // Delete Berkas By Id
-    public function delete($id_berkas)
+    public function deleteBerkas($id_berkas)
     {
         // Get data berkas by id
         $data = Berkas::where('id_berkas', '=', $id_berkas)

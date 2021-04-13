@@ -412,6 +412,8 @@ Route::prefix('v1/user/')->group(function () {
                 Route::get("riwayat-kerja", [DataKepegawaianRiwayatKerjaController::class, "getAll"]);
                 // Data Penghargaan
                 Route::get("penghargaan", [DataKepegawaianPenghargaanController::class, "getAll"]);
+                // Get Penghargaan By ID
+                Route::get("penghargaan/{id_penghargaan}", [DataKepegawaianPenghargaanController::class, "getById"]);
 
                 // Data Berkas
                 // Get All
@@ -419,7 +421,7 @@ Route::prefix('v1/user/')->group(function () {
                 // Insert Berkas
                 Route::post("berkas", [DataKepegawaianBerkasController::class, "insert"]);
                 // Delete Berkas
-                Route::delete("berkas/{id_berkas}", [DataKepegawaianBerkasController::class, "delete"]);
+                Route::delete("berkas/{id_berkas}", [DataKepegawaianBerkasController::class, "deleteBerkas"]);
             });
 
             // GROUP AKUN

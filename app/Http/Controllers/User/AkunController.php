@@ -33,7 +33,7 @@ class AkunController extends Controller
             [
                 'username'    => $username_rules,
                 'name'        => 'required',
-                'foto_profil' => 'required'
+                'foto_profil' => 'mimes:jpg,jpeg,png|max:1048'
             ],
             $messages
         );
@@ -63,7 +63,7 @@ class AkunController extends Controller
     {
         // Validation
         $messages = [
-            'required' => ':attribute is required!',
+            'required' => ':attribute harus diisi!',
             'same'     => ':attribute harus sesuai dengan :other'
         ];
         $validator = Validator::make(
@@ -88,7 +88,7 @@ class AkunController extends Controller
         // Cek password lama
         if (!Hash::check($request->password_lama, $user->password)) {
             return response()->json([
-                "errors" => "Password lama salah"
+                "errors" => ["Password lama salah"]
             ], 400);
         }
         // Jika Validasi Berhasil

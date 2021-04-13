@@ -28,4 +28,24 @@ class PenghargaanController extends Controller
             ], 404);
         }
     }
+
+    // Get Penghargaan By ID
+    public function getById($id_penghargaan)
+    {
+        $data = Penghargaan::getById($id_penghargaan);
+
+        if($data)
+        {
+            return response()->json([
+                "message" => "Berhasil mendapatkan data penghargaan dengan id: $id_penghargaan",
+                "data" => $data
+            ], 200);
+        }
+        else
+        {
+            return response()->json([
+                "message" => "Data penghargaan dengan id: $id_penghargaan tidak ditemukan"
+            ], 404);
+        }
+    }
 }
