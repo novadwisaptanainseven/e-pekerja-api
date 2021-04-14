@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-
+use stdClass;
 
 class PNS extends Model
 {
@@ -408,5 +408,268 @@ class PNS extends Model
         } else {
             return 500;
         }
+    }
+
+    // Get Rekapitulasi Seluruh Data Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
+    public static function getRekapPegawai()
+    {
+        $tbl_pegawai = "pegawai";
+        $tbl_golongan = "pangkat_golongan";
+        $tbl_eselon = "pangkat_eselon";
+        $tbl_pendidikan = "pendidikan";
+        $tbl_jenjang = "jenjang_pendidikan";
+
+        // Get data pns
+        $rekap_pegawai = DB::table($tbl_pegawai)
+            ->select(
+                "$tbl_pegawai.nama",
+                "$tbl_pegawai.id_pegawai",
+                "$tbl_golongan.*",
+                "$tbl_eselon.*",
+            )
+            ->where("$tbl_pegawai.id_status_pegawai", "=", 1)
+            ->leftJoin($tbl_golongan, "$tbl_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
+            ->leftJoin($tbl_eselon, "$tbl_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
+            ->get();
+        // Get data ptth
+        $rekap_ptth = DB::table($tbl_pegawai)
+            ->where("$tbl_pegawai.id_status_pegawai", "=", 2)
+            ->get();
+        // Get data pttb
+        $rekap_pttb = DB::table($tbl_pegawai)
+            ->where("$tbl_pegawai.id_status_pegawai", "=", 3)
+            ->get();
+
+        // Get data pendidikan untuk masing - masing pegawai pns
+        foreach ($rekap_pegawai as $item) {
+            $data_pendidikan = DB::table($tbl_pendidikan)
+                ->where("id_pegawai", "=", $item->id_pegawai)
+                ->first();
+            $item->pendidikan = $data_pendidikan;
+        }
+        // Get data pendidikan untuk masing - masing pegawai ptth
+        foreach ($rekap_ptth as $item) {
+            $data_pendidikan = DB::table($tbl_pendidikan)
+                ->where("id_pegawai", "=", $item->id_pegawai)
+                ->first();
+            $item->pendidikan = $data_pendidikan;
+        }
+        // Get data pendidikan untuk masing - masing pegawai pttb
+        foreach ($rekap_pttb as $item) {
+            $data_pendidikan = DB::table($tbl_pendidikan)
+                ->where("id_pegawai", "=", $item->id_pegawai)
+                ->first();
+            $item->pendidikan = $data_pendidikan;
+        }
+
+        // Get data golongan
+        $data_golongan = DB::table($tbl_golongan)->get();
+        // Get data eselon
+        $data_eselon = DB::table($tbl_eselon)->get();
+        // Get data eselon
+        $data_jenjang = DB::table($tbl_jenjang)->get();
+
+        // Klasifikasi Golongan / Eselon / Pendidikan
+
+        // Inisialisasi rekap golongan
+        $init_rekap_golongan = new stdClass();
+        foreach ($data_golongan as $value) {
+            $key = $value->golongan;
+            $init_rekap_golongan->$key = 0;
+        }
+        $init_rekap_golongan->total = 0;
+        // Inisialisasi rekap eselon
+        $init_rekap_eselon = new stdClass();
+        foreach ($data_eselon as $value) {
+            $key = $value->eselon;
+            $init_rekap_eselon->$key = 0;
+        }
+        $init_rekap_eselon->total = 0;
+
+        // Inisialisasi rekap jenjang pendidikan
+        $init_rekap_jenjang = new stdClass();
+        foreach ($data_jenjang as $value) {
+            $key = $value->jenjang;
+            $init_rekap_jenjang->$key = 0;
+        }
+        $init_rekap_jenjang->total = 0;
+        $init_rekap_jenjang_ptth = clone $init_rekap_jenjang;
+        $init_rekap_jenjang_pttb = clone $init_rekap_jenjang;
+
+        // Rincian Jumlah Berdasarkan Golongan dan Jenis Kelamin
+        $init_rekap_golongan2 = new stdClass();
+        $init_rekap_golongan2->IV = 0;
+        $init_rekap_golongan2->III = 0;
+        $init_rekap_golongan2->II = 0;
+        $init_rekap_golongan2->I = 0;
+        $init_rekap_golongan2->total = 0;
+        // Get total jenis kelamin pria dan wanita pns
+        $totPria = DB::table($tbl_pegawai)->where([
+            ["jenis_kelamin", "=", "Laki - Laki"],
+            ["id_status_pegawai", "=", 1]
+        ])->get()->count();
+        $totWanita = DB::table($tbl_pegawai)->where([
+            ["jenis_kelamin", "=", "Perempuan"],
+            ["id_status_pegawai", "=", 1]
+        ])->get()->count();
+        // Get total jenis kelamin pria dan wanita ptth
+        $totPriaPTTH = DB::table($tbl_pegawai)->where([
+            ["jenis_kelamin", "=", "Laki - Laki"],
+            ["id_status_pegawai", "=", 2]
+        ])->get()->count();
+        $totWanitaPTTH = DB::table($tbl_pegawai)->where([
+            ["jenis_kelamin", "=", "Perempuan"],
+            ["id_status_pegawai", "=", 2]
+        ])->get()->count();
+        // Get total jenis kelamin pria dan wanita ptth
+        $totPriaPTTB = DB::table($tbl_pegawai)->where([
+            ["jenis_kelamin", "=", "Laki - Laki"],
+            ["id_status_pegawai", "=", 3]
+        ])->get()->count();
+        $totWanitaPTTB = DB::table($tbl_pegawai)->where([
+            ["jenis_kelamin", "=", "Perempuan"],
+            ["id_status_pegawai", "=", 3]
+        ])->get()->count();
+
+        // PNS
+        foreach ($rekap_pegawai as $item) {
+
+            $key = $item->golongan;
+            $keyGolongan = explode("/", $item->golongan)[0];
+            $keyEselon = $item->eselon;
+            $keyJenjang = $item->pendidikan->jenjang;
+
+            // Proses perhitungan jumlah per golongan dari seluruh pegawai
+            foreach ($init_rekap_golongan as $keyClass => $value) {
+                if ($key == $keyClass) {
+                    $init_rekap_golongan->$keyClass = $value + 1;
+                }
+            }
+            // Proses perhitungan jumlah per eselon dari seluruh pegawai
+            foreach ($init_rekap_eselon as $keyClass => $value) {
+                if ($keyEselon == $keyClass) {
+                    $init_rekap_eselon->$keyClass = $value + 1;
+                }
+            }
+            // Proses perhitungan jumlah per jenjang pendidikan dari seluruh pegawai
+            foreach ($init_rekap_jenjang as $keyClass => $value) {
+                if ($keyJenjang == $keyClass) {
+                    $init_rekap_jenjang->$keyClass = $value + 1;
+                }
+            }
+            // Proses perhitungan jumlah per golongan (romawi) dari seluruh pegawai
+            foreach ($init_rekap_golongan2 as $keyClass => $value) {
+                if ($keyGolongan == $keyClass) {
+                    $init_rekap_golongan2->$keyClass = $value + 1;
+                }
+            }
+        }
+
+        // PTTH
+        foreach ($rekap_ptth as $item) {
+
+            $keyJenjang = $item->pendidikan->jenjang;
+
+            // Proses perhitungan jumlah per jenjang pendidikan dari seluruh pegawai
+            foreach ($init_rekap_jenjang_ptth as $keyClass => $value) {
+                if ($keyJenjang == $keyClass) {
+                    $init_rekap_jenjang_ptth->$keyClass = $value + 1;
+                }
+            }
+        }
+
+        // PTTB
+        foreach ($rekap_pttb as $item) {
+
+            $keyJenjang = $item->pendidikan->jenjang;
+
+            // Proses perhitungan jumlah per jenjang pendidikan dari seluruh pegawai
+            foreach ($init_rekap_jenjang_pttb as $keyClass => $value) {
+                if ($keyJenjang == $keyClass) {
+                    $init_rekap_jenjang_pttb->$keyClass = $value + 1;
+                }
+            }
+        }
+
+        // Mencari total data dari tiap-tiap klasifikasi
+        // Total data rekap golongan
+        foreach ($init_rekap_golongan as $keyClass => $value) {
+            if ($keyClass != "total") {
+                $init_rekap_golongan->total += $value;
+            }
+        }
+        // Total data rekap eselon
+        foreach ($init_rekap_eselon as $keyClass => $value) {
+            if ($keyClass != "total") {
+                $init_rekap_eselon->total += $value;
+            }
+        }
+        // Total data rekap jenjang pendidikan PNS
+        foreach ($init_rekap_jenjang as $keyClass => $value) {
+            if ($keyClass != "total") {
+                $init_rekap_jenjang->total += $value;
+            }
+        }
+        // Total data rekap jenjang pendidikan PTTH
+        foreach ($init_rekap_jenjang_ptth as $keyClass => $value) {
+            if ($keyClass != "total") {
+                $init_rekap_jenjang_ptth->total += $value;
+            }
+        }
+        // Total data rekap jenjang pendidikan PTTB
+        foreach ($init_rekap_jenjang_pttb as $keyClass => $value) {
+            if ($keyClass != "total") {
+                $init_rekap_jenjang_pttb->total += $value;
+            }
+        }
+
+        $output = [
+            "pns" => [
+                "rekap_golongan" => $init_rekap_golongan,
+                "rekap_golongan_romawi" => $init_rekap_golongan2,
+                "rekap_eselon" => $init_rekap_eselon,
+                "rekap_jenjang_pendidikan" => $init_rekap_jenjang,
+                "rekap_jenis_kelamin" => [
+                    "pria" => $totPria,
+                    "wanita" => $totWanita,
+                ]
+            ],
+            "ptth" => [
+                "rekap_jenjang_pendidikan" => $init_rekap_jenjang_ptth,
+                "rekap_jenis_kelamin" => [
+                    "pria" => $totPriaPTTH,
+                    "wanita" => $totWanitaPTTH,
+                ]
+            ],
+            "pttb" => [
+                "rekap_jenjang_pendidikan" => $init_rekap_jenjang_pttb,
+                "rekap_jenis_kelamin" => [
+                    "pria" => $totPriaPTTB,
+                    "wanita" => $totWanitaPTTB,
+                ]
+            ]
+        ];
+
+        return $output;
+
+        // $init_rekap_golongan = (object)[
+        //     "IV_e" => 0,
+        //     "IV_d" => 0,
+        //     "IV_c" => 0,
+        //     "IV_b" => 0,
+        //     "IV_a" => 0,
+        //     "III_d" => 0,
+        //     "III_c" => 0,
+        //     "III_b" => 0,
+        //     "III_a" => 0,
+        //     "II_d" => 0,
+        //     "II_c" => 0,
+        //     "II_b" => 0,
+        //     "II_a" => 0,
+        //     "I_d" => 0,
+        //     "I_c" => 0,
+        //     "I_b" => 0,
+        //     "I_a" => 0,
+        // ];
     }
 }

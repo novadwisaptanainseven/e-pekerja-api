@@ -157,6 +157,7 @@ Route::prefix('v1/admin/')->group(function () {
             Route::prefix("pegawai/")->group(function () {
                 // Get All Pegawai (PNS, PTTH, PTTB)
                 Route::get("semua-pegawai", [PNSController::class, "getAllPegawai"]);
+            
 
                 // GROUP PNS
                 // Get All PNS
@@ -450,6 +451,8 @@ Route::get('v1/print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerj
 Route::get('v1/print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
 // Cetak Pensiun Pegawai
 Route::get('v1/print-pensiun-pegawai', [FileController::class, "cetakPensiunPegawai"]);
+// Rekap Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
+Route::get('v1/rekap-pegawai', [PNSController::class, "getRekapPegawai"]);
 
 // Cetak Rekap Absensi Pegawai
 Route::get('v1/print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);

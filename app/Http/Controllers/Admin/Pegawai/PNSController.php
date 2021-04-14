@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Pegawai;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Pegawai\PNS;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PNSController extends Controller
@@ -210,5 +211,16 @@ class PNSController extends Controller
                 "message" => "Terjadi kesalahan server",
             ], 500);
         }
+    }
+
+    // Rekapitulasi Jumlah Pegawai Berdasarkan Golongan/Eselon/Pendidikan dan Jenis Kelamin
+    public function getRekapPegawai()
+    {
+        $rekap = PNS::getRekapPegawai();
+
+        return response()->json([
+            "message" => "Berhasil merekapitulasi seluruh data pegawai",
+            "data" => $rekap
+        ], 200);
     }
 }

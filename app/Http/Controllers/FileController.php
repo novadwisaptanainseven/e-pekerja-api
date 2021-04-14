@@ -292,7 +292,7 @@ class FileController extends Controller
         $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
         return $pdf->stream("rekap-absensi-$jenis_data.pdf", array("Attachment" => false));
     }
-    // Print Rekap Absensi Pegawai
+    // Print Rekap Absensi Pegawai By Date
     public function cetakRekapAbsensiByDate(Request $req, $jenis_data)
     {
 
@@ -376,6 +376,29 @@ class FileController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
         return $pdf->stream("rekap-absensi-pegawai.pdf", array("Attachment" => false));
+    }
+
+    // Print Rekap Absensi Pegawai per Tahun
+    public function cetakRekapAbsensiPerTahun($id_pegawai)
+    {
+        $pegawai = DB::table("pegawai")->where("id_pegawai", "=", $id_pegawai)->first();
+
+        $output_data = Absensi::getRekapAbsensiPerTahun($id_pegawai);
+        $title = "Laporan Rekap Absensi Per Tahun";
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            'pegawai' => $pegawai,
+            "data" => $output_data,
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $view = View("printAbsensi.lap_rekap_absensi_per_tahun", $data);
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadHTML($view->render())->setPaper("a4", "portrait");
+
+        return $pdf->stream("rekap-absensi-pegawai.pdf", ["Attachment" => false]);
     }
 
     // Print Pensiun Pegawai
