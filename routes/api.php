@@ -453,6 +453,8 @@ Route::get('v1/print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKG
 Route::get('v1/print-pensiun-pegawai', [FileController::class, "cetakPensiunPegawai"]);
 // Rekap Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
 Route::get('v1/rekap-pegawai', [PNSController::class, "getRekapPegawai"]);
+// Rekap Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
+Route::get('v1/print-rekap-pegawai', [FileController::class, "cetakRekapPegawai"]);
 
 // Cetak Rekap Absensi Pegawai
 Route::get('v1/print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);

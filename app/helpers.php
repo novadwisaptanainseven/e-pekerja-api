@@ -66,4 +66,20 @@ if (!function_exists("formatTanggalIndonesia")) {
 
         return ["tgl" => $day, "bulan" => $bulan, "tahun" => $year];
     }
+
+    // if(!function_exists("array_push_assoc")) {
+    //     function array_push_assoc($arr, $key, $value) {
+    //         $arr[$key] = $value;
+    //         return $arr;
+    //     }
+    // }
+
+    if(!function_exists("array_push_assoc")) {
+        function array_push_assoc($arr, $key, $value) {
+            $arr[$key] = $value;
+            return $arr;
+        }
+    }
+        
+    
 }

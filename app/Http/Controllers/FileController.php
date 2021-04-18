@@ -420,4 +420,52 @@ class FileController extends Controller
         $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
         return $pdf->stream("lap-pensiun-pegawai.pdf", array("Attachment" => false));
     }
+
+    // Print Rekapitulasi Pegawai
+    public function cetakRekapPegawai()
+    {
+        $output_data = PNS::getRekapPegawai();
+
+        // For Loop Rekap Golongan
+        $arr_rekap_golongan = [];
+        foreach($output_data["pns"]["rekap_golongan"] as $key => $value)
+        {
+           array_push($arr_rekap_golongan, ["key" => $key, "value" => $value]);
+        }
+        // For Loop Rekap Eselon
+        $arr_rekap_eselon = [];
+        foreach($output_data["pns"]["rekap_eselon"] as $key => $value)
+        {
+           array_push($arr_rekap_eselon, ["key" => $key, "value" => $value]);
+        }
+        // For Loop Rekap Jenjang  Pendidikan
+        $arr_rekap_jenjang = [];
+        foreach($output_data["pns"]["rekap_jenjang_pendidikan"] as $key => $value)
+        {
+           array_push($arr_rekap_jenjang, ["key" => $key, "value" => $value]);
+        }
+        // dd($arr_rekap_golongan);
+
+        $title = "Laporan Data Rekapitulasi Pegawai";
+
+        $output_data2 = [
+            "rekap_golongan" => $arr_rekap_golongan,
+            "rekap_eselon" => $arr_rekap_eselon,
+            "rekap_jenjang" => $arr_rekap_jenjang,
+        ];
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            "data" => $output_data,
+            "data2" => $output_data2,
+            "tanggal" => formatTanggalIndonesia(date('Y-m-d')),
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $view = View('printPegawai.print_lap_rekap_pegawai', $data);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
+        return $pdf->stream("lap-rekap-pegawai.pdf", array("Attachment" => false));
+    }
 }
