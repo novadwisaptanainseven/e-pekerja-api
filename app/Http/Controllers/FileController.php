@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\Cuti;
 use App\Models\Admin\DUK;
 use App\Models\Admin\KGB;
 use App\Models\Admin\MasaKerja;
@@ -426,25 +427,65 @@ class FileController extends Controller
     {
         $output_data = PNS::getRekapPegawai();
 
+        // PNS
         // For Loop Rekap Golongan
         $arr_rekap_golongan = [];
-        foreach($output_data["pns"]["rekap_golongan"] as $key => $value)
-        {
-           array_push($arr_rekap_golongan, ["key" => $key, "value" => $value]);
+        foreach ($output_data["pns"]["rekap_golongan"] as $key => $value) {
+            array_push($arr_rekap_golongan, ["key" => $key, "value" => $value]);
         }
         // For Loop Rekap Eselon
         $arr_rekap_eselon = [];
-        foreach($output_data["pns"]["rekap_eselon"] as $key => $value)
-        {
-           array_push($arr_rekap_eselon, ["key" => $key, "value" => $value]);
+        foreach ($output_data["pns"]["rekap_eselon"] as $key => $value) {
+            array_push($arr_rekap_eselon, ["key" => $key, "value" => $value]);
         }
         // For Loop Rekap Jenjang  Pendidikan
         $arr_rekap_jenjang = [];
-        foreach($output_data["pns"]["rekap_jenjang_pendidikan"] as $key => $value)
-        {
-           array_push($arr_rekap_jenjang, ["key" => $key, "value" => $value]);
+        foreach ($output_data["pns"]["rekap_jenjang_pendidikan"] as $key => $value) {
+            array_push($arr_rekap_jenjang, ["key" => $key, "value" => $value]);
         }
-        // dd($arr_rekap_golongan);
+
+        // PTTB
+        $arr_rekap_jenjang_pttb = [];
+        foreach ($output_data["pttb"]["rekap_jenjang_pendidikan"] as $key => $value) {
+            array_push($arr_rekap_jenjang_pttb, ["key" => $key, "value" => $value]);
+        }
+        $arr_rekap_jenis_kelamin_pttb = [];
+        foreach ($output_data["pttb"]["rekap_jenis_kelamin"] as $key => $value) {
+            array_push($arr_rekap_jenis_kelamin_pttb, ["key" => $key, "value" => $value]);
+        }
+
+        // PTTH
+        $arr_rekap_jenjang_ptth = [];
+        foreach ($output_data["ptth"]["rekap_jenjang_pendidikan"] as $key => $value) {
+            array_push($arr_rekap_jenjang_ptth, ["key" => $key, "value" => $value]);
+        }
+        $arr_rekap_jenis_kelamin_ptth = [];
+        foreach ($output_data["ptth"]["rekap_jenis_kelamin"] as $key => $value) {
+            array_push($arr_rekap_jenis_kelamin_ptth, ["key" => $key, "value" => $value]);
+        }
+
+        // Total Pegawai berdasarkan Status
+        $arr_jumlah_pegawai = [
+            [
+                "key" => "PNS",
+                "value" => $output_data["jumlah_pns"],
+            ],
+            [
+                "key" => "PTTB",
+                "value" => $output_data["jumlah_pttb"],
+            ],
+            [
+                "key" => "PTTH",
+                "value" => $output_data["jumlah_ptth"],
+            ],
+        ];
+        // Total Pegawai berdasarkan Bidang
+        $arr_jumlah_pegawai_bidang = [];
+        foreach ($output_data["total_per_bidang"] as $key => $value) {
+            array_push($arr_jumlah_pegawai_bidang, ["key" => $key, "value" => $value]);
+        }
+
+        // dd($arr_jumlah_pegawai_bidang);
 
         $title = "Laporan Data Rekapitulasi Pegawai";
 
@@ -452,6 +493,12 @@ class FileController extends Controller
             "rekap_golongan" => $arr_rekap_golongan,
             "rekap_eselon" => $arr_rekap_eselon,
             "rekap_jenjang" => $arr_rekap_jenjang,
+            "rekap_jenjang_pttb" => $arr_rekap_jenjang_pttb,
+            "rekap_jenis_kelamin_pttb" => $arr_rekap_jenis_kelamin_pttb,
+            "rekap_jenjang_ptth" => $arr_rekap_jenjang_ptth,
+            "rekap_jenis_kelamin_ptth" => $arr_rekap_jenis_kelamin_ptth,
+            "total_pegawai_bidang" => $arr_jumlah_pegawai_bidang,
+            "total_pegawai_status" => $arr_jumlah_pegawai
         ];
 
         $data = [
@@ -467,5 +514,28 @@ class FileController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
         return $pdf->stream("lap-rekap-pegawai.pdf", array("Attachment" => false));
+    }
+
+    // Print Riwayat Cuti
+    public function cetakRiwayatCuti($id_pegawai)
+    {
+        $pegawai = DB::table("pegawai")->where("id_pegawai", "=", $id_pegawai)->first();
+
+        $output_data = Cuti::getAll($id_pegawai);
+        $title = "Data Riwayat Cuti Pegawai";
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            'pegawai' => $pegawai,
+            "data" => $output_data,
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $view = View("printPegawai.riwayat_cuti", $data);
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadHTML($view->render())->setPaper("a4", "portrait");
+
+        return $pdf->stream("riwayat-cuti-pegawai.pdf", ["Attachment" => false]);
     }
 }

@@ -31,7 +31,13 @@ class Dashboard extends Model
         $tot_wanita = DB::table($tbl_pegawai)
             ->where("jenis_kelamin", "=", "Perempuan")->count();
 
-        $tot_cuti = DB::table($tbl_cuti)->get()->count();
+        $dateNow = date("Y-m-d");
+        $tot_cuti = DB::table($tbl_cuti)
+            ->where([
+                ["tgl_mulai", "<=", $dateNow],
+                ["tgl_selesai", ">=", $dateNow],
+            ])
+            ->get()->count();
         $tot_users = DB::table($tbl_users)->get()->count();
 
         $data = [
