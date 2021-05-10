@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Pegawai;
 
+use App\Exports\PnsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Pegawai\PNS;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PNSController extends Controller
 {
@@ -222,5 +223,13 @@ class PNSController extends Controller
             "message" => "Berhasil merekapitulasi seluruh data pegawai",
             "data" => $rekap
         ], 200);
+    }
+
+    // // Export to Excel
+    public function exportToExcel()
+    {
+        // return Excel::download(new PnsExport, 'pns.xlsx');
+        return (new PnsExport)->download('pns.xlsx');
+        // return new PnsExport();
     }
 }

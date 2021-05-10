@@ -43,55 +43,61 @@ Route::prefix('v1/user/')->group(function () {
 });
 
 // Download File
-// Image
-Route::get('v1/image/{filename}', [FileController::class, "getImage"]);
-// Rekap PDF
-Route::get('v1/print-daftar-pegawai/{jenis_data}', [FileController::class, "cetakDaftarPegawai"]);
-// Rekap PDF Pegawai By ID
-Route::get('v1/print-pegawai/{id_pegawai}/{data}', [FileController::class, "printLaporanPegawai"]);
-// Cetak DUK pegawai
-Route::get('v1/print-duk-pegawai', [FileController::class, "cetakDUK"]);
-// Cetak Masa Kerja Pegawai
-Route::get('v1/print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerja"]);
-// Cetak KGB Pegawai
-Route::get('v1/print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
-// Cetak Pensiun Pegawai
-Route::get('v1/print-pensiun-pegawai', [FileController::class, "cetakPensiunPegawai"]);
-// Rekap Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
-Route::get('v1/rekap-pegawai', [PNSController::class, "getRekapPegawai"]);
-// Rekap Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
-Route::get('v1/print-rekap-pegawai', [FileController::class, "cetakRekapPegawai"]);
-// Cetak Riwayat Cuti
-Route::get('v1/print-riwayat-cuti/{id_pegawai}', [FileController::class, "cetakRiwayatCuti"]);
+Route::prefix('v1/')->group(function() {
+    // Image
+    Route::get('image/{filename}', [FileController::class, "getImage"]);
+    // Rekap PDF
+    Route::get('print-daftar-pegawai/{jenis_data}', [FileController::class, "cetakDaftarPegawai"]);
+    // Rekap PDF Pegawai By ID
+    Route::get('print-pegawai/{id_pegawai}/{data}', [FileController::class, "printLaporanPegawai"]);
+    // Export PNS to Excel
+    Route::get('pns/export', [PNSController::class, "exportToExcel"]);
 
-// Cetak Rekap Absensi Pegawai
-Route::get('v1/print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);
-// Cetak Rekap Absensi Pegawai
-Route::get('v1/print-rekap-absensi-tanggal/{jenis_data}', [FileController::class, "cetakRekapAbsensiByDate"]);
-// Cetak Rekap Absensi Pegawai berdasarkan filter tanggal
-Route::get('v1/print-rekap-absensi-filter/{id_pegawai}', [FileController::class, "cetakRekapAbsensiByFilterTanggal"]);
-// Cetak Rekap Absensi Per Tahun by Id Pegawai
-Route::get('v1/print-rekap-absensi-pegawai/{id_pegawai}', [FileController::class, "cetakRekapAbsensiPerTahun"]);
-// Test
-Route::get('v1/rekap-absensi/{jenis_data}', function ($jenis_data) {
-    $data = Absensi::getByStatusPegawai($jenis_data);
-    return response($data, 200);
+    // Cetak DUK pegawai
+    Route::get('print-duk-pegawai', [FileController::class, "cetakDUK"]);
+    // Cetak Masa Kerja Pegawai
+    Route::get('print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerja"]);
+    // Cetak KGB Pegawai
+    Route::get('print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
+    // Cetak Pensiun Pegawai
+    Route::get('print-pensiun-pegawai', [FileController::class, "cetakPensiunPegawai"]);
+    // Rekap Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
+    Route::get('rekap-pegawai', [PNSController::class, "getRekapPegawai"]);
+    // Rekap Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
+    Route::get('print-rekap-pegawai', [FileController::class, "cetakRekapPegawai"]);
+    // Cetak Riwayat Cuti
+    Route::get('print-riwayat-cuti/{id_pegawai}', [FileController::class, "cetakRiwayatCuti"]);
+
+    // Cetak Rekap Absensi Pegawai
+    Route::get('print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);
+    // Cetak Rekap Absensi Pegawai
+    Route::get('print-rekap-absensi-tanggal/{jenis_data}', [FileController::class, "cetakRekapAbsensiByDate"]);
+    // Cetak Rekap Absensi Pegawai berdasarkan filter tanggal
+    Route::get('print-rekap-absensi-filter/{id_pegawai}', [FileController::class, "cetakRekapAbsensiByFilterTanggal"]);
+    // Cetak Rekap Absensi Per Tahun by Id Pegawai
+    Route::get('print-rekap-absensi-pegawai/{id_pegawai}', [FileController::class, "cetakRekapAbsensiPerTahun"]);
+    // Test
+    Route::get('rekap-absensi/{jenis_data}', function ($jenis_data) {
+        $data = Absensi::getByStatusPegawai($jenis_data);
+        return response($data, 200);
+    });
+
+    // Ijazah
+    Route::get('ijazah/{filename}', [FileController::class, "getIjazah"]);
+    // Dokumentasi Diklat
+    Route::get('dok_diklat/{filename}', [FileController::class, "getDokDiklat"]);
+    // Dokumentasi Penghargaan
+    Route::get('dok_penghargaan/{filename}', [FileController::class, "getDokPenghargaan"]);
+    // Berkas Pegawai
+    Route::get('berkas/{filename}', [FileController::class, "getBerkas"]);
+
+    // Login User
+    Route::post('login', [AuthController::class, "login"]);
+
+    // Register User
+    Route::post('register', [UsersController::class, "register"]);
+
 });
-
-// Ijazah
-Route::get('v1/ijazah/{filename}', [FileController::class, "getIjazah"]);
-// Dokumentasi Diklat
-Route::get('v1/dok_diklat/{filename}', [FileController::class, "getDokDiklat"]);
-// Dokumentasi Penghargaan
-Route::get('v1/dok_penghargaan/{filename}', [FileController::class, "getDokPenghargaan"]);
-// Berkas Pegawai
-Route::get('v1/berkas/{filename}', [FileController::class, "getBerkas"]);
-
-// Login User
-Route::post('v1/login', [AuthController::class, "login"]);
-
-// Register User
-Route::post('v1/register', [UsersController::class, "register"]);
 
 // Logout User
 Route::middleware('auth:sanctum')->post('v1/logout', [AuthController::class, "logout"]);
