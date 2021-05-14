@@ -1,15 +1,42 @@
 <table style="border: 1px solid black">
   <thead>
   <tr>
-      <th><b>Nama</b></th>
-      <th><b>NIP</b></th>
+      <td></td>
+  </tr>
+  <tr>
+      <td></td>
+  </tr>
+  <tr>
+      <td></td>
+  </tr>
+  <tr>
+      <td></td>
+  </tr>
+  <tr>
+      <td></td>
+  </tr>
+  <tr>
+      <th>No</th>
+      <th>Nama</th>
+      <th>NIP</th>
+      <th>Jabatan</th>
+      <th>Eselon</th>
+      <th>Bidang</th>
+      <th>Jenis Kelamin</th>
+      <th>No. HP</th>
   </tr>
   </thead>
   <tbody>
-  @foreach($data as $d)
+  @foreach($data as $i => $d)
       <tr>
+          <td>{{ $i + 1 }}</td>
           <td>{{ $d->nama }}</td>
           <td>{{ $d->nip }}</td>
+          <td>{{ $d->jabatan }}</td>
+          <td>{{ $d->eselon }}</td>
+          <td>{{ $d->bidang }}</td>
+          <td>{{ $d->jenis_kelamin }}</td>
+          <td>{{ $d->no_hp }}</td>
       </tr>
   @endforeach
   </tbody>

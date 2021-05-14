@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\MasaKerjaExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\MasaKerja;
 use Illuminate\Http\Request;
@@ -97,4 +98,10 @@ class MasaKerjaController extends Controller
             ], 500);
         }
     }
+
+    // Export Masa Kerja Pegawai ke Excel
+    public function exportMasaKerjaToExcel() {
+        return (new MasaKerjaExport)->download('masa-kerja-pegawai.xlsx');
+    }
 }
+

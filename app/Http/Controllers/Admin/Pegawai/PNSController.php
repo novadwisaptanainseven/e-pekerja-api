@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin\Pegawai;
 
 use App\Exports\PnsExport;
-use App\Http\Controllers\Controller;
-use App\Models\Admin\Pegawai\PNS;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Exports\PegawaiExport;
+use App\Exports\RekapPegawaiExport;
+use App\Models\Admin\Pegawai\PNS;
+use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 
 class PNSController extends Controller
 {
@@ -225,11 +227,22 @@ class PNSController extends Controller
         ], 200);
     }
 
-    // // Export to Excel
+    // Export to Excel
     public function exportToExcel()
     {
         // return Excel::download(new PnsExport, 'pns.xlsx');
-        return (new PnsExport)->download('pns.xlsx');
+        return (new PnsExport)->download('daftar-pns.xlsx');
         // return new PnsExport();
+    }
+
+    // Export semua pegawai ke excel
+    public function exportAllPegawaiToExcel()
+    {
+        return (new PegawaiExport)->download('daftar-pegawai.xlsx');
+    }
+
+    // Export Rekapitulasi Pegawai ke Excel
+    public function exportRekapPegawaiToExcel() {
+        return (new RekapPegawaiExport)->download('rekap-pegawai.xlsx');
     }
 }

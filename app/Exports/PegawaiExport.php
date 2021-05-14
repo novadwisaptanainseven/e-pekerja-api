@@ -15,14 +15,14 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
+class PegawaiExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
 {
     use Exportable;
 
     public function view(): View
     {
-        return view('exports.pns', [
-            'data' => PNS::getAll()
+        return view('exports.semua-pegawai', [
+            'data' => PNS::getAllPegawai()
         ]);
     }
 
@@ -31,7 +31,7 @@ class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
         return [
             AfterSheet::class    => function(AfterSheet $event) {
                 // Set Title
-                $title = "Daftar Pegawai Negeri Sipil (PNS)";
+                $title = "Daftar Semua Pegawai (PNS, PTTB, PTTH)";
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
 
                 $event->sheet->mergeCells('A2:H2');
@@ -55,21 +55,25 @@ class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                   'font' => [
                     'bold' => true,
                   ],
+                  'alignment' => [
+                    'horizontal' => Alignment::HORIZONTAL_CENTER
+                ],
                 ]);
                 $event->sheet->getStyle('A6:H100')->applyFromArray([
-                  'alignment' => [
-                      'vertical' => Alignment::VERTICAL_TOP
-                  ],
-                  'borders' => [
-                      'allBorders' => [
-                          'borderStyle' => Border::BORDER_THIN,
-                      ],
-                  ],
-              ]);
+                    'alignment' => [
+                        'vertical' => Alignment::VERTICAL_TOP
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                        ],
+                    ],
+                ]);
                 $event->sheet->getStyle('A6:H6')->getFill()
                 ->setFillType(Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('FFe69d30');
 
+                $event->sheet->getStyle('A')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getStyle('C')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 $event->sheet->getStyle('E')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 // End of Set Content
@@ -84,9 +88,9 @@ class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
         $drawing->setDescription('Logo Kota Samarinda');
         $drawing->setPath(storage_path('app/logo-kota-samarinda.png'));
         $drawing->setHeight(90);
-        $drawing->setCoordinates('B2');
+        $drawing->setCoordinates('C2');
         $drawing->setOffsetX(120);
 
         return $drawing;
-    } 
+    }
 }

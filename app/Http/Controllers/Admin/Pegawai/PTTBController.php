@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Pegawai;
 
+use App\Exports\PttbExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Pegawai\PTTB;
 use Illuminate\Http\Request;
@@ -186,5 +187,10 @@ class PTTBController extends Controller
                 "message" => "Terjadi kesalahan server",
             ], 500);
         }
+    }
+
+    public function exportToExcel()
+    {
+        return (new PttbExport)->download('daftar-pttb.xlsx');
     }
 }

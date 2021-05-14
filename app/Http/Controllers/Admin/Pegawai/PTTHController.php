@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Pegawai;
 
-use App\Http\Controllers\Controller;
-use App\Models\Admin\Pegawai\PTTH;
+use App\Exports\PtthExport;
 use Illuminate\Http\Request;
+use App\Models\Admin\Pegawai\PTTH;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class PTTHController extends Controller
@@ -187,5 +188,11 @@ class PTTHController extends Controller
                 "message" => "Terjadi kesalahan server",
             ], 500);
         }
+    }
+
+    // // Export to Excel
+    public function exportToExcel()
+    {
+        return (new PtthExport)->download('daftar-ptth.xlsx');
     }
 }

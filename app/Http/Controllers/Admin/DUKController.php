@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\DukExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\DUK;
 use Illuminate\Http\Request;
@@ -97,5 +98,10 @@ class DUKController extends Controller
                 "message" => "Terjadi kesalahan server",
             ], 500);
         }
+    }
+
+    // Export DUK Pegawai ke Excel
+    public function exportDukToExcel() {
+        return (new DukExport)->download('duk-pegawai.xlsx');
     }
 }

@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\DUKController;
+use App\Http\Controllers\Admin\MasaKerjaController;
 use App\Http\Controllers\Admin\Pegawai\PNSController;
+use App\Http\Controllers\Admin\Pegawai\PTTBController;
+use App\Http\Controllers\Admin\Pegawai\PTTHController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
@@ -52,6 +56,18 @@ Route::prefix('v1/')->group(function() {
     Route::get('print-pegawai/{id_pegawai}/{data}', [FileController::class, "printLaporanPegawai"]);
     // Export PNS to Excel
     Route::get('pns/export', [PNSController::class, "exportToExcel"]);
+    // Export PTTH to Excel
+    Route::get('ptth/export', [PTTHController::class, "exportToExcel"]);
+    // Export PTTB to Excel
+    Route::get('pttb/export', [PTTBController::class, "exportToExcel"]);
+    // Export Semua Pegawai to Excel
+    Route::get('semua-pegawai/export', [PNSController::class, "exportAllPegawaiToExcel"]);
+    // Export Rekapitulasi Pegawai to Excel
+    Route::get('rekap-pegawai/export', [PNSController::class, "exportRekapPegawaiToExcel"]);
+    // Export DUK Pegawai to Excel
+    Route::get('duk/export', [DUKController::class, "exportDukToExcel"]);
+    // Export Masa Kerja Pegawai to Excel
+    Route::get('masa-kerja/export', [MasaKerjaController::class, "exportMasaKerjaToExcel"]);
 
     // Cetak DUK pegawai
     Route::get('print-duk-pegawai', [FileController::class, "cetakDUK"]);

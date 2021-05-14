@@ -68,6 +68,10 @@
             height: 2px;
         }
 
+        .bg-orange {
+            background-color: orange;
+        }
+
         @page {
             margin: 15px 15px 10px 15px;
         }
@@ -101,7 +105,7 @@
     <!-- Content -->
 
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>No</th>
             <th>Nama/NIP</th>
             <th>Gol/TMT</th>
