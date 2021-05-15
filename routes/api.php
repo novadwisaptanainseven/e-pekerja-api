@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\CutiController;
 use App\Http\Controllers\Admin\DUKController;
+use App\Http\Controllers\Admin\KGBController;
 use App\Http\Controllers\Admin\MasaKerjaController;
+use App\Http\Controllers\Admin\Pegawai\AbsensiController;
 use App\Http\Controllers\Admin\Pegawai\PNSController;
 use App\Http\Controllers\Admin\Pegawai\PTTBController;
 use App\Http\Controllers\Admin\Pegawai\PTTHController;
@@ -68,6 +71,14 @@ Route::prefix('v1/')->group(function() {
     Route::get('duk/export', [DUKController::class, "exportDukToExcel"]);
     // Export Masa Kerja Pegawai to Excel
     Route::get('masa-kerja/export', [MasaKerjaController::class, "exportMasaKerjaToExcel"]);
+    // Export KGB by Id Pegawai to Excel
+    Route::get('kgb-pegawai/{id}/export', [KGBController::class, "exportKgbToExcel"]);
+    // Export Cuti by Id Pegawai to Excel
+    Route::get('cuti-pegawai/{id}/export', [CutiController::class, "exportCutiToExcel"]);
+    // Export Absensi to Excel
+    Route::get('absensi-pegawai/{jenis}/export', [AbsensiController::class, "exportAbsensiToExcel"]);
+    // Export Absensi Per Tahun to Excel
+    Route::get('absensi-per-tahun/{id}/export', [AbsensiController::class, "exportAbsensiPerTahunToExcel"]);
 
     // Cetak DUK pegawai
     Route::get('print-duk-pegawai', [FileController::class, "cetakDUK"]);

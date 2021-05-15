@@ -71,6 +71,10 @@
         @page {
             margin: 15px 15px 10px 15px;
         }
+
+        .bg-orange {
+            background-color: orange;
+        }
     </style>
 
 </head>
@@ -100,7 +104,7 @@
     <!-- Content -->
 
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th rowspan="2">No</th>
             <th rowspan="2">Nama / NIP</th>
             <th colspan="2">Pangkat</th>
@@ -112,7 +116,7 @@
             <th rowspan="2">Catatan Mutasi Kepegawaian</th>
             <th rowspan="2">Keterangan Tgl/Bln/Thn Diangkat Menjadi Capeg</th>
         </tr>
-        <tr>
+        <tr class="bg-orange">
             <th>Gol/Ruang</th>
             <th>TMT</th>
             <th>Nama</th>

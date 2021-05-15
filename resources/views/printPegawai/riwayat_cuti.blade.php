@@ -71,6 +71,10 @@
         @page {
             /* margin: 15px 15px 10px 15px; */
         }
+
+        .bg-orange {
+            background-color: orange;
+        }
     </style>
 
 </head>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\CutiExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Cuti;
 use Illuminate\Http\Request;
@@ -260,5 +261,10 @@ class CutiController extends Controller
             "message" => "Berhasil mendapatkan semua data pegawai yang sedang cuti",
             "data" => $data
         ], 200);
+    }
+
+    // Export Cuti Pegawai ke Excel
+    public function exportCutiToExcel($id) {
+        return (new CutiExport($id))->download('cuti-pegawai.xlsx');
     }
 }

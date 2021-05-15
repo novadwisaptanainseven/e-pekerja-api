@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\KgbExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\KGB;
 use Illuminate\Http\Request;
@@ -187,5 +188,10 @@ class KGBController extends Controller
                 "message" => "Data kenaikan gaji berkala dengan id: {$id_kgb} tidak ditemukan"
             ], 404);
         }
+    }
+
+    // Export KGB Pegawai ke Excel
+    public function exportKgbToExcel($id) {
+        return (new KgbExport($id))->download('kgb-pegawai.xlsx');
     }
 }

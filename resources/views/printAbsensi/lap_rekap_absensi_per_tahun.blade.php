@@ -75,6 +75,13 @@
         td {
             text-align: center;
         }
+
+        .bg-orange {
+            background-color: orange;
+        }
+        .bg-grey {
+            background-color: #bbb;
+        }
     </style>
 
 </head>
@@ -106,7 +113,7 @@
     <!-- Content -->
 
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>No</th>
             <th>Tahun</th>
             <th>Hadir</th>
@@ -144,7 +151,7 @@
         </tr>
         @endforeach
 
-        <tr>
+        <tr class="bg-grey">
             <td colspan="2"><b>Total</b></td>
             <td>{{$totHadir}}</td>
             <td>{{$totIzin}}</td>

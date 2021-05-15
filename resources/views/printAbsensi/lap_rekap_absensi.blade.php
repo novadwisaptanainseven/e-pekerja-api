@@ -75,6 +75,10 @@
         td.colCenter {
             text-align: center;
         }
+
+        .bg-orange {
+            background-color: orange;
+        }
     </style>
 
 </head>
@@ -109,7 +113,7 @@
     <!-- Content -->
 
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>No</th>
             <th>Nama</th>
             <th>Jabatan</th>
@@ -122,7 +126,7 @@
 
         @foreach($data as $i => $item)
         <tr>
-            <td>{{$i + 1}}</td>
+            <td align="center">{{$i + 1}}</td>
             <td>
                 {{$item->nama}} <br>
             </td>

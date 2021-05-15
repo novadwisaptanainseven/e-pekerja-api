@@ -75,6 +75,10 @@
         td {
             text-align: center;
         }
+
+        .bg-orange {
+            background-color: orange;
+        }
     </style>
 
 </head>
@@ -106,7 +110,7 @@
     <!-- Content -->
 
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>No</th>
             <th>Tanggal</th>
             <th>Hari</th>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Pegawai;
 
+use App\Exports\Absensi\AbsenExport;
+use App\Exports\Absensi\AbsensiPerTahunExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Pegawai\Absensi;
 use Illuminate\Http\Request;
@@ -287,5 +289,17 @@ class AbsensiController extends Controller
                 "deleted_data" => $data
             ], 201);
         }
+    }
+
+    // Export Absensi Pegawai ke Excel
+    public function exportAbsensiToExcel($jenis)
+    {
+        return (new AbsenExport($jenis))->download("absensi-$jenis.xlsx");
+    }
+
+    // Export Absensi Per Tahun Pegawai ke Excel
+    public function exportAbsensiPerTahunToExcel($id)
+    {
+        return (new AbsensiPerTahunExport($id))->download("absensi-per-tahun.xlsx");
     }
 }

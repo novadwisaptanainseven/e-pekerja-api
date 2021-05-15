@@ -71,6 +71,10 @@
         @page {
             margin: 15px 25px 10px 25px;
         }
+
+        .bg-orange {
+            background-color: orange;
+        }
     </style>
 
 </head>
@@ -101,7 +105,7 @@
     <!-- Content -->
 
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>No</th>
             <th>TMT Kenaikan Gaji</th>
             <th>Gaji Pokok Lama</th>
