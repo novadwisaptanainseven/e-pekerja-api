@@ -90,7 +90,7 @@ class Absensi extends Model
             array_push($data, $obj);
         }
 
-
+        // krsort($data);
 
         return $data;
     }

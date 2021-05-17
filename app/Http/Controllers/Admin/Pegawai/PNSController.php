@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Pegawai;
 
+use App\Exports\LaporanPegawaiExport;
 use App\Exports\PnsExport;
 use Illuminate\Http\Request;
 use App\Exports\PegawaiExport;
@@ -244,5 +245,10 @@ class PNSController extends Controller
     // Export Rekapitulasi Pegawai ke Excel
     public function exportRekapPegawaiToExcel() {
         return (new RekapPegawaiExport)->download('rekap-pegawai.xlsx');
+    }
+
+    // Export Laporan Pegawai ke Excel
+    public function exportLaporanPegawaiToExcel($id_pegawai, $data) {
+        return (new LaporanPegawaiExport($id_pegawai, $data))->download("laporan-$data-pegawai.xlsx");
     }
 }

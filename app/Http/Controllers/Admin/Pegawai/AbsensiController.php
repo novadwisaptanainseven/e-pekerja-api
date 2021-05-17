@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin\Pegawai;
 
 use App\Exports\Absensi\AbsenExport;
+use App\Exports\Absensi\AbsenFilterTanggalExport;
 use App\Exports\Absensi\AbsensiPerTahunExport;
+use App\Exports\Absensi\RekapAbsenSemuaPegawaiExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Pegawai\Absensi;
 use Illuminate\Http\Request;
@@ -298,8 +300,20 @@ class AbsensiController extends Controller
     }
 
     // Export Absensi Per Tahun Pegawai ke Excel
-    public function exportAbsensiPerTahunToExcel($id)
+    public function exportAbsensiPerTahunToExcel(Request $req, $id)
     {
         return (new AbsensiPerTahunExport($id))->download("absensi-per-tahun.xlsx");
+    }
+
+    // Export Absensi By Filter Tanggal ke Excel
+    public function exportAbsensiByFilterTanggalToExcel(Request $req, $id)
+    {
+        return (new AbsenFilterTanggalExport($req, $id))->download("absensi-filter-tanggal.xlsx");
+    }
+
+    // Export Absensi Semua Pegawai per Tahun to Excel
+    public function exportAbsensiSemuaPegawaiPerTahun(Request $req, $filter)
+    {
+        return (new RekapAbsenSemuaPegawaiExport($req, $filter))->download("rekap-absensi-semua-pegawai.xlsx");
     }
 }

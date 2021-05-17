@@ -67,6 +67,10 @@
             background-color: black;
             height: 2px;
         }
+
+        .bg-orange {
+            background-color: orange;
+        }
     </style>
 
 </head>
@@ -101,7 +105,7 @@
     @switch($jenis)
     @case('keluarga')
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>NIK/NIP</th>
             <th>Nama</th>
             <th>Hubungan</th>
@@ -132,7 +136,7 @@
 
     @case('pendidikan')
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>Nama Akademi</th>
             <th>Jurusan</th>
             <th>Jenjang</th>
@@ -153,7 +157,7 @@
 
     @case('diklat')
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>Nama Diklat</th>
             <th>Jenis Diklat</th>
             <th>Penyelenggara</th>
@@ -174,7 +178,7 @@
 
     @case('riwayat-kerja')
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>Kantor Lama</th>
             <th>Jabatan Lama</th>
             <th>Tgl. Masuk Kerja</th>
@@ -195,7 +199,7 @@
 
     @case('penghargaan')
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>Nama Penghargaan</th>
             <th>Pemberi</th>
             <th>Tgl. Penghargaan</th>

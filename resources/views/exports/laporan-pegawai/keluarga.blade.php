@@ -1,0 +1,43 @@
+<table>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+      <td></td>
+  </tr>
+  <tr>
+      <td></td>
+  </tr>
+  <tr>
+      <td></td>
+  </tr>
+  <tr>
+      <td></td>
+  </tr>
+  <tr>
+      <th>NIK/NIP</th>
+      <th>Nama</th>
+      <th>Hubungan</th>
+      <th>TTL</th>
+      <th>Pekerjaan</th>
+      <th>Agama</th>
+      <th>Jenis Kelamin</th>
+      <th>Alamat</th>
+      <th>Telepon</th>
+  </tr>
+  @foreach($data as $d)
+  <tr>
+      <td>
+          {{$d->nik_nip}}
+      </td>
+      <td>{{$d->nama}}</td>
+      <td>{{$d->hubungan}}</td>
+      <td>{{$d->tempat_lahir . ", " . date("d/m/Y", strtotime($d->tgl_lahir))}}</td>
+      <td>{{$d->pekerjaan}}</td>
+      <td>{{$d->agama}}</td>
+      <td>{{$d->jenis_kelamin}}</td>
+      <td>{{$d->alamat}}</td>
+      <td>{{$d->telepon}}</td>
+  </tr>
+  @endforeach
+</table>

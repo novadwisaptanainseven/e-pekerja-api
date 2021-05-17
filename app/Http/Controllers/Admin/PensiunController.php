@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\PensiunExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Pensiun;
 use Illuminate\Http\Request;
@@ -163,5 +164,10 @@ class PensiunController extends Controller
                 "deleted_data" => $data
             ], 201);
         }
+    }
+
+    // Export Pensun Pegawai ke Excel
+    public function exportPensiunToExcel() {
+        return (new PensiunExport())->download('pensiun-pegawai.xlsx');
     }
 }

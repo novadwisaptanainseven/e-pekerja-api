@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Pegawai\AbsensiController;
 use App\Http\Controllers\Admin\Pegawai\PNSController;
 use App\Http\Controllers\Admin\Pegawai\PTTBController;
 use App\Http\Controllers\Admin\Pegawai\PTTHController;
+use App\Http\Controllers\Admin\PensiunController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
@@ -79,6 +80,14 @@ Route::prefix('v1/')->group(function() {
     Route::get('absensi-pegawai/{jenis}/export', [AbsensiController::class, "exportAbsensiToExcel"]);
     // Export Absensi Per Tahun to Excel
     Route::get('absensi-per-tahun/{id}/export', [AbsensiController::class, "exportAbsensiPerTahunToExcel"]);
+    // Export Absensi by Filter Tanggal to Excel
+    Route::get('absensi-filter-tanggal/{id}/export', [AbsensiController::class, "exportAbsensiByFilterTanggalToExcel"]);
+    // Export Rekap Absensi Semua Pegawai to Excel
+    Route::get('rekap-absensi-semua-pegawai/{filter}/export', [AbsensiController::class, "exportAbsensiSemuaPegawaiPerTahun"]);
+    // Export Pensiun Pegawai to Excel
+    Route::get('pensiun-pegawai/export', [PensiunController::class, "exportPensiunToExcel"]);
+    // Export Laporan Pegawai to Excel
+    Route::get('laporan-pegawai/{id_pegawai}/{data}/export', [PNSController::class, "exportLaporanPegawaiToExcel"]);
 
     // Cetak DUK pegawai
     Route::get('print-duk-pegawai', [FileController::class, "cetakDUK"]);
