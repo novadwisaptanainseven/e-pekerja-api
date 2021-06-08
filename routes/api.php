@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CutiController;
 use App\Http\Controllers\Admin\DUKController;
 use App\Http\Controllers\Admin\KGBController;
 use App\Http\Controllers\Admin\MasaKerjaController;
+use App\Http\Controllers\Admin\MasterData\BidangController;
 use App\Http\Controllers\Admin\Pegawai\AbsensiController;
 use App\Http\Controllers\Admin\Pegawai\PNSController;
 use App\Http\Controllers\Admin\Pegawai\PTTBController;
@@ -141,7 +142,22 @@ Route::middleware('auth:sanctum')->post('v1/logout', [AuthController::class, "lo
 // Cek User Saat Ini
 Route::middleware('auth:sanctum')->get('v1/user', [AuthController::class, "me"]);
 
+// API Publik
+// GROUP BIDANG
+  // Get All Bidang
+  Route::get("bidang", [BidangController::class, "getAll"]);
+  // Get Bidang By Id
+  Route::get("bidang/{id_bidang}", [BidangController::class, "getById"]);
+  // Insert Bidang
+  Route::post("bidang", [BidangController::class, "insert"]);
+  // Edit Bidang
+  Route::put("bidang/{id_bidang}", [BidangController::class, "edit"]);
+  // Delete Bidang By Id
+  Route::delete("bidang/{id_bidang}", [BidangController::class, "delete"]);
 
+// GROUP PEGAWAI
+// Get All Pegawai (PNS, PTTH, PTTB)
+  Route::get("semua-pegawai", [PNSController::class, "getAllPegawai"]);
 
 
 

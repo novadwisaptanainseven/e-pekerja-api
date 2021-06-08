@@ -88,7 +88,7 @@
     <!-- Header -->
     <div class="header">
         <div class="logo-container">
-            <img class="logo" src="{{storage_path('/app/public/logo_disperkim.png')}}" alt="logo">
+            <img class="logo" src="{{storage_path('/app/public/logo-kota-samarinda.png')}}" alt="logo">
         </div>
         <div class="deskripsi-container">
             <h2>PEMERINTAH KOTA SAMARINDA</h2>

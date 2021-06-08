@@ -83,7 +83,7 @@
     <!-- Header -->
     <div class="header">
         <div class="logo-container">
-            <img class="logo" src="{{storage_path('/app/public/logo_disperkim.png')}}" alt="logo">
+            <img class="logo" src="{{storage_path('/app/public/logo-kota-samarinda.png')}}" alt="logo">
         </div>
         <div class="deskripsi-container">
             <h2>PEMERINTAH KOTA SAMARINDA</h2>
@@ -107,7 +107,7 @@
         $dateNow = date("Y-m-d");
     @endphp
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>No</th>
             <th>Lama Cuti</th>
             <th>Tgl. Mulai Cuti</th>

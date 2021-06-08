@@ -66,6 +66,10 @@
             background-color: black;
             height: 2px;
         }
+
+        .bg-orange {
+            background-color: orange;
+        }
     </style>
 
 </head>
@@ -75,7 +79,7 @@
     <!-- Header -->
     <div class="header">
         <div class="logo-container">
-            <img class="logo" src="{{storage_path('/app/public/logo_disperkim.png')}}" alt="logo">
+            <img class="logo" src="{{storage_path('/app/public/logo-kota-samarinda.png')}}" alt="logo">
         </div>
         <div class="deskripsi-container">
             <h2>PEMERINTAH KOTA SAMARINDA</h2>
@@ -99,7 +103,7 @@
     @switch($jenis)
     @case('pns')
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>Nama/NIP</th>
             <th>Golongan</th>
             <th>Jabatan</th>
@@ -205,7 +209,7 @@
     
     @case('semua-pegawai')
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th style="width: 150px;">Nama</th>
             <th>NIP/NIK</th>
             <th>Jabatan</th>
