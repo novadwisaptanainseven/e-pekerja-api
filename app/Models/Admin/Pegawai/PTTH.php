@@ -36,6 +36,8 @@ class PTTH extends Model
                 "$tbl_pegawai.bpjs",
                 "$tbl_pegawai.npwp",
                 "$tbl_pegawai.no_hp",
+                "$tbl_pegawai.email",
+                "$tbl_pegawai.no_ktp",
                 "$tbl_pegawai.foto",
                 "$tbl_jabatan.nama_jabatan AS jabatan",
                 "$tbl_ptth.*",
@@ -51,6 +53,7 @@ class PTTH extends Model
             ->leftJoin($tbl_ptth, "$tbl_ptth.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->where("$tbl_pegawai.status_kerja", "=", "aktif")
+            ->orderBy("$tbl_pegawai.id_pegawai", 'DESC')
             ->get();
 
         return $data;
@@ -78,6 +81,8 @@ class PTTH extends Model
                 "$tbl_pegawai.bpjs",
                 "$tbl_pegawai.npwp",
                 "$tbl_pegawai.no_hp",
+                "$tbl_pegawai.email",
+                "$tbl_pegawai.no_ktp",
                 "$tbl_pegawai.foto",
                 "$tbl_pegawai.id_jabatan",
                 "$tbl_pegawai.id_bidang",
@@ -154,6 +159,8 @@ class PTTH extends Model
             'bpjs'               => $req->bpjs,
             'npwp'               => $req->npwp,
             'no_hp'              => $req->no_hp,
+            'email'              => $req->email,
+            'no_ktp'             => $req->no_ktp,
             'foto'               => $foto,
             "id_status_pegawai"  => 2
         ];
@@ -245,6 +252,8 @@ class PTTH extends Model
             'bpjs'               => $req->bpjs ? $req->bpjs : $data_pegawai->bpjs,
             'npwp'               => $req->npwp ? $req->npwp : $data_pegawai->npwm,
             'no_hp'              => $req->no_hp ? $req->no_hp : $data_pegawai->no_hp,
+            'email'              => $req->email ? $req->email : $data_pegawai->email,
+            'no_ktp'             => $req->no_ktp ? $req->no_ktp : $data_pegawai->no_ktp,
             'foto'               => $foto,
             "id_status_pegawai"  => 2
         ];

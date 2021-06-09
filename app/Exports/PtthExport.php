@@ -34,8 +34,8 @@ class PtthExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 $title = "Daftar Pegawai Tidak Tetap Harian (PTTH)";
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
 
-                $event->sheet->mergeCells('A2:G2');
-                $event->sheet->mergeCells('A3:G3');
+                $event->sheet->mergeCells('A2:I2');
+                $event->sheet->mergeCells('A3:I3');
 
                 $event->sheet->getStyle('A2:A3')->applyFromArray([
                   'alignment' => [
@@ -51,7 +51,7 @@ class PtthExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 // End of Set Title
                 
                 // Set Content
-                $event->sheet->getStyle('A6:G6')->applyFromArray([
+                $event->sheet->getStyle('A6:I6')->applyFromArray([
                   'font' => [
                     'bold' => true,
                   ],
@@ -59,7 +59,7 @@ class PtthExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                     'horizontal' => Alignment::HORIZONTAL_CENTER
                 ],
                 ]);
-                $event->sheet->getStyle('A6:G100')->applyFromArray([
+                $event->sheet->getStyle('A6:I100')->applyFromArray([
                     'alignment' => [
                         'vertical' => Alignment::VERTICAL_TOP
                     ],
@@ -69,7 +69,7 @@ class PtthExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                         ],
                     ],
                 ]);
-                $event->sheet->getStyle('A6:G6')->getFill()
+                $event->sheet->getStyle('A6:I6')->getFill()
                 ->setFillType(Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('FFe69d30');
 

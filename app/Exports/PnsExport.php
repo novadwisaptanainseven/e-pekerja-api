@@ -14,6 +14,7 @@ use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
 {
@@ -34,8 +35,8 @@ class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 $title = "Daftar Pegawai Negeri Sipil (PNS)";
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
 
-                $event->sheet->mergeCells('A2:H2');
-                $event->sheet->mergeCells('A3:H3');
+                $event->sheet->mergeCells('A2:J2');
+                $event->sheet->mergeCells('A3:J3');
 
                 $event->sheet->getStyle('A2:A3')->applyFromArray([
                   'alignment' => [
@@ -51,12 +52,16 @@ class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 // End of Set Title
                 
                 // Set Content
-                $event->sheet->getStyle('A6:H6')->applyFromArray([
+                // $event->sheet->getStyle('A6:J6')->getNumberFormat()
+                //   ->setFormatCode(NumberFormat::FORMAT_TEXT);
+               
+                
+                $event->sheet->getStyle('A6:J6')->applyFromArray([
                   'font' => [
                     'bold' => true,
                   ],
                 ]);
-                $event->sheet->getStyle('A6:H100')->applyFromArray([
+                $event->sheet->getStyle('A6:J100')->applyFromArray([
                   'alignment' => [
                       'vertical' => Alignment::VERTICAL_TOP
                   ],
@@ -66,12 +71,13 @@ class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                       ],
                   ],
               ]);
-                $event->sheet->getStyle('A6:H6')->getFill()
+                $event->sheet->getStyle('A6:J6')->getFill()
                 ->setFillType(Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('FFe69d30');
 
                 $event->sheet->getStyle('C')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 $event->sheet->getStyle('E')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getStyle('A')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 // End of Set Content
             },
           ];

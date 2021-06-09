@@ -256,7 +256,7 @@ class PNS extends Model
             "nip"               => $req->nip,
             "nama"              => $req->nama,
             'id_jabatan'        => $req->id_jabatan,
-            'id_bidang'     => $req->id_bidang,
+            'id_bidang'         => $req->id_bidang,
             'id_golongan'       => $req->id_golongan,
             'id_eselon'         => $req->id_eselon,
             'id_agama'          => $req->id_agama,
@@ -272,6 +272,8 @@ class PNS extends Model
             'tmt_cpns'          => $req->tmt_cpns,
             'tmt_jabatan'       => $req->tmt_jabatan,
             'no_hp'             => $req->no_hp,
+            'email'             => $req->email,
+            'no_ktp'            => $req->no_ktp,
             'gaji_pokok'        => $req->gaji_pokok,
             'foto'              => $foto,
         ];
@@ -373,6 +375,8 @@ class PNS extends Model
             'tmt_cpns'          => $req->tmt_cpns ? $req->tmt_cpns : $data_pegawai->tmt_cpns,
             'tmt_jabatan'       => $req->tmt_jabatan ? $req->tmt_jabatan : $data_pegawai->tmt_jabatan,
             'no_hp'             => $req->no_hp ? $req->no_hp : $data_pegawai->no_hp,
+            'email'             => $req->email ? $req->email : $data_pegawai->email,
+            'no_ktp'             => $req->no_ktp ? $req->no_ktp : $data_pegawai->no_ktp,
             'gaji_pokok'        => $req->gaji_pokok ? $req->gaji_pokok : $data_pegawai->gaji_pokok,
             'foto'              => $foto,
         ];

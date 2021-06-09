@@ -24,6 +24,8 @@
       <th>Bidang</th>
       <th>Jenis Kelamin</th>
       <th>No. HP</th>
+      <th>No. KTP</th>
+      <th>Email</th>
   </tr>
   </thead>
   <tbody>
@@ -37,6 +39,8 @@
           <td>{{ $d->bidang }}</td>
           <td>{{ $d->jenis_kelamin }}</td>
           <td>{{ $d->no_hp }}</td>
+          <td>'{{ $d->no_ktp }}</td>
+          <td>{{ $d->email }}</td>
       </tr>
   @endforeach
   </tbody>

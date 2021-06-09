@@ -24,6 +24,8 @@
         <th>Tugas</th>
         <th>Jenis Kelamin</th>
         <th>No. HP</th>
+        <th>No. KTP</th>
+        <th>Email</th>
     </tr>
     @foreach($data as $i => $d)
     <tr>
@@ -44,6 +46,8 @@
         <td>{{$d->jabatan}}</td>
         <td>{{$d->jenis_kelamin}}</td>
         <td>{{$d->no_hp}}</td>
+        <td>{{$d->no_ktp}}</td>
+        <td>{{$d->no_email}}</td>
     </tr>
     @endforeach
   </table>

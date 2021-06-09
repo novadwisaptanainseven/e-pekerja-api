@@ -22,6 +22,8 @@
       <th>Gaji Pokok</th>
       <th>Jenis Kelamin</th>
       <th>No. HP</th>
+      <th>No. KTP</th>
+      <th>Email</th>
   </tr>
   @foreach($data as $i => $d)
   <tr>
@@ -40,6 +42,8 @@
       <td>Rp. {{number_format($d->gaji_pokok,2,',','.')}}</td>
       <td>{{$d->jenis_kelamin}}</td>
       <td>{{$d->no_hp}}</td>
+      <td>{{$d->no_ktp ? "`" . $d->no_ktp}}</td>
+      <td>{{$d->email}}</td>
   </tr>
   @endforeach
 </table>

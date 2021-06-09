@@ -36,6 +36,8 @@ class PTTB extends Model
                 "$tbl_pegawai.bpjs",
                 "$tbl_pegawai.npwp",
                 "$tbl_pegawai.no_hp",
+                "$tbl_pegawai.email",
+                "$tbl_pegawai.no_ktp",
                 "$tbl_pegawai.foto",
                 "$tbl_pttb.*",
                 "$tbl_agama.agama",
@@ -78,6 +80,8 @@ class PTTB extends Model
                 "$tbl_pegawai.bpjs",
                 "$tbl_pegawai.npwp",
                 "$tbl_pegawai.no_hp",
+                "$tbl_pegawai.email",
+                "$tbl_pegawai.no_ktp",
                 "$tbl_pegawai.foto",
                 "$tbl_pttb.*",
                 "$tbl_agama.*",
@@ -144,7 +148,7 @@ class PTTB extends Model
         $data_pegawai = [
             "nip"                => $req->nip,
             "nama"               => $req->nama,
-            'id_bidang'      => $req->id_bidang,
+            'id_bidang'          => $req->id_bidang,
             'id_jabatan'         => $req->id_jabatan,
             'id_agama'           => $req->id_agama,
             'tempat_lahir'       => $req->tempat_lahir,
@@ -154,6 +158,8 @@ class PTTB extends Model
             'bpjs'               => $req->bpjs,
             'npwp'               => $req->npwp,
             'no_hp'              => $req->no_hp,
+            'email'              => $req->email,
+            'no_ktp'             => $req->no_ktp,
             'foto'               => $foto,
             "id_status_pegawai"  => 3
         ];
@@ -238,7 +244,7 @@ class PTTB extends Model
         $data_pegawai2 = [
             "nip"                => $req->nip ? $req->nip : $data_pegawai->nip,
             "nama"               => $req->nama ? $req->nama : $data_pegawai->nama,
-            'id_bidang'      => $req->id_bidang ? $req->id_bidang : $data_pegawai->id_bidang,
+            'id_bidang'          => $req->id_bidang ? $req->id_bidang : $data_pegawai->id_bidang,
             'id_jabatan'         => $req->id_jabatan ? $req->id_jabatan : $data_pegawai->id_jabatan,
             'id_agama'           => $req->id_agama ? $req->id_agama : $data_pegawai->id_agama,
             'tempat_lahir'       => $req->tempat_lahir ? $req->tempat_lahir : $data_pegawai->tempat_lahir,
@@ -248,6 +254,8 @@ class PTTB extends Model
             'bpjs'               => $req->bpjs ? $req->bpjs : $data_pegawai->bpjs,
             'npwp'               => $req->npwp ? $req->npwp : $data_pegawai->npwm,
             'no_hp'              => $req->no_hp ? $req->no_hp : $data_pegawai->no_hp,
+            'email'              => $req->email ? $req->email : $data_pegawai->email,
+            'no_ktp'             => $req->no_ktp ? $req->no_ktp : $data_pegawai->no_ktp,
             'foto'               => $foto,
             "id_status_pegawai"  => 3
         ];
