@@ -18,7 +18,7 @@
       <th>No</th>
       <th>Nama/NIP</th>
       <th>Penetap SK, No. SK, Tanggal, TMT</th>
-      <th>Tugas</th>
+      <th>Tugas Pokok (Jabatan)</th>
       <th>Gaji Pokok</th>
       <th>Jenis Kelamin</th>
       <th>No. HP</th>

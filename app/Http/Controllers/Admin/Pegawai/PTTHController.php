@@ -74,6 +74,8 @@ class PTTHController extends Controller
                 'bpjs'             => 'required',
                 'npwp'             => 'required',
                 'no_hp'            => 'required',
+                'email'           => 'required',
+                'no_ktp'          => 'required',
                 'foto'             => 'mimes:jpg,jpeg,png|max:1048',
                 'nama_akademi'     => 'required',
                 'jenjang'          => 'required',

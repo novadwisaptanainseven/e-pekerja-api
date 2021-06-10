@@ -135,13 +135,13 @@
 
     @case('ptth')
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th>Nama/NIP</th>
             <th>Penetap SK, No. SK, Tanggal, TMT</th>
             <!-- <th>Tgl. Penetapan SK</th>
             <th>No. SK</th>
             <th>Tgl. Mulai Tugas</th> -->
-            <th>Tugas</th>
+            <th>Tugas Pokok (Jabatan)</th>
             <th>Gaji Pokok</th>
             <th>Jenis Kelamin</th>
             <th>No. HP</th>
@@ -176,16 +176,16 @@
 
     @case('pttb')
     <table class="my-table" cellpadding="5" border="1">
-        <tr>
+        <tr class="bg-orange">
             <th style="width: 150px;">Nama/NIP</th>
             <th>Penetap SK, No. SK, Tanggal, TMT</th>
             <!-- <th>Tgl. Penetapan SK</th>
             <th>No. SK</th>
             <th>Tgl. Mulai Tugas</th> -->
-            <th>Kontrak Ke</th>
+            {{-- <th>Kontrak Ke</th> --}}
             <th>Masa Kerja</th>
             <th>Gaji Pokok</th>
-            <th>Tugas</th>
+            <th>Tugas Pokok (Jabatan)</th>
             <th>Jenis Kelamin</th>
             <th>No. HP</th>
             <th>No. KTP</th>
@@ -206,7 +206,7 @@
             <!-- <td>{{date("d/m/Y", strtotime($d->tgl_penetapan_sk))}}</td>
             <td>{{$d->no_sk}}</td>
             <td>{{date("d/m/Y", strtotime($d->tgl_mulai_tugas))}}</td> -->
-            <td style="text-align: center;">Ke-{{$d->kontrak_ke}}</td>
+            {{-- <td style="text-align: center;">Ke-{{$d->kontrak_ke}}</td> --}}
             <td>{{$d->masa_kerja}}</td>
             <td>Rp. {{number_format($d->gaji_pokok,2,',','.')}}</td>
             <td>{{$d->jabatan}}</td>

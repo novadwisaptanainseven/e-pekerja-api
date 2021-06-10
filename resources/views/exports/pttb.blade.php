@@ -21,7 +21,7 @@
         <th>Kontrak Ke</th>
         <th>Masa Kerja</th>
         <th>Gaji Pokok</th>
-        <th>Tugas</th>
+        <th>Tugas Pokok (Jabatan)</th>
         <th>Jenis Kelamin</th>
         <th>No. HP</th>
         <th>No. KTP</th>
@@ -46,8 +46,8 @@
         <td>{{$d->jabatan}}</td>
         <td>{{$d->jenis_kelamin}}</td>
         <td>{{$d->no_hp}}</td>
-        <td>{{$d->no_ktp}}</td>
-        <td>{{$d->no_email}}</td>
+        <td>{{$d->no_ktp ? "($d->no_ktp)" : ""}}</td>
+        <td>{{$d->email}}</td>
     </tr>
     @endforeach
   </table>

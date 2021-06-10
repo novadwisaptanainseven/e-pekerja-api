@@ -69,10 +69,11 @@ class FileController extends Controller
 
         // $pdf = PDF::loadView('printPegawai.rekap_pegawai', $data);
 
+        $F4 = [0, 0, 595.28, 841.89]; // Ukuran kertas F4 dalam bentuk px
         // return $pdf->download('rekap_pegawai.pdf');
         $view = View('printPegawai.rekap_pegawai', $data);
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($view->render())->setPaper('F4', 'landscape');
+        $pdf->loadHTML($view->render())->setPaper($F4, 'landscape');
         return $pdf->stream("daftar-pegawai-$jenis_data.pdf", array("Attachment" => false));
         // return response()->json([
         //     "message" => "Hello World"
