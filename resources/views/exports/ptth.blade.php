@@ -42,7 +42,7 @@
       <td>Rp. {{number_format($d->gaji_pokok,2,',','.')}}</td>
       <td>{{$d->jenis_kelamin}}</td>
       <td>{{$d->no_hp}}</td>
-      <td>{{$d->no_ktp ? "`" . $d->no_ktp}}</td>
+      <td>{{$d->no_ktp ? "($d->no_ktp)" : ""}}</td>
       <td>{{$d->email}}</td>
   </tr>
   @endforeach

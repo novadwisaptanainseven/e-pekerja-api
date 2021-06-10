@@ -97,7 +97,7 @@ class PNSController extends Controller
                 'tmt_jabatan'     => 'required',
                 'tmt_golongan'    => 'required',
                 'no_hp'           => 'required',
-                'email'           => 'required|email:rfc,dns',
+                'email'           => 'required',
                 'no_ktp'          => 'required',
                 'gaji_pokok'      => 'required',
                 'foto'            => 'mimes:jpg,jpeg,png|max:1048',
