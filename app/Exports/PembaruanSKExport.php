@@ -2,8 +2,9 @@
 
 namespace App\Exports;
 
-use App\Models\Admin\KGB;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Models\Admin\Pegawai\PNS;
+use App\Models\Admin\PembaruanSK;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Events\AfterSheet;
@@ -16,7 +17,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class KgbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
+class PembaruanSKExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
 {
     use Exportable;
 
@@ -26,44 +27,53 @@ class KgbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
     {
         $this->id = $id;
     }
-    
+
     public function view(): View
     {
-        return view('exports.kgb', [
-            'data' => KGB::getAll($this->id).
+        return view('exports.riwayat-sk', [
+            'data' => PembaruanSK::getAll($this->id),
+            'pegawai' => PNS::getById($this->id)
         ]);
     }
 
-    public function registerEvents(): array {
+    public function registerEvents(): array
+    {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
 
-                 // Set column alignment
-                 $event->sheet->getStyle('A')->getAlignment()
+                // Set column alignment
+                $event->sheet->getStyle('A')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                 $event->sheet->getStyle('B')->getAlignment()
+                $event->sheet->getStyle('B')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                 $event->sheet->getStyle('E')->getAlignment()
+                $event->sheet->getStyle('E')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                 $event->sheet->getStyle('F')->getAlignment()
+                $event->sheet->getStyle('F')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-             // End of set column alignment
+                // End of set column alignment
+
+                // Cek Status Pegawai
+                $pegawai = PNS::getById($this->id);
+                if ($pegawai->id_status_pegawai == 2) {
+                    $rangeCol = "G";
+                } else {
+                    $rangeCol = "I";
+                }
 
                 // Set Title
-                
-                $title = "Daftar Histori Kenaikan Gaji Berkala Pegawai Negeri Sipil";
+
+                $title = "Riwayat SK Pegawai Negeri Sipil";
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
                 $currentDate = date("d/m/Y");
-                $pegawai = PNS::getById($this->id);
 
-                $event->sheet->mergeCells('A1:G1');
-                $event->sheet->mergeCells('A2:G2');
-                $event->sheet->getStyle('A1:A2')->applyFromArray([
+                $event->sheet->mergeCells("A1:$rangeCol" . "1");
+                $event->sheet->mergeCells("A2:$rangeCol" . "2");
+                $event->sheet->getStyle("A1:$rangeCol" . "3")->applyFromArray([
                     'alignment' => [
-                      'horizontal' => Alignment::HORIZONTAL_CENTER,
-                      'vertical' => Alignment::VERTICAL_TOP
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_TOP
                     ]
-                  ]);
+                ]);
                 $event->sheet->getStyle('A1')->getFont()->setBold(true)->setSize(24);
                 $event->sheet->setCellValue('A1', $title);
 
@@ -83,7 +93,7 @@ class KgbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 // Set Content
 
                 // Styling Table Heading
-                $event->sheet->getStyle('A6:G6')->applyFromArray([
+                $event->sheet->getStyle("A6:$rangeCol" . "6")->applyFromArray([
                     'font' => [
                         'bold' => true,
                     ],
@@ -100,7 +110,7 @@ class KgbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 // End of styling heading table
 
                 // Add borders
-                $event->sheet->getStyle('A6:G100')->applyFromArray([
+                $event->sheet->getStyle("A6:$rangeCol" . "100")->applyFromArray([
                     'alignment' => [
                         'vertical' => Alignment::VERTICAL_TOP
                     ],
@@ -111,9 +121,6 @@ class KgbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                     ],
                 ]);
                 // End of add borders
-
-               
-
                 // End of set content
             }
         ];

@@ -16,6 +16,7 @@ use App\Models\Admin\Pegawai\PNS;
 use App\Models\Admin\Pegawai\PTTB;
 use App\Models\Admin\Pegawai\PTTH;
 use App\Models\Admin\Pegawai\RiwayatKerja;
+use App\Models\Admin\PembaruanSK;
 use App\Models\Admin\Pensiun;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
@@ -191,6 +192,28 @@ class FileController extends Controller
         return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
     }
 
+    // Print Riwayat SK Pegawai
+    public function cetakRiwayatSK($id_pegawai)
+    {
+        // Get Data Pegawai by Id
+        $pegawai = PNS::getById($id_pegawai);
+
+        $data = [
+            "title" => "Riwayat SK Pegawai",
+            "date" => date("d/m/Y"),
+            "data" => PembaruanSK::getAll($id_pegawai),
+            "ttd" => PNS::getDataKadis(),
+            "pegawai" => $pegawai
+        ];
+
+        $F4 = [0, 0, 595.28, 841.89];
+
+        $view = View("printPegawai.print_riwayat_sk_pegawai", $data);
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadHTML($view->render())->setPaper($F4, "landscape");
+        return $pdf->stream("riwayat-sk-pegawai.pdf", array("Attachment" => false));
+    }
+
     // Get Image
     public function getImage($filename)
     {
@@ -232,6 +255,15 @@ class FileController extends Controller
     {
         $fullpath = "/app/images/berkas/$filename";
         $message = "Data Berkas Pegawai Tidak Ditemukan";
+
+        return $this->downloads($fullpath, $message, $filename);
+    }
+
+    // Get SK Pegawai
+    public function getSK($filename)
+    {
+        $fullpath = "/app/images/surat-kontrak/$filename";
+        $message = "Data SK Pegawai Tidak Ditemukan";
 
         return $this->downloads($fullpath, $message, $filename);
     }

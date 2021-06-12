@@ -17,4 +17,6 @@ Route::prefix($prefix)->group(function () {
   Route::post("{id_pegawai}/pembaruan-sk/{id}", [PembaruanSKController::class, 'edit']);
   // Get Pembaruan SK By Id
   Route::get("{id_pegawai}/pembaruan-sk/{id}", [PembaruanSKController::class, 'getById']);
+  // Delete Pembaruan SK By Id
+  Route::delete("{id_pegawai}/pembaruan-sk/{id}", [PembaruanSKController::class, 'deleteRiwayatSK']);
 });

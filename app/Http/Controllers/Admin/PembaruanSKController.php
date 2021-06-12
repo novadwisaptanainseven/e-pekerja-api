@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\PembaruanSKExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Pegawai\PNS;
 use App\Models\Admin\PembaruanSK;
@@ -64,6 +65,7 @@ class PembaruanSKController extends Controller
                 "tgl_penetapan_sk" => "required",
                 "tgl_mulai_tugas"  => "required",
                 "gaji_pokok"       => "required|numeric",
+                "tugas"            => "required",
                 "file"             => 'mimes:pdf,doc,docx|max:1048',
             ];
         } else {
@@ -75,6 +77,7 @@ class PembaruanSKController extends Controller
                 "tgl_mulai_tugas"  => "required",
                 "kontrak_ke"       => "required",
                 "masa_kerja"       => "required",
+                "tugas"            => "required",
                 "gaji_pokok"       => "required|numeric",
                 "file"             => 'mimes:pdf,doc,docx|max:1048',
             ];
@@ -126,6 +129,7 @@ class PembaruanSKController extends Controller
                 "penetap_sk"       => "required",
                 "tgl_penetapan_sk" => "required",
                 "tgl_mulai_tugas"  => "required",
+                "tugas"            => "required",
                 "gaji_pokok"       => "required|numeric",
                 "file"             => 'mimes:pdf,doc,docx|max:1048',
             ];
@@ -138,6 +142,7 @@ class PembaruanSKController extends Controller
                 "tgl_mulai_tugas"  => "required",
                 "kontrak_ke"       => "required",
                 "masa_kerja"       => "required",
+                "tugas"            => "required",
                 "gaji_pokok"       => "required|numeric",
                 "file"             => 'mimes:pdf,doc,docx|max:1048',
             ];
@@ -180,5 +185,36 @@ class PembaruanSKController extends Controller
                 "edited_data" => $edit
             ], 201);
         }
+    }
+
+    // Delete Riwayat SK
+    public function deleteRiwayatSK($id_pegawai, $id)
+    {
+        $data = PembaruanSK::where('id_riwayat_sk', '=', $id)->first();
+
+        $delete = PembaruanSK::deleteRiwayatSK($id_pegawai, $id);
+
+        if ($delete === true) {
+            return response()->json([
+                "message" => "Berhasil menghapus data riwayat SK dengan id: {$id}",
+                "deleted_data" => $data
+            ]);
+        } elseif ($delete === 404) {
+            // Jika data pegawai tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
+            ], 404);
+        } elseif ($delete === 405) {
+            // Jika data kgb tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data riwayat SK dengan id: {$id} tidak ditemukan"
+            ], 404);
+        }
+    }
+
+    // Export Riwayat SK Pegawai ke Excel
+    public function exportRiwayatSK($id_pegawai)
+    {
+        return (new PembaruanSKExport($id_pegawai))->download('riwayat-sk-pegawai.xlsx');
     }
 }

@@ -21,6 +21,7 @@ class PembaruanSK extends Model
         // Tabel - tabel
         $tbl_riwayat_sk = "riwayat_sk";
         $tbl_pegawai = "pegawai";
+        $tbl_jabatan = "jabatan";
 
         // Cek apakah data pegawai ditemukan
         $data_pegawai = DB::table($tbl_pegawai)
@@ -44,10 +45,12 @@ class PembaruanSK extends Model
             ->select(
                 "$tbl_riwayat_sk.*",
                 "$tbl_pegawai.nama",
+                "$tbl_jabatan.*",
                 "$tbl_pegawai2.$tbl_pegawai2_field",
             )
             ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_riwayat_sk.id_pegawai")
             ->leftJoin($tbl_pegawai2, "$tbl_pegawai2.id_pegawai", '=', "$tbl_pegawai.id_pegawai")
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_riwayat_sk.tugas")
             ->where("$tbl_riwayat_sk.id_pegawai", "=", $id_pegawai)
             ->orderBy("id_riwayat_sk", "desc")
             ->get();
@@ -61,6 +64,7 @@ class PembaruanSK extends Model
         // Tabel - tabel
         $tbl_riwayat_sk = "riwayat_sk";
         $tbl_pegawai = "pegawai";
+        $tbl_jabatan = "jabatan";
 
         // Cek apakah data pegawai ditemukan
         $data_pegawai = DB::table($tbl_pegawai)
@@ -86,6 +90,7 @@ class PembaruanSK extends Model
                 ["id_riwayat_sk", "=", $id_riwayat_sk],
                 ["id_pegawai", "=", $id_pegawai],
             ])
+            ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_riwayat_sk.tugas")
             ->first();
 
         return $data;
@@ -125,6 +130,7 @@ class PembaruanSK extends Model
                 "penetap_sk"        => $req->penetap_sk,
                 "tgl_penetapan_sk"  => $req->tgl_penetapan_sk,
                 "tgl_mulai_tugas"   => $req->tgl_mulai_tugas,
+                "tugas"             => $req->tugas,
                 "gaji_pokok"        => $req->gaji_pokok,
                 "file"              => $file,
                 "created_at"        => date("Y-m-d"),
@@ -135,6 +141,7 @@ class PembaruanSK extends Model
                 "penetap_sk"        => $req->penetap_sk,
                 "tgl_penetapan_sk"  => $req->tgl_penetapan_sk,
                 "tgl_mulai_tugas"   => $req->tgl_mulai_tugas,
+                "tugas"             => $req->tugas,
                 "gaji_pokok"        => $req->gaji_pokok,
             ];
         } else {
@@ -146,6 +153,7 @@ class PembaruanSK extends Model
                 "penetap_sk"        => $req->penetap_sk,
                 "tgl_penetapan_sk"  => $req->tgl_penetapan_sk,
                 "tgl_mulai_tugas"   => $req->tgl_mulai_tugas,
+                "tugas"             => $req->tugas,
                 "kontrak_ke"        => $req->kontrak_ke,
                 "masa_kerja"        => $req->masa_kerja,
                 "gaji_pokok"        => $req->gaji_pokok,
@@ -158,6 +166,7 @@ class PembaruanSK extends Model
                 "penetap_sk"        => $req->penetap_sk,
                 "tgl_penetapan_sk"  => $req->tgl_penetapan_sk,
                 "tgl_mulai_tugas"   => $req->tgl_mulai_tugas,
+                "tugas"             => $req->tugas,
                 "kontrak_ke"        => $req->kontrak_ke,
                 "masa_kerja"        => $req->masa_kerja,
                 "gaji_pokok"        => $req->gaji_pokok,
@@ -219,7 +228,8 @@ class PembaruanSK extends Model
                 "no_sk"             => $req->no_sk ? $req->no_sk : $riwayat_sk->no_sk,
                 "penetap_sk"        => $req->penetap_sk ? $req->penetap_sk : $riwayat_sk->penetap_sk,
                 "tgl_penetapan_sk"  => $req->tgl_penetapan_sk ? $req->tgl_penetapan_sk : $riwayat_sk->tgl_penetapan_sk,
-                "tgl_mulai_tugas"   => $req->tgl_penetapan_sk ? $req->tgl_penetapan_sk : $riwayat_sk->no_sk,
+                "tgl_mulai_tugas"   => $req->tgl_mulai_tugas ? $req->tgl_mulai_tugas : $riwayat_sk->tgl_mulai_tugas,
+                "tugas"             => $req->tugas ? $req->tugas : $riwayat_sk->tugas,
                 "gaji_pokok"        => $req->gaji_pokok ? $req->gaji_pokok : $riwayat_sk->gaji_pokok,
                 "file"              => $file,
                 "created_at"        => date("Y-m-d"),
@@ -231,7 +241,8 @@ class PembaruanSK extends Model
                 "no_sk"             => $req->no_sk ? $req->no_sk : $riwayat_sk->no_sk,
                 "penetap_sk"        => $req->penetap_sk ? $req->penetap_sk : $riwayat_sk->penetap_sk,
                 "tgl_penetapan_sk"  => $req->tgl_penetapan_sk ? $req->tgl_penetapan_sk : $riwayat_sk->tgl_penetapan_sk,
-                "tgl_mulai_tugas"   => $req->tgl_penetapan_sk ? $req->tgl_penetapan_sk : $riwayat_sk->no_sk,
+                "tgl_mulai_tugas"   => $req->tgl_mulai_tugas ? $req->tgl_mulai_tugas : $riwayat_sk->tgl_mulai_tugas,
+                "tugas"             => $req->tugas ? $req->tugas : $riwayat_sk->tugas,
                 "gaji_pokok"        => $req->gaji_pokok ? $req->gaji_pokok : $riwayat_sk->gaji_pokok,
                 "kontrak_ke"        => $req->kontrak_ke ? $req->kontrak_ke : $riwayat_sk->kontrak_ke,
                 "masa_kerja"        => $req->masa_kerja ? $req->masa_kerja : $riwayat_sk->masa_kerja,
@@ -250,5 +261,42 @@ class PembaruanSK extends Model
         $edited_data = DB::table($tbl_riwayat_sk)->where("id_riwayat_sk", "=", $id_riwayat_sk)->first();
 
         return $edited_data;
+    }
+
+    // Delete RiwayatSK
+    public static function deleteRiwayatSK($id_pegawai, $id_riwayat_sk)
+    {
+        // Tabel - tabel
+        $tbl_riwayat_sk = "riwayat_sk";
+        $tbl_pegawai = "pegawai";
+
+        // Cek apakah data pegawai ditemukan
+        $pegawai = DB::table($tbl_pegawai)->where('id_pegawai', '=', $id_pegawai)->first();
+        if (!$pegawai) {
+            return 404; // NOT FOUND
+        }
+
+        // Hapus foto pegawai
+        $path_foto = $pegawai->foto;
+        Storage::delete($path_foto);
+
+        // Cek apakah data riwayat_sk ditemukan
+        $riwayat_sk = DB::table($tbl_riwayat_sk)->where([
+            ['id_riwayat_sk', '=', $id_riwayat_sk],
+            ['id_pegawai', '=', $id_pegawai],
+        ])->first();
+        if (!$riwayat_sk) {
+            return 405; // NOT FOUND
+        }
+
+        // Delete data riwayat_sk
+        DB::table($tbl_riwayat_sk)
+            ->where([
+                ['id_riwayat_sk', '=', $id_riwayat_sk],
+                ['id_pegawai', '=', $id_pegawai],
+            ])
+            ->delete();
+
+        return true;
     }
 }

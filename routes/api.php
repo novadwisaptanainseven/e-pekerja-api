@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Pegawai\AbsensiController;
 use App\Http\Controllers\Admin\Pegawai\PNSController;
 use App\Http\Controllers\Admin\Pegawai\PTTBController;
 use App\Http\Controllers\Admin\Pegawai\PTTHController;
+use App\Http\Controllers\Admin\PembaruanSKController;
 use App\Http\Controllers\Admin\PensiunController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AuthController;
@@ -52,7 +53,7 @@ Route::prefix('v1/user/')->group(function () {
 });
 
 // Download File
-Route::prefix('v1/')->group(function() {
+Route::prefix('v1/')->group(function () {
     // Image
     Route::get('image/{filename}', [FileController::class, "getImage"]);
     // Rekap PDF
@@ -89,6 +90,8 @@ Route::prefix('v1/')->group(function() {
     Route::get('pensiun-pegawai/export', [PensiunController::class, "exportPensiunToExcel"]);
     // Export Laporan Pegawai to Excel
     Route::get('laporan-pegawai/{id_pegawai}/{data}/export', [PNSController::class, "exportLaporanPegawaiToExcel"]);
+    // Export Riwayat SK Pegawai to Excel
+    Route::get('riwayat-sk/{id_pegawai}/export', [PembaruanSKController::class, "exportRiwayatSK"]);
 
     // Cetak DUK pegawai
     Route::get('print-duk-pegawai', [FileController::class, "cetakDUK"]);
@@ -113,6 +116,10 @@ Route::prefix('v1/')->group(function() {
     Route::get('print-rekap-absensi-filter/{id_pegawai}', [FileController::class, "cetakRekapAbsensiByFilterTanggal"]);
     // Cetak Rekap Absensi Per Tahun by Id Pegawai
     Route::get('print-rekap-absensi-pegawai/{id_pegawai}', [FileController::class, "cetakRekapAbsensiPerTahun"]);
+    // Cetak Riwayat SK
+    Route::get('print-riwayat-sk/{id_pegawai}', [FileController::class, "cetakRiwayatSK"]);
+
+
     // Test
     Route::get('rekap-absensi/{jenis_data}', function ($jenis_data) {
         $data = Absensi::getByStatusPegawai($jenis_data);
@@ -127,13 +134,14 @@ Route::prefix('v1/')->group(function() {
     Route::get('dok_penghargaan/{filename}', [FileController::class, "getDokPenghargaan"]);
     // Berkas Pegawai
     Route::get('berkas/{filename}', [FileController::class, "getBerkas"]);
+    // SK Pegawai
+    Route::get('sk/{filename}', [FileController::class, "getSK"]);
 
     // Login User
     Route::post('login', [AuthController::class, "login"]);
 
     // Register User
     Route::post('register', [UsersController::class, "register"]);
-
 });
 
 // Logout User
@@ -144,20 +152,20 @@ Route::middleware('auth:sanctum')->get('v1/user', [AuthController::class, "me"])
 
 // API Publik
 // GROUP BIDANG
-  // Get All Bidang
-  Route::get("bidang", [BidangController::class, "getAll"]);
-  // Get Bidang By Id
-  Route::get("bidang/{id_bidang}", [BidangController::class, "getById"]);
-  // Insert Bidang
-  Route::post("bidang", [BidangController::class, "insert"]);
-  // Edit Bidang
-  Route::put("bidang/{id_bidang}", [BidangController::class, "edit"]);
-  // Delete Bidang By Id
-  Route::delete("bidang/{id_bidang}", [BidangController::class, "delete"]);
+// Get All Bidang
+Route::get("bidang", [BidangController::class, "getAll"]);
+// Get Bidang By Id
+Route::get("bidang/{id_bidang}", [BidangController::class, "getById"]);
+// Insert Bidang
+Route::post("bidang", [BidangController::class, "insert"]);
+// Edit Bidang
+Route::put("bidang/{id_bidang}", [BidangController::class, "edit"]);
+// Delete Bidang By Id
+Route::delete("bidang/{id_bidang}", [BidangController::class, "delete"]);
 
 // GROUP PEGAWAI
 // Get All Pegawai (PNS, PTTH, PTTB)
-  Route::get("semua-pegawai", [PNSController::class, "getAllPegawai"]);
+Route::get("semua-pegawai", [PNSController::class, "getAllPegawai"]);
 
 
 
