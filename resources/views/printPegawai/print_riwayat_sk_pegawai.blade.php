@@ -23,8 +23,8 @@
                 <td>{{$i + 1}}</td>
                 <td>{{ $item->no_sk }}</td>
                 <td>{{ $item->penetap_sk }}</td>
-                <td>{{ date("d/m/Y", strtotime($item->tgl_penetapan_sk)) }}</td>
-                <td>{{ date("d/m/Y", strtotime($item->tgl_mulai_tugas)) }}</td>
+                <td align="center">{{ date("d/m/Y", strtotime($item->tgl_penetapan_sk)) }}</td>
+                <td align="center">{{ date("d/m/Y", strtotime($item->tgl_mulai_tugas)) }}</td>
                 <td>{{ $item->nama_jabatan }}</td>
                 <td>Rp. {{ number_format($item->gaji_pokok, 2, ',', '.') }}</td>
             </tr>
@@ -48,10 +48,10 @@
                 <td>{{$i + 1}}</td>
                 <td>{{ $item->no_sk }}</td>
                 <td>{{ $item->penetap_sk }}</td>
-                <td>{{ date("d/m/Y", strtotime($item->tgl_penetapan_sk)) }}</td>
-                <td>{{ date("d/m/Y", strtotime($item->tgl_mulai_tugas)) }}</td>
-                <td>{{ $item->kontrak_ke }}</td>
-                <td>{{ $item->masa_kerja }}</td>
+                <td align="center">{{ date("d/m/Y", strtotime($item->tgl_penetapan_sk)) }}</td>
+                <td align="center">{{ date("d/m/Y", strtotime($item->tgl_mulai_tugas)) }}</td>
+                <td align="center">{{ $item->kontrak_ke }}</td>
+                <td align="center">{{ $item->masa_kerja }}</td>
                 <td>{{ $item->nama_jabatan }}</td>
                 <td>Rp. {{ number_format($item->gaji_pokok, 2, ',', '.') }}</td>
             </tr>

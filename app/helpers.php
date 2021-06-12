@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Str;
 
+// Fungsi untuk sanitasi nama file
 if (!function_exists('sanitizeFile')) {
     function sanitizeFile($file)
     {
@@ -14,6 +15,7 @@ if (!function_exists('sanitizeFile')) {
     }
 }
 
+// Fungsi untuk memformat tanggal ke dalam format tgl Indonesia
 if (!function_exists("formatTanggalIndonesia")) {
     function formatTanggalIndonesia($tgl)
     {
@@ -80,6 +82,15 @@ if (!function_exists("formatTanggalIndonesia")) {
             return $arr;
         }
     }
-        
+
+    // Fungsi untuk menghitung total masa kerja dalam hari
+    if(!function_exists("hitungMKG")) {
+        function hitungMKG($req) {
+            // Hitung total masa kerja untuk pengurutan
+            $mkg = explode(" ", $req->mk_golongan);
+            $total_mkg_hari = intval($mkg[0]) * 365 + intval($mkg[2]) * 30; // xTahun * 365 hari + xBulan * 30 hari
+            return $total_mkg_hari;
+        }
+    }
     
 }

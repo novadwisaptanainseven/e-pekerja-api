@@ -42,6 +42,7 @@ class MasaKerja extends Model
             ->leftJoin($tbl_golongan, "$tbl_golongan.id_pangkat_golongan", '=', "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_eselon, "$tbl_eselon.id_pangkat_eselon", '=', "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", '=', "$tbl_pegawai.id_jabatan")
+            ->orderBy("$tbl_masa_kerja.total_mkg_hari", "DESC")
             ->get();
 
         return $data;
@@ -83,7 +84,7 @@ class MasaKerja extends Model
             ->leftJoin($tbl_golongan, "$tbl_golongan.id_pangkat_golongan", '=', "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_eselon, "$tbl_eselon.id_pangkat_eselon", '=', "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", '=', "$tbl_pegawai.id_jabatan")
-            ->orderBy("$tbl_golongan.id_pangkat_golongan", "asc")
+            ->orderBy("$tbl_golongan.total_mkg_hari", "DESC")
             ->get();
 
         foreach ($data_masa_kerja as $i => $d) {
@@ -163,11 +164,15 @@ class MasaKerja extends Model
             return 404; // NOT FOUND
         }
 
+        // Hitung total masa kerja untuk pengurutan
+        $total_mkg_hari = hitungMKG($req);
+
         $data = [
             "mk_golongan" => $req->mk_golongan ? $req->mk_golongan : $masa_kerja->mk_golongan,
             "mk_jabatan" => $req->mk_jabatan ? $req->mk_jabatan : $masa_kerja->mk_jabatan,
             "mk_sebelum_cpns" => $req->mk_sebelum_cpns ? $req->mk_sebelum_cpns : $masa_kerja->mk_sebelum_cpns,
             "mk_seluruhnya" => $req->mk_seluruhnya ? $req->mk_seluruhnya : $masa_kerja->mk_seluruhnya,
+            "total_mkg_hari" => $req->mk_golongan ? $total_mkg_hari : $masa_kerja->total_mkg_hari
         ];
 
         $cek_edit = DB::table($tbl_masa_kerja)->where('id_masa_kerja', '=', $id)->update($data);

@@ -280,6 +280,8 @@ class PNS extends Model
         $insert_pegawai = DB::table($tbl_pegawai)->insert($data_pegawai);
         $id_pegawai = DB::table($tbl_pegawai)->orderBy("id_pegawai", 'desc')->first()->id_pegawai;
 
+        
+
         // Tambah data masa kerja
         $data_masa_kerja = [
             'id_pegawai'      => $id_pegawai,
@@ -361,7 +363,7 @@ class PNS extends Model
             'id_jabatan'        => $req->id_jabatan ? $req->id_jabatan : $data_pegawai->id_jabatan,
             'id_bidang'     => $req->id_bidang ? $req->id_bidang : $data_pegawai->id_bidang,
             'id_golongan'       => $req->id_golongan ? $req->id_golongan : $data_pegawai->id_golongan,
-            'id_eselon'         => $req->id_eselon ? $req->id_eselon : $data_pegawai->id_eselon,
+            'id_eselon'         => $req->id_eselon,
             'id_agama'          => $req->id_agama ? $req->id_agama : $data_pegawai->id_agama,
             'id_status_pegawai' => 1,
             'tempat_lahir'      => $req->tempat_lahir ? $req->tempat_lahir : $data_pegawai->tempat_lahir,

@@ -142,9 +142,11 @@ class FileController extends Controller
             "ttd" => PNS::getDataKadis()
         ];
 
+        $F4 = [0, 0, 595.28, 841.89];
+
         $view = View("printPegawai.print_duk_pegawai", $data);
         $pdf = App::make("dompdf.wrapper");
-        $pdf->loadHTML($view->render())->setPaper("a4", "landscape");
+        $pdf->loadHTML($view->render())->setPaper($F4, "landscape");
         return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
     }
 
@@ -162,9 +164,11 @@ class FileController extends Controller
             "ttd" => PNS::getDataKadis()
         ];
 
+        $F4 = [0, 0, 595.28, 841.89];
+
         $view = View("printPegawai.print_masakerja_pegawai", $data);
         $pdf = App::make("dompdf.wrapper");
-        $pdf->loadHTML($view->render())->setPaper("a4", "landscape");
+        $pdf->loadHTML($view->render())->setPaper($F4, "landscape");
         return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
     }
 
