@@ -189,4 +189,152 @@ class MasaKerja extends Model
             return 500;
         }
     }
+
+    // Insert Riwayat Masa Kerja
+    public static function insertRiwayatMasaKerja($req, $id_pegawai)
+    {
+        // Tabel - tabel
+        $tbl_riwayat_mk = "riwayat_mk";
+        $tbl_masa_kerja_pegawai = "masa_kerja_pegawai";
+        $tbl_pegawai = "pegawai";
+
+        // Cek apakah data pegawai ditemukan
+        $pegawai = DB::table($tbl_pegawai)->where('id_pegawai', '=', $id_pegawai)->first();
+        if (!$pegawai) {
+            return 404; // NOT FOUND
+        }
+
+        // Insert Riwayat Masa Kerja ke database
+        $data = [
+            "id_pegawai"      => $id_pegawai,
+            "mk_golongan"     => $req->mk_golongan,
+            "mk_jabatan"      => $req->mk_jabatan,
+            "mk_sebelum_cpns" => $req->mk_cpns,
+            "mk_seluruhnya"   => $req->mk_seluruhnya,
+            "tanggal"         => date("Y-m-d"),
+            "created_at"      => now(),
+            "updated_at"      => now(),
+        ];
+
+        DB::table($tbl_riwayat_mk)->insert($data);
+
+        // Update Masa Kerja Di Tabel Pegawai
+
+        // Hitung total masa kerja untuk pengurutan
+        $total_mkg_hari = hitungMKG($req);
+
+        $data2 = [
+            "id_pegawai"      => $id_pegawai,
+            "mk_golongan"     => $req->mk_golongan,
+            "mk_jabatan"      => $req->mk_jabatan,
+            "mk_sebelum_cpns" => $req->mk_cpns,
+            "mk_seluruhnya"   => $req->mk_seluruhnya,
+            "total_mkg_hari"  => $total_mkg_hari,
+        ];
+
+        DB::table($tbl_masa_kerja_pegawai)
+            ->where('id_pegawai', "=", $id_pegawai)
+            ->update($data2);
+
+        return true;
+    }
+
+    // Get All Masa Kerja
+    public static function getAllRiwayatMasaKerja($id_pegawai)
+    {
+        // Tabel - tabel
+        $tbl_riwayat_mk = "riwayat_mk";
+
+        $data = DB::table($tbl_riwayat_mk)
+            ->orderBy("$tbl_riwayat_mk.id_riwayat_mk", "DESC")
+            ->where("id_pegawai", '=', $id_pegawai)
+            ->get();
+
+        return $data;
+    }
+
+    // Get Riwayat masa kerja By Id
+    public static function getRiwayatMasaKerjaById($id_pegawai, $id_riwayat_mk)
+    {
+        // Tabel - tabel
+        $tbl_riwayat_mk = "riwayat_mk";
+        $tbl_pegawai = "pegawai";
+
+        // Cek apakah data pegawai ditemukan
+        $data_pegawai = DB::table($tbl_pegawai)
+            ->where("id_pegawai", "=", $id_pegawai)
+            ->first();
+        if (!$data_pegawai) {
+            return 404;
+        }
+
+        // Cek apakah data riwayat_mk ditemukan
+        $data_riwayat_mk = DB::table($tbl_riwayat_mk)
+            ->where([
+                ["id_riwayat_mk", "=", $id_riwayat_mk],
+                ["id_pegawai", "=", $id_pegawai],
+            ])
+            ->first();
+        if (!$data_riwayat_mk) {
+            return 405;
+        } else {
+            return $data_riwayat_mk;
+        }
+    }
+
+    // Get Riwayat Masa Kerja Terbaru
+    public static function getRiwayatMasaKerjaTerbaru($id_pegawai)
+    {
+        // Tabel - tabel
+        $tbl_riwayat_mk = "riwayat_mk";
+        $tbl_pegawai = "pegawai";
+
+        // Cek apakah data pegawai ditemukan
+        $data_pegawai = DB::table($tbl_pegawai)
+            ->where("id_pegawai", "=", $id_pegawai)
+            ->first();
+        if (!$data_pegawai) {
+            return null;
+        }
+
+        $data = DB::table($tbl_riwayat_mk)
+            ->where('id_pegawai', '=', $id_pegawai)
+            ->orderBy('id_riwayat_mk', 'DESC')
+            ->first();
+
+        return $data;
+    }
+
+    // Delete Riwayat Masa Kerja
+    public static function deleteRiwayatMasaKerja($id_pegawai, $id_riwayat_mk)
+    {
+        // Tabel - tabel
+        $tbl_riwayat_mk = "riwayat_mk";
+        $tbl_pegawai = "pegawai";
+
+        // Cek apakah data pegawai ditemukan
+        $pegawai = DB::table($tbl_pegawai)->where('id_pegawai', '=', $id_pegawai)->first();
+        if (!$pegawai) {
+            return 404; // NOT FOUND
+        }
+
+        // Cek apakah data riwayat_mk ditemukan
+        $riwayat_mk = DB::table($tbl_riwayat_mk)->where([
+            ['id_riwayat_mk', '=', $id_riwayat_mk],
+            ['id_pegawai', '=', $id_pegawai],
+        ])->first();
+        if (!$riwayat_mk) {
+            return 405; // NOT FOUND
+        }
+
+        // Delete data riwayat_mk
+        DB::table($tbl_riwayat_mk)
+            ->where([
+                ['id_riwayat_mk', '=', $id_riwayat_mk],
+                ['id_pegawai', '=', $id_pegawai],
+            ])
+            ->delete();
+
+        return true;
+    }
 }

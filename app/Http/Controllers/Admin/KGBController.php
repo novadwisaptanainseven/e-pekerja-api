@@ -191,7 +191,8 @@ class KGBController extends Controller
     }
 
     // Export KGB Pegawai ke Excel
-    public function exportKgbToExcel($id) {
+    public function exportKgbToExcel($id)
+    {
         return (new KgbExport($id))->download('kgb-pegawai.xlsx');
     }
 }

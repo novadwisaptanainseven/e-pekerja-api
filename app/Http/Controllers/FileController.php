@@ -218,6 +218,28 @@ class FileController extends Controller
         return $pdf->stream("riwayat-sk-pegawai.pdf", array("Attachment" => false));
     }
 
+    // Print Riwayat Masa Kerja Pegawai
+    public function cetakRiwayatMasaKerja($id_pegawai)
+    {
+        // Get Data Pegawai by Id
+        $pegawai = PNS::getById($id_pegawai);
+
+        $data = [
+            "title" => "Riwayat Masa Kerja Pegawai",
+            "date" => date("d/m/Y"),
+            "data" => MasaKerja::getAllRiwayatMasaKerja($id_pegawai),
+            "ttd" => PNS::getDataKadis(),
+            "pegawai" => $pegawai
+        ];
+
+        $F4 = [0, 0, 595.28, 841.89];
+
+        $view = View("printPegawai.print_riwayat_mk_pegawai", $data);
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadHTML($view->render())->setPaper($F4, "landscape");
+        return $pdf->stream("riwayat-mk-pegawai.pdf", array("Attachment" => false));
+    }
+
     // Get Image
     public function getImage($filename)
     {

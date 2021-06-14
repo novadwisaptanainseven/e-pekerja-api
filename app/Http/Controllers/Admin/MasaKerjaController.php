@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\MasaKerjaExport;
-use App\Http\Controllers\Controller;
-use App\Models\Admin\MasaKerja;
 use Illuminate\Http\Request;
+use App\Models\Admin\MasaKerja;
+use App\Exports\MasaKerjaExport;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class MasaKerjaController extends Controller
@@ -99,9 +100,125 @@ class MasaKerjaController extends Controller
         }
     }
 
+    // Insert Riwayat Masa Kerja
+    public function insertRiwayatMasaKerja(Request $request, $id_pegawai)
+    {
+        // Validation
+        $messages = [
+            "required" => ":attribute harus diisi!"
+        ];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                "mk_golongan"   => "required",
+                "mk_jabatan"    => "required",
+                "mk_cpns"       => "required",
+                "mk_seluruhnya" => "required",
+            ],
+            $messages
+        );
+
+        // Validation Check
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+        // End of Validation
+
+        $insert = MasaKerja::insertRiwayatMasaKerja($request, $id_pegawai);
+
+        if ($insert === true) {
+            // Jika insert data berhasil -> 201 CREATED
+            return response()->json([
+                "message" => "Pembaruan masa kerja pegawai dengan id: {$id_pegawai} berhasil",
+                "input_data" => $request->all()
+            ], 201);
+        } elseif ($insert === 404) {
+            // Jika data tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
+            ], 404);
+        }
+    }
+
+    // Get All Riwayat Masa Kerja
+    public function getAllRiwayatMasaKerja($id_pegawai)
+    {
+        $data = MasaKerja::getAllRiwayatMasaKerja($id_pegawai);
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua riwayat masa kerja pegawai dengan id: $id_pegawai",
+            "data" => $data
+        ], 200);
+    }
+
+    // Get Riwayat Masa Kerja by Id
+    public function getRiwayatMasaKerjaById($id_pegawai, $id)
+    {
+        $data = MasaKerja::getRiwayatMasaKerjaById($id_pegawai, $id);
+
+        if ($data === 404) {
+            return response()->json([
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
+            ], 404);
+        } elseif ($data === 405) {
+            return response()->json([
+                "message" => "Data riwayat masa kerja pegawai dengan id: {$id} tidak ditemukan"
+            ], 404);
+        } else {
+            return response()->json([
+                "message" => "Berhasil mendapatkan data riwayat masa kerja dengan id: {$id}",
+                "data" => $data
+            ], 200);
+        }
+    }
+
+    // Get Riwayat Masa Kerja Terbaru
+    public function getRiwayatMasaKerjaTerbaru($id_pegawai)
+    {
+        $data = MasaKerja::getRiwayatMasaKerjaTerbaru($id_pegawai);
+
+        if ($data) {
+            return response()->json([
+                "message" => "Berhasil mendapatkan riwayat terakhir masa kerja pegawai dengan id: {$id_pegawai}",
+                "data" => $data
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
+            ], 404);
+        }
+    }
+
+    // Delete Riwayat MasaKerja
+    public function deleteRiwayatMasaKerja($id_pegawai, $id)
+    {
+        $data = DB::table('riwayat_mk')->where('id_riwayat_mk', '=', $id)->first();
+
+        $delete = MasaKerja::deleteRiwayatMasaKerja($id_pegawai, $id);
+
+        if ($delete === true) {
+            return response()->json([
+                "message" => "Berhasil menghapus data riwayat masa kerja pegawai dengan id: {$id}",
+                "deleted_data" => $data
+            ]);
+        } elseif ($delete === 404) {
+            // Jika data pegawai tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
+            ], 404);
+        } elseif ($delete === 405) {
+            // Jika data kgb tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data riwayat masa kerja pegawai dengan id: {$id} tidak ditemukan"
+            ], 404);
+        }
+    }
+
     // Export Masa Kerja Pegawai ke Excel
-    public function exportMasaKerjaToExcel() {
+    public function exportMasaKerjaToExcel()
+    {
         return (new MasaKerjaExport)->download('masa-kerja-pegawai.xlsx');
     }
 }
-

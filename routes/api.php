@@ -118,6 +118,10 @@ Route::prefix('v1/')->group(function () {
     Route::get('print-rekap-absensi-pegawai/{id_pegawai}', [FileController::class, "cetakRekapAbsensiPerTahun"]);
     // Cetak Riwayat SK
     Route::get('print-riwayat-sk/{id_pegawai}', [FileController::class, "cetakRiwayatSK"]);
+    // Cetak PDF Riwayat Masa Kerja
+    Route::get("riwayat-mk-cetak/{id_pegawai}", [FileController::class, 'cetakRiwayatMasaKerja']);
+    // Export Excel Riwayat Masa Kerja
+    Route::get("riwayat-mk-export/{id_pegawai}", [MasaKerjaController::class, 'exportRiwayatMasaKerja']);
 
 
     // Test
