@@ -31,6 +31,23 @@ class KGBController extends Controller
         }
     }
 
+    // Get KGB Pegawai
+    public function getKGBPegawai()
+    {
+        $data = KGB::getKGBPegawai();
+
+        if ($data) {
+            foreach ($data as $i => $d) {
+                $d->no = $i + 1;
+            }
+        }
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua data kenaikan gaji berkala pegawai",
+            "data" => $data
+        ], 200);
+    }
+
     // Get KGB Terbaru
     public function getKGBTerbaru($id_pegawai)
     {

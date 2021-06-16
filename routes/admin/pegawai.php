@@ -140,6 +140,8 @@ Route::prefix($prefix)->group(function () {
   Route::get("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'getById']);
   // Delete Kenaikan Gaji Berkala By Id
   Route::delete("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'delete']);
+  // Get KGB yg berjalan dan akan naik gaji
+  Route::get("kgb", [KGBController::class, 'getKGBPegawai']);
 
   // GROUP CUTI
   // Insert Cuti

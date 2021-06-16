@@ -44,6 +44,27 @@ class KGB extends Model
         return $data;
     }
 
+    // Get KGB Pegawai
+    public static function getKGBPegawai()
+    {
+        // Tabel - tabel
+        $tbl_kgb = "kgb";
+        $tbl_pegawai = "pegawai";
+
+        $data = DB::table($tbl_kgb)
+            ->select(
+                "$tbl_kgb.*",
+                "$tbl_pegawai.nip",
+                "$tbl_pegawai.nama",
+            )
+            ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_kgb.id_pegawai")
+            ->where("$tbl_kgb.id_pegawai", "=", $id_pegawai)
+            ->orderBy("id_kgb", "desc")
+            ->get();
+
+        return $data;
+    }
+
     // Get KGB Terbaru
     public static function getKGBTerbaru($id_pegawai)
     {
