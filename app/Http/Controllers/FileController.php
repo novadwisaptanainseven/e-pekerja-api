@@ -294,12 +294,22 @@ class FileController extends Controller
         return $this->downloads($fullpath, $message, $filename);
     }
 
+    // Get Riwayat Masa Kerja Pegawai
+    public function getRiwayatMK($filename)
+    {
+        $filename2 = "$filename.xlsx";
+        $fullpath = "/app/exports/$filename2";
+        $message = "Data Riwayat Masa Kerja Pegawai Tidak Ditemukan";
+
+        return $this->downloads($fullpath, $message, $filename2);
+    }
+
     public function downloads($fullpath, $message, $filename)
     {
         if (file_exists(storage_path($fullpath))) {
             return response()->file(storage_path($fullpath), [
                 'Content-Disposition' => 'inline; filename="' . $filename . '"'
-            ]);
+            ], 200);
         } else {
             return response()->json([
                 "message" => $message

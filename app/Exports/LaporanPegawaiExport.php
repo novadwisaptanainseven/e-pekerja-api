@@ -41,33 +41,32 @@ class LaporanPegawaiExport implements FromView, ShouldAutoSize, WithEvents
         $output_data = "";
         $view = "";
 
-        switch($this->data)
-        {
-            case 'keluarga' :
+        switch ($this->data) {
+            case 'keluarga':
                 $output_data = Keluarga::getAll($this->id_pegawai);
                 $view = "keluarga";
                 break;
-            case 'pendidikan' :
+            case 'pendidikan':
                 $output_data = Pendidikan::getAll($this->id_pegawai);
                 $view = "pendidikan";
                 break;
-            case 'diklat' :
+            case 'diklat':
                 $output_data = Diklat::getAll($this->id_pegawai);
                 $view = "diklat";
                 break;
-            case 'riwayat-kerja' :
+            case 'riwayat-kerja':
                 $output_data = RiwayatKerja::getAll($this->id_pegawai);
                 $view = "riwayat-kerja";
                 break;
-            case 'penghargaan' :
+            case 'penghargaan':
                 $output_data = Penghargaan::getAll($this->id_pegawai);
                 $view = "penghargaan";
                 break;
-            case 'berkas' :
+            case 'berkas':
                 $output_data = Berkas::getAll($this->id_pegawai);
                 $view = "berkas";
                 break;
-            default :
+            default:
                 break;
         }
 
@@ -76,70 +75,70 @@ class LaporanPegawaiExport implements FromView, ShouldAutoSize, WithEvents
         ]);
     }
 
-    public function registerEvents(): array {
+    public function registerEvents(): array
+    {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
 
                 // Number Formats
-                  $event->sheet->getStyle('A')->getNumberFormat()
+                $event->sheet->getStyle('A')->getNumberFormat()
                     ->setFormatCode(NumberFormat::FORMAT_TEXT);
                 // End of Number Formats
 
                 // Set column alignment
                 //  $event->sheet->getStyle('E')->getAlignment()
                 //     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                 // End of set column alignment
+                // End of set column alignment
 
-                 // Mengatasi column agar dinamis mengikuti jenis data laporan
+                // Mengatasi column agar dinamis mengikuti jenis data laporan
                 $jenisData = "";
                 $rangeColumn = "";
                 $rangeColumn2 = "";
                 $rangeColumn3 = "";
-                switch($this->data)
-                {
-                    case 'keluarga' :
+                switch ($this->data) {
+                    case 'keluarga':
                         $rangeColumn = "A1:I1";
                         $rangeColumn2 = "A2:I2";
                         $rangeColumn3 = "A6:I6";
                         $rangeColumn4 = "A6:I100";
                         $jenisData = "Keluarga";
                         break;
-                    case 'pendidikan' :
+                    case 'pendidikan':
                         $rangeColumn = "A1:E1";
                         $rangeColumn2 = "A2:E2";
                         $rangeColumn3 = "A6:E6";
                         $rangeColumn4 = "A6:E100";
                         $jenisData = "Pendidikan";
                         break;
-                    case 'diklat' :
+                    case 'diklat':
                         $rangeColumn = "A1:E1";
                         $rangeColumn2 = "A2:E2";
                         $rangeColumn3 = "A6:E6";
                         $rangeColumn4 = "A6:E100";
                         $jenisData = "Diklat";
                         break;
-                    case 'riwayat-kerja' :
+                    case 'riwayat-kerja':
                         $rangeColumn = "A1:E1";
                         $rangeColumn2 = "A2:E2";
                         $rangeColumn3 = "A6:E6";
                         $rangeColumn4 = "A6:E100";
                         $jenisData = "Riwayat Kerja";
                         break;
-                    case 'penghargaan' :
+                    case 'penghargaan':
                         $rangeColumn = "A1:C1";
                         $rangeColumn2 = "A2:C2";
                         $rangeColumn3 = "A6:C6";
                         $rangeColumn4 = "A6:C100";
                         $jenisData = "Penghargaan";
                         break;
-                    case 'berkas' :
+                    case 'berkas':
                         $rangeColumn = "A1:I1";
                         $rangeColumn2 = "A2:I2";
                         $rangeColumn3 = "A6:I6";
                         $rangeColumn4 = "A6:I100";
                         $jenisData = "Berkas";
                         break;
-                    default :
+                    default:
                         break;
                 }
 
@@ -150,17 +149,17 @@ class LaporanPegawaiExport implements FromView, ShouldAutoSize, WithEvents
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
                 $currentDate = date("d/m/Y");
                 $pegawai = DB::table("pegawai")
-                ->where("id_pegawai", "=", $this->id_pegawai)
-                ->first();
+                    ->where("id_pegawai", "=", $this->id_pegawai)
+                    ->first();
 
                 $event->sheet->mergeCells($rangeColumn);
                 $event->sheet->mergeCells($rangeColumn2);
                 $event->sheet->getStyle('A1:A2')->applyFromArray([
                     'alignment' => [
-                      'horizontal' => Alignment::HORIZONTAL_CENTER,
-                      'vertical' => Alignment::VERTICAL_CENTER
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER
                     ]
-                  ]);
+                ]);
                 $event->sheet->getStyle('A1')->getFont()->setBold(true)->setSize(24);
                 $event->sheet->setCellValue('A1', $title);
 
@@ -175,7 +174,7 @@ class LaporanPegawaiExport implements FromView, ShouldAutoSize, WithEvents
                 $event->sheet->getStyle('A4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 $event->sheet->setCellValue('A4', 'Pegawai: ' . $pegawai->nama);
                 $event->sheet->getRowDimension('2')
-                        ->setRowHeight(30);
+                    ->setRowHeight(30);
                 // End of Set Title
 
                 // Set Content

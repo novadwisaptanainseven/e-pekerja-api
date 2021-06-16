@@ -1,20 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\CutiController;
-use App\Http\Controllers\Admin\DUKController;
-use App\Http\Controllers\Admin\KGBController;
-use App\Http\Controllers\Admin\MasaKerjaController;
-use App\Http\Controllers\Admin\MasterData\BidangController;
-use App\Http\Controllers\Admin\Pegawai\AbsensiController;
-use App\Http\Controllers\Admin\Pegawai\PNSController;
-use App\Http\Controllers\Admin\Pegawai\PTTBController;
-use App\Http\Controllers\Admin\Pegawai\PTTHController;
-use App\Http\Controllers\Admin\PembaruanSKController;
-use App\Http\Controllers\Admin\PensiunController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\FileController;
-use App\Models\Admin\Pegawai\Absensi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,98 +41,20 @@ Route::prefix('v1/user/')->group(function () {
 
 // Download File
 Route::prefix('v1/')->group(function () {
-    // Image
-    Route::get('image/{filename}', [FileController::class, "getImage"]);
-    // Rekap PDF
-    Route::get('print-daftar-pegawai/{jenis_data}', [FileController::class, "cetakDaftarPegawai"]);
-    // Rekap PDF Pegawai By ID
-    Route::get('print-pegawai/{id_pegawai}/{data}', [FileController::class, "printLaporanPegawai"]);
-    // Export PNS to Excel
-    Route::get('pns/export', [PNSController::class, "exportToExcel"]);
-    // Export PTTH to Excel
-    Route::get('ptth/export', [PTTHController::class, "exportToExcel"]);
-    // Export PTTB to Excel
-    Route::get('pttb/export', [PTTBController::class, "exportToExcel"]);
-    // Export Semua Pegawai to Excel
-    Route::get('semua-pegawai/export', [PNSController::class, "exportAllPegawaiToExcel"]);
-    // Export Rekapitulasi Pegawai to Excel
-    Route::get('rekap-pegawai/export', [PNSController::class, "exportRekapPegawaiToExcel"]);
-    // Export DUK Pegawai to Excel
-    Route::get('duk/export', [DUKController::class, "exportDukToExcel"]);
-    // Export Masa Kerja Pegawai to Excel
-    Route::get('masa-kerja/export', [MasaKerjaController::class, "exportMasaKerjaToExcel"]);
-    // Export KGB by Id Pegawai to Excel
-    Route::get('kgb-pegawai/{id}/export', [KGBController::class, "exportKgbToExcel"]);
-    // Export Cuti by Id Pegawai to Excel
-    Route::get('cuti-pegawai/{id}/export', [CutiController::class, "exportCutiToExcel"]);
-    // Export Absensi to Excel
-    Route::get('absensi-pegawai/{jenis}/export', [AbsensiController::class, "exportAbsensiToExcel"]);
-    // Export Absensi Per Tahun to Excel
-    Route::get('absensi-per-tahun/{id}/export', [AbsensiController::class, "exportAbsensiPerTahunToExcel"]);
-    // Export Absensi by Filter Tanggal to Excel
-    Route::get('absensi-filter-tanggal/{id}/export', [AbsensiController::class, "exportAbsensiByFilterTanggalToExcel"]);
-    // Export Rekap Absensi Semua Pegawai to Excel
-    Route::get('rekap-absensi-semua-pegawai/{filter}/export', [AbsensiController::class, "exportAbsensiSemuaPegawaiPerTahun"]);
-    // Export Pensiun Pegawai to Excel
-    Route::get('pensiun-pegawai/export', [PensiunController::class, "exportPensiunToExcel"]);
-    // Export Laporan Pegawai to Excel
-    Route::get('laporan-pegawai/{id_pegawai}/{data}/export', [PNSController::class, "exportLaporanPegawaiToExcel"]);
-    // Export Riwayat SK Pegawai to Excel
-    Route::get('riwayat-sk/{id_pegawai}/export', [PembaruanSKController::class, "exportRiwayatSK"]);
-
-    // Cetak DUK pegawai
-    Route::get('print-duk-pegawai', [FileController::class, "cetakDUK"]);
-    // Cetak Masa Kerja Pegawai
-    Route::get('print-masa-kerja-pegawai', [FileController::class, "cetakMasaKerja"]);
-    // Cetak KGB Pegawai
-    Route::get('print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
-    // Cetak Pensiun Pegawai
-    Route::get('print-pensiun-pegawai', [FileController::class, "cetakPensiunPegawai"]);
-    // Rekap Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
-    Route::get('rekap-pegawai', [PNSController::class, "getRekapPegawai"]);
-    // Rekap Pegawai berdasarkan Golongan/Eselon/Pendidikan/Jenis Kelamin
-    Route::get('print-rekap-pegawai', [FileController::class, "cetakRekapPegawai"]);
-    // Cetak Riwayat Cuti
-    Route::get('print-riwayat-cuti/{id_pegawai}', [FileController::class, "cetakRiwayatCuti"]);
-
-    // Cetak Rekap Absensi Pegawai
-    Route::get('print-rekap-absensi/{jenis_data}', [FileController::class, "cetakRekapAbsensi"]);
-    // Cetak Rekap Absensi Pegawai
-    Route::get('print-rekap-absensi-tanggal/{jenis_data}', [FileController::class, "cetakRekapAbsensiByDate"]);
-    // Cetak Rekap Absensi Pegawai berdasarkan filter tanggal
-    Route::get('print-rekap-absensi-filter/{id_pegawai}', [FileController::class, "cetakRekapAbsensiByFilterTanggal"]);
-    // Cetak Rekap Absensi Per Tahun by Id Pegawai
-    Route::get('print-rekap-absensi-pegawai/{id_pegawai}', [FileController::class, "cetakRekapAbsensiPerTahun"]);
-    // Cetak Riwayat SK
-    Route::get('print-riwayat-sk/{id_pegawai}', [FileController::class, "cetakRiwayatSK"]);
-    // Cetak PDF Riwayat Masa Kerja
-    Route::get("riwayat-mk-cetak/{id_pegawai}", [FileController::class, 'cetakRiwayatMasaKerja']);
-    // Export Excel Riwayat Masa Kerja
-    Route::get("riwayat-mk-export/{id_pegawai}", [MasaKerjaController::class, 'exportRiwayatMasaKerja']);
-
-
-    // Test
-    Route::get('rekap-absensi/{jenis_data}', function ($jenis_data) {
-        $data = Absensi::getByStatusPegawai($jenis_data);
-        return response($data, 200);
-    });
-
-    // Ijazah
-    Route::get('ijazah/{filename}', [FileController::class, "getIjazah"]);
-    // Dokumentasi Diklat
-    Route::get('dok_diklat/{filename}', [FileController::class, "getDokDiklat"]);
-    // Dokumentasi Penghargaan
-    Route::get('dok_penghargaan/{filename}', [FileController::class, "getDokPenghargaan"]);
-    // Berkas Pegawai
-    Route::get('berkas/{filename}', [FileController::class, "getBerkas"]);
-    // SK Pegawai
-    Route::get('sk/{filename}', [FileController::class, "getSK"]);
+    include_once __DIR__ . "/print_route/index.php";
+    include_once __DIR__ . "/download_files/index.php";
 
     // Login User
     Route::post('login', [AuthController::class, "login"]);
 
     // Register User
     Route::post('register', [UsersController::class, "register"]);
+
+    // Test
+    // Route::get('rekap-absensi/{jenis_data}', function ($jenis_data) {
+    //     $data = Absensi::getByStatusPegawai($jenis_data);
+    //     return response($data, 200);
+    // });
 });
 
 // Logout User
@@ -155,23 +64,7 @@ Route::middleware('auth:sanctum')->post('v1/logout', [AuthController::class, "lo
 Route::middleware('auth:sanctum')->get('v1/user', [AuthController::class, "me"]);
 
 // API Publik
-// GROUP BIDANG
-// Get All Bidang
-Route::get("bidang", [BidangController::class, "getAll"]);
-// Get Bidang By Id
-Route::get("bidang/{id_bidang}", [BidangController::class, "getById"]);
-// Insert Bidang
-Route::post("bidang", [BidangController::class, "insert"]);
-// Edit Bidang
-Route::put("bidang/{id_bidang}", [BidangController::class, "edit"]);
-// Delete Bidang By Id
-Route::delete("bidang/{id_bidang}", [BidangController::class, "delete"]);
-
-// GROUP PEGAWAI
-// Get All Pegawai (PNS, PTTH, PTTB)
-Route::get("semua-pegawai", [PNSController::class, "getAllPegawai"]);
-
-
+include_once __DIR__ . "/public_route/index.php";
 
 // Route::group(['middleware' => 'auth:sanctum'], function () {
 //     // For Checking User

@@ -2,9 +2,13 @@
 
 namespace App\Models\Admin;
 
+use App\Exports\MasaKerjaExport;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MasaKerja extends Model
 {
@@ -84,7 +88,7 @@ class MasaKerja extends Model
             ->leftJoin($tbl_golongan, "$tbl_golongan.id_pangkat_golongan", '=', "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_eselon, "$tbl_eselon.id_pangkat_eselon", '=', "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", '=', "$tbl_pegawai.id_jabatan")
-            ->orderBy("$tbl_golongan.total_mkg_hari", "DESC")
+            ->orderBy("$tbl_masa_kerja.total_mkg_hari", "DESC")
             ->get();
 
         foreach ($data_masa_kerja as $i => $d) {
@@ -334,6 +338,82 @@ class MasaKerja extends Model
                 ['id_pegawai', '=', $id_pegawai],
             ])
             ->delete();
+
+        return true;
+    }
+
+    // Simpan riwayat pegawai berdasarkan masa kerja
+    public static function saveRiwayatMasaKerja($req)
+    {
+        // Tabel
+        $tbl_riwayat_mk_file = "riwayat_mk_file";
+
+        // Generate Random Number for Filename
+        $sanitizeName = Str::of($req->nama_file)->slug('-');
+        $filename = time() . rand(0, 999) . "-" . $sanitizeName;
+
+        $data = [
+            "tanggal"   => $req->tanggal,
+            "file"      => $req->nama_file,
+            "file_slug" => $filename,
+            "keadaan"   => $req->keadaan,
+        ];
+        DB::table($tbl_riwayat_mk_file)->insert($data);
+
+        Excel::store(new MasaKerjaExport(tanggal: $req->tanggal), "exports/$filename.xlsx");
+    }
+
+    // Get riwayat masa kerja file
+    public static function getRiwayatMasaKerjaFile()
+    {
+        // Tabel
+        $tbl_riwayat_mk_file = "riwayat_mk_file";
+
+        $data = DB::table($tbl_riwayat_mk_file)
+            ->orderByDesc('id_riwayat_mk_file')
+            ->get();
+
+        return $data;
+    }
+
+    // Get riwayat masa kerja file berdasarkan bulan dan tahun
+    public static function getRiwayatMasaKerjaFileByDate($req)
+    {
+        // Tabel
+        $tbl_riwayat_mk_file = "riwayat_mk_file";
+
+        $bulan = $req->bulan ? $req->bulan : "";
+        $tahun = $req->tahun ? $req->tahun : "";
+
+        $data = DB::table($tbl_riwayat_mk_file)
+            ->orderByDesc('id_riwayat_mk_file')
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->get();
+
+        return $data;
+    }
+
+    // Delete riwayat masa kerja file
+    public static function deleteRiwayatMasaKerjaFile($id)
+    {
+        // Tabel
+        $tbl_riwayat_mk_file = "riwayat_mk_file";
+
+        // Find Data
+        $data_mk_file = DB::table($tbl_riwayat_mk_file)
+            ->where('id_riwayat_mk_file', '=', $id)
+            ->first();
+        if (!$data_mk_file) {
+            return 404;
+        }
+
+        // Delete data
+        DB::table($tbl_riwayat_mk_file)
+            ->where('id_riwayat_mk_file', '=', $id)
+            ->delete();
+        // Delete file from storage
+        Storage::delete("exports/$data_mk_file->file_slug" . ".xlsx");
 
         return true;
     }

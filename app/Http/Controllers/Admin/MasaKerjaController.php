@@ -8,6 +8,9 @@ use App\Exports\MasaKerjaExport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+
+use function GuzzleHttp\Promise\all;
 
 class MasaKerjaController extends Controller
 {
@@ -220,5 +223,83 @@ class MasaKerjaController extends Controller
     public function exportMasaKerjaToExcel()
     {
         return (new MasaKerjaExport)->download('masa-kerja-pegawai.xlsx');
+    }
+
+    // Export Riwayat Masa Kerja Pegawai ke Excel
+    public function exportRiwayatMasaKerjaToExcel($id_pegawai)
+    {
+        return (new MasaKerjaExport($id_pegawai, "riwayat-masa-kerja"))->download('masa-kerja-pegawai.xlsx');
+    }
+
+    // Simpan riwayat pegawai berdasarkan masa kerja
+    public function saveRiwayatMasaKerjaToExcel(Request $request)
+    {
+        $messages = [
+            "required" => "attribute harus diisi",
+        ];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                "tanggal"   => "required",
+                "nama_file"      => "required",
+                "keadaan"   => "required",
+            ],
+            $messages
+        );
+
+        // Validation Check
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+        // End of Validation
+
+        // Simpan ke dalam database
+        $insert = MasaKerja::saveRiwayatMasaKerja($request);
+
+        return response()->json([
+            "message" => "Berhasil menyimpan riwayat masa kerja",
+            "input_data" => $request->all()
+        ], 201);
+    }
+
+    // Get All Riwayat Masa Kerja File
+    public function getRiwayatMasaKerjaFile(Request $req)
+    {
+        // Cek apakah ada request yg dikirim
+        if (count($req->all()) > 0) {
+            // Jika ada
+            $data = MasaKerja::getRiwayatMasaKerjaFileByDate($req);
+        } else {
+            // Jika tidak ada
+            $data = MasaKerja::getRiwayatMasaKerjaFile();
+        }
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua riwayat masa kerja pegawai",
+            "data" => $data,
+        ], 200);
+    }
+
+    // Delete Riwayat Masa Kerja File
+    public function deleteRiwayatMasaKerjaFile($id)
+    {
+        $data = DB::table('riwayat_mk_file')
+            ->where('id_riwayat_mk_file', '=', $id)
+            ->first();
+
+        $delete = MasaKerja::deleteRiwayatMasaKerjaFile($id);
+
+        if ($delete == true) {
+            return response()->json([
+                "message" => "Berhasil menghapus riwayat masa kerja file dengan id: $id",
+                "deleted_data" => $data
+            ], 201);
+        } else {
+            return response()->json([
+                "message" => "Data riwayat masa kerja file dengan id: $id tidak ditemukan",
+            ], 404);
+        }
     }
 }
