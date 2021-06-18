@@ -3,10 +3,10 @@
 namespace App\Models\Admin;
 
 use DateTime;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class KGB extends Model
 {
@@ -51,16 +51,24 @@ class KGB extends Model
         $tbl_kgb = "kgb";
         $tbl_pegawai = "pegawai";
 
+        // $query = "
+        //     SELECT (SELECT * FROM kgb) FROM kgb
+        //     GROUP BY id_pegawai DESC
+        // ";
+        // $data = DB::select($query);
+
         $data = DB::table($tbl_kgb)
             ->select(
                 "$tbl_kgb.*",
                 "$tbl_pegawai.nip",
                 "$tbl_pegawai.nama",
+                "$tbl_pegawai.no_hp",
             )
             ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_kgb.id_pegawai")
-            ->where("$tbl_kgb.id_pegawai", "=", $id_pegawai)
-            ->orderBy("id_kgb", "desc")
+            // ->whereRaw("CURDATE() < $tbl_kgb.kenaikan_gaji_yad")
+            ->orderByDesc("$tbl_kgb.id_kgb")
             ->get();
+
 
         return $data;
     }
