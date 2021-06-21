@@ -45,29 +45,44 @@ class KGB extends Model
     }
 
     // Get KGB Pegawai
-    public static function getKGBPegawai()
+    public static function getKGBPegawai($req)
     {
         // Tabel - tabel
         $tbl_kgb = "kgb";
         $tbl_pegawai = "pegawai";
 
-        // $query = "
-        //     SELECT (SELECT * FROM kgb) FROM kgb
-        //     GROUP BY id_pegawai DESC
-        // ";
-        // $data = DB::select($query);
+        $bulan = !$req->bulan ? '' : $req->bulan;
+        $tahun = !$req->tahun ? '' : $req->tahun;
 
-        $data = DB::table($tbl_kgb)
-            ->select(
-                "$tbl_kgb.*",
-                "$tbl_pegawai.nip",
-                "$tbl_pegawai.nama",
-                "$tbl_pegawai.no_hp",
-            )
-            ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_kgb.id_pegawai")
-            // ->whereRaw("CURDATE() < $tbl_kgb.kenaikan_gaji_yad")
-            ->orderByDesc("$tbl_kgb.id_kgb")
-            ->get();
+        if ($bulan && $tahun) {
+            $data = DB::table($tbl_kgb)
+                ->select(
+                    "$tbl_kgb.*",
+                    "$tbl_pegawai.nip",
+                    "$tbl_pegawai.nama",
+                    "$tbl_pegawai.no_hp",
+                )
+                ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_kgb.id_pegawai")
+                ->whereMonth("$tbl_kgb.tmt_kenaikan_gaji", '=', $bulan)
+                ->WhereMonth("$tbl_kgb.kenaikan_gaji_yad", '=', $bulan)
+                ->WhereYear("$tbl_kgb.tmt_kenaikan_gaji", '=', $tahun)
+                ->WhereYear("$tbl_kgb.kenaikan_gaji_yad", '=', $tahun)
+                ->orderByDesc("$tbl_kgb.id_kgb")
+                ->get();
+        } else {
+            $data = DB::table($tbl_kgb)
+                ->select(
+                    "$tbl_kgb.*",
+                    "$tbl_pegawai.nip",
+                    "$tbl_pegawai.nama",
+                    "$tbl_pegawai.no_hp",
+                )
+                ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_kgb.id_pegawai")
+                // ->whereRaw("CURDATE() < $tbl_kgb.kenaikan_gaji_yad")
+                ->orderByDesc("$tbl_kgb.id_kgb")
+                ->get();
+        }
+
 
 
         return $data;

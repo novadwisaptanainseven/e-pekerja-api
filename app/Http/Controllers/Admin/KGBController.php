@@ -32,9 +32,9 @@ class KGBController extends Controller
     }
 
     // Get KGB Pegawai
-    public function getKGBPegawai()
+    public function getKGBPegawai(Request $req)
     {
-        $data = KGB::getKGBPegawai()->groupBy("id_pegawai");
+        $data = KGB::getKGBPegawai($req)->groupBy("id_pegawai");
         $data2 = [];
         $currentDate = time();
         $i = 1;

@@ -9,3 +9,6 @@ Route::get('kgb-pegawai/{id}/export', [KGBController::class, "exportKgbToExcel"]
 
 // Cetak KGB Pegawai
 Route::get('print-kgb-pegawai/{id_pegawai}', [FileController::class, "cetakKGBPegawai"]);
+
+// Cetak KGB Pegawai 2
+Route::get('print-kgb', [FileController::class, "cetakKGBPegawai2"]);

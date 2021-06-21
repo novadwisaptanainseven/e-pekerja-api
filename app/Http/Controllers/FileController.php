@@ -196,6 +196,28 @@ class FileController extends Controller
         return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
     }
 
+    // Print KGB Pegawai 2
+    public function cetakKGBPegawai2($req)
+    {
+        // Fungsi dari helpers.php
+        // $keadaan = formatTanggalIndonesia(date("Y-m-d"));
+
+        $kgb_pegawai = KGB::getKGBPegawai($req);
+
+        $data = [
+            "title" => "Semua Kenaikan Gaji Berkala Pegawai Negeri Sipil",
+            "date" => date("d/m/Y"),
+            // "keadaan" => $keadaan,
+            "data" => $kgb_pegawai,
+            "ttd" => PNS::getDataKadis(),
+        ];
+
+        $view = View("printPegawai.print_kgb_pegawai", $data);
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadHTML($view->render())->setPaper("a4", "portrait");
+        return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
+    }
+
     // Print Riwayat SK Pegawai
     public function cetakRiwayatSK($id_pegawai)
     {
