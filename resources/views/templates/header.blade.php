@@ -43,7 +43,8 @@
         }
 
         h1,
-        h2 {
+        h2,
+        h3 {
             margin: 0;
             padding: 0;
             font-family: Arial, Helvetica, sans-serif;
@@ -85,7 +86,7 @@
             <h2>PEMERINTAH KOTA SAMARINDA</h2>
             <h1>DINAS PERUMAHAN DAN KAWASAN PERMUKIMAN</h1>
             <p class="deskripsi-teks">
-                Jl. D.I Panjaitan Kel. Gn. Lingai Kec. Sungai Pinang, Samarinda 75117 <br>
+                Jl. Achmad Amins, Kel. Gn. Lingai Kec. Sungai Pinang, Samarinda 75117 <br>
                 Website : disperkim.samarindakota.go.id Email : DPP_SMD@yahoo.com
             </p>
         </div>

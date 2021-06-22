@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\KgbExport;
+use App\Exports\KgbPegawaiExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\KGB;
 use Illuminate\Http\Request;
@@ -60,6 +61,34 @@ class KGBController extends Controller
             "message" => "Berhasil mendapatkan semua data kenaikan gaji berkala pegawai",
             "data" => $data2
         ], 200);
+    }
+
+    // Get KGB Pegawai
+    public static function getKGBPegawaiForPrint($req)
+    {
+        $data = KGB::getKGBPegawai($req)->groupBy("id_pegawai");
+        $data2 = [];
+        $currentDate = time();
+        $i = 1;
+
+        if ($data) {
+            foreach ($data as $d) {
+                $d[0]->no = $i++;
+                $tmtKenaikanGajiTs = strtotime($d[0]->tmt_kenaikan_gaji);
+                $kenaikanGajiYadTs = strtotime($d[0]->kenaikan_gaji_yad);
+                if ($currentDate >= $tmtKenaikanGajiTs && $currentDate < $kenaikanGajiYadTs) {
+                    $d[0]->status_kgb = "sedang-berjalan";
+                } elseif ($currentDate < $tmtKenaikanGajiTs) {
+                    $d[0]->status_kgb = "akan-naik-gaji";
+                } else {
+                    $d[0]->status_kgb = "naik-gaji";
+                }
+
+                array_push($data2, $d[0]);
+            }
+        }
+
+        return $data2;
     }
 
     // Get KGB Terbaru
@@ -225,5 +254,11 @@ class KGBController extends Controller
     public function exportKgbToExcel($id)
     {
         return (new KgbExport($id))->download('kgb-pegawai.xlsx');
+    }
+
+    // Export KGB Pegawai ke Excel 2
+    public function exportKgbToExcel2(Request $req)
+    {
+        return (new KgbPegawaiExport($req))->download('kgb-pegawai.xlsx');
     }
 }

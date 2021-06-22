@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Admin\KGBController;
 use App\Models\Admin\Cuti;
 use App\Models\Admin\DUK;
 use App\Models\Admin\KGB;
@@ -193,29 +194,35 @@ class FileController extends Controller
         $view = View("printPegawai.print_kgb_pegawai", $data);
         $pdf = App::make("dompdf.wrapper");
         $pdf->loadHTML($view->render())->setPaper("a4", "portrait");
-        return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
+        return $pdf->stream("kgb_pegawai.pdf", array("Attachment" => false));
     }
 
     // Print KGB Pegawai 2
-    public function cetakKGBPegawai2($req)
+    public function cetakKGBPegawai2(Request $req)
     {
         // Fungsi dari helpers.php
-        // $keadaan = formatTanggalIndonesia(date("Y-m-d"));
+        if (!$req->bulan || !$req->tahun) {
+            $keadaan = "";
+        } else {
+            $keadaan = formatTanggalIndonesia(date("Y-m-d", strtotime("$req->tahun-$req->bulan-1")));
+        }
 
-        $kgb_pegawai = KGB::getKGBPegawai($req);
+        $kgb_pegawai = KGBController::getKGBPegawaiForPrint($req);
 
         $data = [
             "title" => "Semua Kenaikan Gaji Berkala Pegawai Negeri Sipil",
             "date" => date("d/m/Y"),
-            // "keadaan" => $keadaan,
+            "keadaan" => $keadaan,
             "data" => $kgb_pegawai,
             "ttd" => PNS::getDataKadis(),
         ];
 
-        $view = View("printPegawai.print_kgb_pegawai", $data);
+        $F4 = [0, 0, 595.28, 841.89];
+
+        $view = View("printPegawai.print_kgb_semua_pegawai", $data);
         $pdf = App::make("dompdf.wrapper");
-        $pdf->loadHTML($view->render())->setPaper("a4", "portrait");
-        return $pdf->stream("duk_pegawai.pdf", array("Attachment" => false));
+        $pdf->loadHTML($view->render())->setPaper($F4, "landscape");
+        return $pdf->stream("kgb_pegawai.pdf", array("Attachment" => false));
     }
 
     // Print Riwayat SK Pegawai

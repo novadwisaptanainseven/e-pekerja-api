@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\Admin\KGBController;
 use App\Models\Admin\KGB;
 use App\Models\Admin\Pegawai\PNS;
 use Illuminate\Contracts\View\View;
@@ -16,21 +17,21 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class KgbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
+class KgbPegawaiExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
 {
     use Exportable;
 
-    private $id;
+    private $req;
 
-    public function __construct($id)
+    public function __construct($req)
     {
-        $this->id = $id;
+        $this->req = $req;
     }
 
     public function view(): View
     {
-        return view('exports.kgb', [
-            'data' => KGB::getAll($this->id)
+        return view('exports.kgb_pegawai', [
+            'data' => KGBController::getKGBPegawaiForPrint($this->req)
         ]);
     }
 
@@ -42,23 +43,28 @@ class KgbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 // Set column alignment
                 $event->sheet->getStyle('A')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $event->sheet->getStyle('B')->getAlignment()
-                    ->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getStyle('E')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $event->sheet->getStyle('F')->getAlignment()
+                $event->sheet->getStyle('H')->getAlignment()
+                    ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getStyle('C')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 // End of set column alignment
 
                 // Set Title
-
-                $title = "Daftar Histori Kenaikan Gaji Berkala Pegawai Negeri Sipil";
+                $title = "Semua Kenaikan Gaji Berkala Pegawai Negeri Sipil";
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
+                if (!$this->req->bulan || !$this->req->tahun) {
+                    $subTitle2 = "";
+                } else {
+                    $keadaan = formatTanggalIndonesia(date("Y-m-d"), strtotime("{$this->req->tahun}-{$this->req->bulan}-1"));
+                    $subTitle2 = "Keadaan {$keadaan['bulan']} {$keadaan['tahun']}";
+                }
                 $currentDate = date("d/m/Y");
-                $pegawai = PNS::getById($this->id);
 
-                $event->sheet->mergeCells('A1:G1');
-                $event->sheet->mergeCells('A2:G2');
+                $event->sheet->mergeCells('A1:H1');
+                $event->sheet->mergeCells('A2:H2');
+                $event->sheet->mergeCells('A3:H3');
                 $event->sheet->getStyle('A1:A2')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -70,21 +76,19 @@ class KgbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
 
                 $event->sheet->getStyle('A2')->getFont()->setSize(18);
                 $event->sheet->setCellValue('A2', $subTitle);
-                $event->sheet->getRowDimension('2')->setRowHeight(50);
+                $event->sheet->getStyle('A3')->getFont()->setSize(18);
+                $event->sheet->setCellValue('A3', $subTitle2);
+                // $event->sheet->getRowDimension('3')->setRowHeight(50);
 
                 $event->sheet->getStyle('B3')->getFont()->setBold(true);
                 $event->sheet->getStyle('B3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 $event->sheet->setCellValue('B3', 'Tanggal: ' . $currentDate);
-
-                $event->sheet->getStyle('B4')->getFont()->setBold(true);
-                $event->sheet->getStyle('B4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                $event->sheet->setCellValue('B4', 'Pegawai: ' . $pegawai->nama);
                 // End of Set Title
 
                 // Set Content
 
                 // Styling Table Heading
-                $event->sheet->getStyle('A6:G6')->applyFromArray([
+                $event->sheet->getStyle('A6:H6')->applyFromArray([
                     'font' => [
                         'bold' => true,
                     ],
@@ -101,7 +105,7 @@ class KgbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 // End of styling heading table
 
                 // Add borders
-                $event->sheet->getStyle('A6:G100')->applyFromArray([
+                $event->sheet->getStyle('A6:H100')->applyFromArray([
                     'alignment' => [
                         'vertical' => Alignment::VERTICAL_TOP
                     ],

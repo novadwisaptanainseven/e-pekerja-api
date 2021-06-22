@@ -76,21 +76,41 @@ if (!function_exists("formatTanggalIndonesia")) {
     //     }
     // }
 
-    if(!function_exists("array_push_assoc")) {
-        function array_push_assoc($arr, $key, $value) {
+    if (!function_exists("array_push_assoc")) {
+        function array_push_assoc($arr, $key, $value)
+        {
             $arr[$key] = $value;
             return $arr;
         }
     }
 
     // Fungsi untuk menghitung total masa kerja dalam hari
-    if(!function_exists("hitungMKG")) {
-        function hitungMKG($req) {
+    if (!function_exists("hitungMKG")) {
+        function hitungMKG($req)
+        {
             // Hitung total masa kerja untuk pengurutan
             $mkg = explode(" ", $req->mk_golongan);
             $total_mkg_hari = intval($mkg[0]) * 365 + intval($mkg[2]) * 30; // xTahun * 365 hari + xBulan * 30 hari
             return $total_mkg_hari;
         }
     }
-    
+}
+
+// Kenaikan Gaji Berkala
+// Fungsi untuk memberikan pemberitahuan berdasarkan status KGB
+if (!function_exists('getPemberitahuan')) {
+    function getPemberitahuan($val)
+    {
+        $pemberitahuan = "";
+
+        if ($val->status_kgb == "akan-naik-gaji") {
+            $pemberitahuan = "Pegawai ini akan naik gaji pada tanggal " . date("d/m/Y", strtotime($val->kenaikan_gaji_yad));
+        } elseif ($val->status_kgb == "naik-gaji") {
+            $pemberitahuan = "Pegawai ini sudah bisa dilakukan kenaikan gaji";
+        } elseif ($val->status_kgb == "sedang-berjalan") {
+            $pemberitahuan = "Pegawai ini telah diperbarui gajinya";
+        }
+
+        return $pemberitahuan;
+    }
 }
