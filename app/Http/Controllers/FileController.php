@@ -128,9 +128,11 @@ class FileController extends Controller
             "ttd" => PNS::getDataKadis()
         ];
 
+        $F4 = [0, 0, 595.28, 841.89];
+
         $view = View('printPegawai.print_lap_pegawai', $data);
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($view->render())->setPaper('a4', 'landscape');
+        $pdf->loadHTML($view->render())->setPaper($F4, 'landscape');
         return $pdf->stream("lap-$d-pegawai.pdf", array("Attachment" => false));
     }
 
@@ -192,9 +194,11 @@ class FileController extends Controller
             "pegawai" => $pegawai
         ];
 
+        $F4 = [0, 0, 595.28, 841.89];
+
         $view = View("printPegawai.print_kgb_pegawai", $data);
         $pdf = App::make("dompdf.wrapper");
-        $pdf->loadHTML($view->render())->setPaper("a4", "portrait");
+        $pdf->loadHTML($view->render())->setPaper($F4, "portrait");
         return $pdf->stream("kgb_pegawai.pdf", array("Attachment" => false));
     }
 
@@ -502,22 +506,32 @@ class FileController extends Controller
     }
 
     // Print Pensiun Pegawai
-    public function cetakPensiunPegawai()
+    public function cetakPensiunPegawai(Request $req)
     {
-        $output_data = Pensiun::getAll();
+        if (!$req->bulan || !$req->tahun) {
+            $keadaan = "";
+        } else {
+            $tgl = "$req->tahun-$req->bulan-1";
+            $keadaan = formatTanggalIndonesia(date("Y-m-d", strtotime($tgl)));
+        }
+
+        $output_data = Pensiun::getAll($req);
 
         $title = "Laporan Data Pensiunan Pegawai";
 
         $data = [
             "title" => $title,
             'date' => date('d/m/Y'),
+            "keadaan" => $keadaan,
             "data" => $output_data,
             "ttd" => PNS::getDataKadis()
         ];
 
+        $F4 = [0, 0, 595.28, 841.89];
+
         $view = View('printPensiun.lap_pensiun_pegawai', $data);
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML($view->render())->setPaper('a4', 'portrait');
+        $pdf->loadHTML($view->render())->setPaper($F4, 'landscape');
         return $pdf->stream("lap-pensiun-pegawai.pdf", array("Attachment" => false));
     }
 
@@ -641,7 +655,6 @@ class FileController extends Controller
     // Print Pegawai Status Cuti
     public function cetakPegawaiStatusCuti(Request $req)
     {
-        // Fungsi dari helpers.php
         if (!$req->bulan || !$req->tahun) {
             $keadaan = "";
         } else {

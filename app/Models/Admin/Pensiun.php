@@ -14,23 +14,43 @@ class Pensiun extends Model
     protected $primaryKey = "id_pensiun";
 
     // Get All Pensiun
-    public static function getAll()
+    public static function getAll($req)
     {
         // Tabel - tabel
         $tbl_pensiun = "pensiun";
         $tbl_pegawai = "pegawai";
         $tbl_ptth = "ptth";
 
-        $data_pensiun = DB::table($tbl_pensiun)
-            ->select(
-                "$tbl_pensiun.*",
-                "$tbl_pegawai.nip",
-                "$tbl_pegawai.id_status_pegawai",
-                "$tbl_pegawai.nama"
-            )
-            ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", "=", "$tbl_pensiun.id_pegawai")
-            ->orderBy("$tbl_pensiun.id_pensiun", "desc")
-            ->get();
+        $bulan = !$req->bulan ? '' : $req->bulan;
+        $tahun = !$req->tahun ? '' : $req->tahun;
+
+        if ($bulan && $tahun) {
+            $data_pensiun = DB::table($tbl_pensiun)
+                ->select(
+                    "$tbl_pensiun.*",
+                    "$tbl_pegawai.nip",
+                    "$tbl_pegawai.id_status_pegawai",
+                    "$tbl_pegawai.nama",
+                    "$tbl_pegawai.no_hp",
+                )
+                ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", "=", "$tbl_pensiun.id_pegawai")
+                ->whereMonth("$tbl_pensiun.tgl_pensiun", "=", $bulan)
+                ->whereYear("$tbl_pensiun.tgl_pensiun", "=", $tahun)
+                ->orderBy("$tbl_pensiun.id_pensiun", "desc")
+                ->get();
+        } else {
+            $data_pensiun = DB::table($tbl_pensiun)
+                ->select(
+                    "$tbl_pensiun.*",
+                    "$tbl_pegawai.nip",
+                    "$tbl_pegawai.id_status_pegawai",
+                    "$tbl_pegawai.nama",
+                    "$tbl_pegawai.no_hp",
+                )
+                ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", "=", "$tbl_pensiun.id_pegawai")
+                ->orderBy("$tbl_pensiun.id_pensiun", "desc")
+                ->get();
+        }
 
         foreach ($data_pensiun as $d) {
             if ($d->id_status_pegawai === 2) {

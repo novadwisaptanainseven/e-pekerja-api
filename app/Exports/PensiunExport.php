@@ -21,10 +21,15 @@ class PensiunExport implements FromView, ShouldAutoSize, WithEvents, WithDrawing
 {
     use Exportable;
 
+    public function __construct($req)
+    {
+        $this->req = $req;
+    }
+
     public function view(): View
     {
         return view('exports.pensiun', [
-            'data' => Pensiun::getAll()
+            'data' => Pensiun::getAll($this->req)
         ]);
     }
 
@@ -35,26 +40,35 @@ class PensiunExport implements FromView, ShouldAutoSize, WithEvents, WithDrawing
         ];
     }
 
-    public function registerEvents(): array {
+    public function registerEvents(): array
+    {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
 
                 // Number Formats
-                  $event->sheet->getStyle('B')->getNumberFormat()
+                $event->sheet->getStyle('B')->getNumberFormat()
                     ->setFormatCode(NumberFormat::FORMAT_TEXT);
                 // End of Number Formats
 
                 // Set column alignment
-                 $event->sheet->getStyle('E')->getAlignment()
+                $event->sheet->getStyle('E')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                 $event->sheet->getStyle('D')->getAlignment()
+                $event->sheet->getStyle('D')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                 // End of set column alignment
+                // End of set column alignment
 
                 // Set Title
                 $title = "Laporan Data Pensiunan Pegawai";
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
-                $subTitle2 = "Keadaan Tahun " . date("Y");
+                if (!$this->req->bulan || !$this->req->tahun) {
+                    $subTitle2 = "";
+                } else {
+                    $tgl = $this->req->tahun . "-" . $this->req->bulan . "-" . 1;
+
+                    $keadaan = formatTanggalIndonesia($tgl);
+
+                    $subTitle2 = "Keadaan {$keadaan['bulan']} {$keadaan['tahun']}";
+                }
                 $currentDate = date("d/m/Y");
 
                 $event->sheet->mergeCells('A1:F1');
@@ -62,10 +76,10 @@ class PensiunExport implements FromView, ShouldAutoSize, WithEvents, WithDrawing
                 $event->sheet->mergeCells('A3:F3');
                 $event->sheet->getStyle('A1:A3')->applyFromArray([
                     'alignment' => [
-                      'horizontal' => Alignment::HORIZONTAL_CENTER,
-                      'vertical' => Alignment::VERTICAL_CENTER
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER
                     ]
-                  ]);
+                ]);
                 $event->sheet->getStyle('A1')->getFont()->setBold(true)->setSize(24);
                 $event->sheet->setCellValue('A1', $title);
 

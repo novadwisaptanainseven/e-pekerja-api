@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Http\Controllers\Admin\CutiController;
-use App\Http\Controllers\Admin\KGBController;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Events\AfterSheet;

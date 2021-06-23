@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Validator;
 class PensiunController extends Controller
 {
     // Get All Pensiun
-    public function getAll()
+    public function getAll(Request $req)
     {
-        $data = Pensiun::getAll();
+        $data = Pensiun::getAll($req);
 
         foreach ($data as $i => $item) {
             $item->no = $i + 1;
@@ -167,7 +167,8 @@ class PensiunController extends Controller
     }
 
     // Export Pensun Pegawai ke Excel
-    public function exportPensiunToExcel() {
-        return (new PensiunExport())->download('pensiun-pegawai.xlsx');
+    public function exportPensiunToExcel(Request $req)
+    {
+        return (new PensiunExport($req))->download('pensiun-pegawai.xlsx');
     }
 }
