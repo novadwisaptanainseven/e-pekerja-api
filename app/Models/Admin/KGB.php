@@ -83,8 +83,6 @@ class KGB extends Model
                 ->get();
         }
 
-
-
         return $data;
     }
 

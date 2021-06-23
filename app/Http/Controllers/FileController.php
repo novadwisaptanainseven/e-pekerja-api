@@ -629,10 +629,10 @@ class FileController extends Controller
             "data" => $output_data,
             "ttd" => PNS::getDataKadis()
         ];
-
+        $F4 = [0, 0, 595.28, 841.89]; // Ukuran kertas F4 dalam bentuk px
         $view = View("printPegawai.riwayat_cuti", $data);
         $pdf = App::make("dompdf.wrapper");
-        $pdf->loadHTML($view->render())->setPaper("a4", "portrait");
+        $pdf->loadHTML($view->render())->setPaper($F4, "landscape");
 
         return $pdf->stream("riwayat-cuti-pegawai.pdf", ["Attachment" => false]);
     }

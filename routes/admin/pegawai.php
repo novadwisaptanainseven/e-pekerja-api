@@ -162,6 +162,9 @@ Route::prefix($prefix)->group(function () {
   Route::get("cuti-nama", [CutiController::class, 'getByName']);
   // Get All Pegawai Cuti
   Route::get("pegawai-cuti", [CutiController::class, 'getPegawaiCuti']);
+  // Get Pegawai yang sedang cuti dan akan cuti
+  Route::get("pegawai-status-cuti", [CutiController::class, 'getPegawaiStatusCuti']);
+
 
   // GROUP ABSENSI
   // Get All Absensi by Id Pegawai and Query Parameters

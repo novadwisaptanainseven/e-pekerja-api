@@ -120,6 +120,54 @@ class Cuti extends Model
         return $data;
     }
 
+    // Get Pegawai Status Cuti
+    public static function getPegawaiStatusCuti($req)
+    {
+        // Tabel - tabel
+        $tbl_cuti = "cuti";
+        $tbl_pegawai = "pegawai";
+        $tbl_ptth = "ptth";
+
+        $bulan = !$req->bulan ? '' : $req->bulan;
+        $tahun = !$req->tahun ? '' : $req->tahun;
+
+        if ($bulan && $tahun) {
+            $data = DB::table($tbl_cuti)
+                ->select(
+                    "$tbl_cuti.*",
+                    "$tbl_pegawai.nip",
+                    "$tbl_ptth.nik",
+                    "$tbl_pegawai.id_status_pegawai",
+                    "$tbl_pegawai.nama",
+                    "$tbl_pegawai.no_hp",
+                )
+                ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", "=", "$tbl_cuti.id_pegawai")
+                ->leftJoin($tbl_ptth, "$tbl_ptth.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
+                ->whereMonth("$tbl_cuti.tgl_mulai", "=", $bulan)
+                ->whereMonth("$tbl_cuti.tgl_selesai", "=", $bulan)
+                ->whereYear("$tbl_cuti.tgl_mulai", "=", $tahun)
+                ->whereYear("$tbl_cuti.tgl_selesai", "=", $tahun)
+                ->orderByDesc("$tbl_cuti.id_cuti")
+                ->get();
+        } else {
+            $data = DB::table($tbl_cuti)
+                ->select(
+                    "$tbl_cuti.*",
+                    "$tbl_pegawai.nip",
+                    "$tbl_ptth.nik",
+                    "$tbl_pegawai.id_status_pegawai",
+                    "$tbl_pegawai.nama",
+                    "$tbl_pegawai.no_hp",
+                )
+                ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_cuti.id_pegawai")
+                ->leftJoin($tbl_ptth, "$tbl_ptth.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
+                ->orderByDesc("$tbl_cuti.id_cuti")
+                ->get();
+        }
+
+        return $data;
+    }
+
     // Insert Cuti
     public static function insert($req, $id_pegawai)
     {
@@ -137,7 +185,7 @@ class Cuti extends Model
             "id_pegawai"  => $req->id_pegawai,
             "tgl_mulai"   => $req->tgl_mulai,
             "tgl_selesai" => $req->tgl_selesai,
-            "lama_cuti"   => $req->lama_cuti,
+            "jenis_cuti"  => $req->jenis_cuti,
             "keterangan"  => $req->keterangan,
         ];
 
@@ -172,7 +220,7 @@ class Cuti extends Model
         $current_date = new DateTime('now');
 
         $data = [
-            "lama_cuti"   => $req->lama_cuti ? $req->lama_cuti : $cuti->lama_cuti,
+            "jenis_cuti"   => $req->jenis_cuti ? $req->jenis_cuti : $cuti->jenis_cuti,
             "tgl_mulai"   => $req->tgl_mulai ? $req->tgl_mulai : $cuti->tgl_mulai,
             "tgl_selesai" => $req->tgl_selesai ? $req->tgl_selesai : $cuti->tgl_selesai,
             "keterangan"  => $req->keterangan ? $req->keterangan : $cuti->keterangan,

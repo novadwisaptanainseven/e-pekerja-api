@@ -27,7 +27,7 @@ class CutiExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWidt
     {
         $this->id = $id;
     }
-    
+
     public function view(): View
     {
         return view('exports.cuti', [
@@ -44,34 +44,35 @@ class CutiExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWidt
         ];
     }
 
-    public function registerEvents(): array {
+    public function registerEvents(): array
+    {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
+            AfterSheet::class => function (AfterSheet $event) {
 
-                 // Set column alignment
-                 $event->sheet->getStyle('A')->getAlignment()
+                // Set column alignment
+                $event->sheet->getStyle('A')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                 $event->sheet->getStyle('B')->getAlignment()
+                $event->sheet->getStyle('B')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                 $event->sheet->getStyle('E')->getAlignment()
+                $event->sheet->getStyle('E')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-             // End of set column alignment
+                // End of set column alignment
 
                 // Set Title
-                
+
                 $title = "Riwayat Cuti Pegawai";
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
                 $currentDate = date("d/m/Y");
                 $pegawai = PNS::getById($this->id);
 
-                $event->sheet->mergeCells('A1:E1');
-                $event->sheet->mergeCells('A2:E2');
+                $event->sheet->mergeCells('A1:F1');
+                $event->sheet->mergeCells('A2:F2');
                 $event->sheet->getStyle('A1:A2')->applyFromArray([
                     'alignment' => [
-                      'horizontal' => Alignment::HORIZONTAL_CENTER,
-                      'vertical' => Alignment::VERTICAL_TOP
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_TOP
                     ]
-                  ]);
+                ]);
                 $event->sheet->getStyle('A1')->getFont()->setBold(true)->setSize(24);
                 $event->sheet->setCellValue('A1', $title);
 
@@ -91,7 +92,7 @@ class CutiExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWidt
                 // Set Content
 
                 // Styling Table Heading
-                $event->sheet->getStyle('A6:E6')->applyFromArray([
+                $event->sheet->getStyle('A6:F6')->applyFromArray([
                     'font' => [
                         'bold' => true,
                     ],
@@ -108,7 +109,7 @@ class CutiExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWidt
                 // End of styling heading table
 
                 // Add borders
-                $event->sheet->getStyle('A6:E100')->applyFromArray([
+                $event->sheet->getStyle('A6:F100')->applyFromArray([
                     'alignment' => [
                         'vertical' => Alignment::VERTICAL_TOP
                     ],
@@ -120,7 +121,7 @@ class CutiExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWidt
                 ]);
                 // End of add borders
 
-               
+
 
                 // End of set content
             }
