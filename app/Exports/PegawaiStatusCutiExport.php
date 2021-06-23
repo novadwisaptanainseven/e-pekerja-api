@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\Admin\CutiController;
 use App\Http\Controllers\Admin\KGBController;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -15,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class KgbPegawaiExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
+class PegawaiStatusCutiExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
 {
     use Exportable;
 
@@ -28,8 +29,8 @@ class KgbPegawaiExport implements FromView, ShouldAutoSize, WithEvents, WithDraw
 
     public function view(): View
     {
-        return view('exports.kgb_pegawai', [
-            'data' => KGBController::getKGBPegawaiForPrint($this->req)
+        return view('exports.pegawai_status_cuti', [
+            'data' => CutiController::getCutiPegawaiForPrint($this->req)
         ]);
     }
 
@@ -41,16 +42,16 @@ class KgbPegawaiExport implements FromView, ShouldAutoSize, WithEvents, WithDraw
                 // Set column alignment
                 $event->sheet->getStyle('A')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $event->sheet->getStyle('E')->getAlignment()
+                $event->sheet->getStyle('F')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $event->sheet->getStyle('H')->getAlignment()
+                $event->sheet->getStyle('D')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getStyle('C')->getAlignment()
                     ->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 // End of set column alignment
 
                 // Set Title
-                $title = "Semua Kenaikan Gaji Berkala Pegawai Negeri Sipil";
+                $title = "Semua Cuti Pegawai";
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
                 if (!$this->req->bulan || !$this->req->tahun) {
                     $subTitle2 = "";
@@ -58,6 +59,7 @@ class KgbPegawaiExport implements FromView, ShouldAutoSize, WithEvents, WithDraw
                     $tgl = $this->req->tahun . "-" . $this->req->bulan . "-" . 1;
 
                     $keadaan = formatTanggalIndonesia($tgl);
+
                     $subTitle2 = "Keadaan {$keadaan['bulan']} {$keadaan['tahun']}";
                 }
                 $currentDate = date("d/m/Y");

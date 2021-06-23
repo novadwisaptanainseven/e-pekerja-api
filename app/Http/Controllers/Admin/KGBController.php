@@ -45,13 +45,23 @@ class KGBController extends Controller
                 $d[0]->no = $i++;
                 $tmtKenaikanGajiTs = strtotime($d[0]->tmt_kenaikan_gaji);
                 $kenaikanGajiYadTs = strtotime($d[0]->kenaikan_gaji_yad);
-                if ($currentDate >= $tmtKenaikanGajiTs && $currentDate < $kenaikanGajiYadTs) {
+                // 3 hari sebelum tgl kenaikan gaji
+                $sisaTglKGB = 3 * 24 * 60 * 60;
+                $estimasiKGBBerakhir = $kenaikanGajiYadTs - $sisaTglKGB;
+                $tgl = date("d-m-Y", $estimasiKGBBerakhir);
+
+                if ($currentDate >= $estimasiKGBBerakhir && $currentDate <= $kenaikanGajiYadTs) {
+                    $d[0]->status_kgb = "akan-naik-gaji-2";
+                } elseif ($currentDate >= $tmtKenaikanGajiTs && $currentDate <= $kenaikanGajiYadTs) {
                     $d[0]->status_kgb = "sedang-berjalan";
                 } elseif ($currentDate < $tmtKenaikanGajiTs) {
                     $d[0]->status_kgb = "akan-naik-gaji";
                 } else {
                     $d[0]->status_kgb = "naik-gaji";
                 }
+
+                $d[0]->estimasiKGBBerakhir = $estimasiKGBBerakhir;
+                $d[0]->tgl = $tgl;
 
                 array_push($data2, $d[0]);
             }
@@ -76,7 +86,14 @@ class KGBController extends Controller
                 $d[0]->no = $i++;
                 $tmtKenaikanGajiTs = strtotime($d[0]->tmt_kenaikan_gaji);
                 $kenaikanGajiYadTs = strtotime($d[0]->kenaikan_gaji_yad);
-                if ($currentDate >= $tmtKenaikanGajiTs && $currentDate < $kenaikanGajiYadTs) {
+                // 3 hari sebelum tgl kenaikan gaji
+                $sisaTglKGB = 3 * 24 * 60 * 60;
+                $estimasiKGBBerakhir = $kenaikanGajiYadTs - $sisaTglKGB;
+                $tgl = date("d-m-Y", $estimasiKGBBerakhir);
+
+                if ($currentDate >= $estimasiKGBBerakhir && $currentDate <= $kenaikanGajiYadTs) {
+                    $d[0]->status_kgb = "akan-naik-gaji-2";
+                } elseif ($currentDate >= $tmtKenaikanGajiTs && $currentDate <= $kenaikanGajiYadTs) {
                     $d[0]->status_kgb = "sedang-berjalan";
                 } elseif ($currentDate < $tmtKenaikanGajiTs) {
                     $d[0]->status_kgb = "akan-naik-gaji";

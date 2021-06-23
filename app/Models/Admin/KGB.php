@@ -61,6 +61,7 @@ class KGB extends Model
                     "$tbl_pegawai.nip",
                     "$tbl_pegawai.nama",
                     "$tbl_pegawai.no_hp",
+                    "$tbl_pegawai.jenis_kelamin",
                 )
                 ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_kgb.id_pegawai")
                 ->whereMonth("$tbl_kgb.tmt_kenaikan_gaji", '=', $bulan)
@@ -76,6 +77,7 @@ class KGB extends Model
                     "$tbl_pegawai.nip",
                     "$tbl_pegawai.nama",
                     "$tbl_pegawai.no_hp",
+                    "$tbl_pegawai.jenis_kelamin",
                 )
                 ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_kgb.id_pegawai")
                 // ->whereRaw("CURDATE() < $tbl_kgb.kenaikan_gaji_yad")

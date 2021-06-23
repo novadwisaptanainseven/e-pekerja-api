@@ -109,6 +109,47 @@ if (!function_exists('getPemberitahuan')) {
             $pemberitahuan = "Pegawai ini sudah bisa dilakukan kenaikan gaji";
         } elseif ($val->status_kgb == "sedang-berjalan") {
             $pemberitahuan = "Pegawai ini telah diperbarui gajinya";
+        } elseif ($val->status_kgb == "akan-naik-gaji-2") {
+            $pemberitahuan = "Pegawai ini dalam waktu dekat akan mengalami kenaikan gaji yaitu pada tanggal " . date("d/m/Y", strtotime($val->kenaikan_gaji_yad));
+        }
+
+        return $pemberitahuan;
+    }
+}
+if (!function_exists('getStatusKGB')) {
+    function getStatusKGB($val)
+    {
+        $pemberitahuan = "";
+
+        if ($val->status_kgb == "akan-naik-gaji") {
+            $pemberitahuan = "Akan Naik Gaji";
+        } elseif ($val->status_kgb == "naik-gaji") {
+            $pemberitahuan = "Naik Gaji";
+        } elseif ($val->status_kgb == "sedang-berjalan") {
+            $pemberitahuan = "Sedang Berjalan";
+        } elseif ($val->status_kgb == "akan-naik-gaji-2") {
+            $pemberitahuan = "Akan Naik Gaji Dalam Waktu Dekat";
+        }
+
+        return $pemberitahuan;
+    }
+}
+
+// Cuti Pegawai
+// Fungsi untuk memberikan pemberitahuan berdasarkan status Cuti
+if (!function_exists('getPemberitahuanCuti')) {
+    function getPemberitahuanCuti($val)
+    {
+        $pemberitahuan = "";
+
+        if ($val->status_cuti == "akan-cuti") {
+            $pemberitahuan = "Pegawai ini akan cuti dari tanggal " . date("d/m/Y", strtotime($val->tgl_mulai)) . " s/d " . date("d/m/Y", strtotime($val->tgl_selesai));
+        } elseif ($val->status_cuti == "sedang-cuti") {
+            $pemberitahuan = "Pegawai ini sedang cuti sampai tanggal " . date("d/m/Y", strtotime($val->tgl_selesai));
+        } elseif ($val->status_cuti == "masa-cuti-hampir-selesai") {
+            $pemberitahuan = "Masa cuti pegawai ini akan berakhir pada tanggal " . date("d/m/Y", strtotime($val->tgl_selesai));
+        } elseif ($val->status_cuti == "masa-cuti-selesai") {
+            $pemberitahuan = "Masa cuti pegawai ini telah berakhir";
         }
 
         return $pemberitahuan;

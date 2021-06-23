@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\CutiExport;
+use App\Exports\PegawaiStatusCutiExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Cuti;
 use Illuminate\Http\Request;
@@ -274,9 +275,10 @@ class CutiController extends Controller
                 $sisaTglCuti = 24 * 60 * 60;
                 $estimasiCutiBerakhir = $tglSelesaiCutiTs - $sisaTglCuti;
                 $tgl = date("d-m-Y", $estimasiCutiBerakhir);
-                if ($currentDate >= $estimasiCutiBerakhir && $currentDate < $tglSelesaiCutiTs) {
+                
+                if ($currentDate >= $estimasiCutiBerakhir && $currentDate <= $tglSelesaiCutiTs) {
                     $d[0]->status_cuti = "masa-cuti-hampir-selesai";
-                } elseif ($currentDate >= $tglMulaiCutiTs && $currentDate < $tglSelesaiCutiTs) {
+                } elseif ($currentDate >= $tglMulaiCutiTs && $currentDate <= $tglSelesaiCutiTs) {
                     $d[0]->status_cuti = "sedang-cuti";
                 } elseif ($currentDate < $tglMulaiCutiTs) {
                     $d[0]->status_cuti = "akan-cuti";
@@ -284,9 +286,43 @@ class CutiController extends Controller
                     $d[0]->status_cuti = "masa-cuti-selesai";
                 }
 
-                $d[0]->sisaTglCuti = $sisaTglCuti;
-                $d[0]->estimasiCutiBerakhir = $estimasiCutiBerakhir;
-                $d[0]->tgl = $tgl;
+                // $d[0]->currentDate = $currentDate;
+                // $d[0]->estimasiCutiBerakhir = $estimasiCutiBerakhir;
+                // $d[0]->tglSelesaiCutiTs = $tglSelesaiCutiTs;
+                // $d[0]->tgl = $tgl;
+                array_push($data2, $d[0]);
+            }
+        }
+
+        return $data2;
+    }
+
+    // Get Pegawai Status Cuti
+    public static function getCutiPegawaiForPrint($req)
+    {
+        $data = Cuti::getPegawaiStatusCuti($req)->groupBy("id_pegawai");
+        $data2 = [];
+        $currentDate = time();
+        $i = 1;
+
+        if ($data) {
+            foreach ($data as $d) {
+                $d[0]->no = $i++;
+                $tglMulaiCutiTs = strtotime($d[0]->tgl_mulai);
+                $tglSelesaiCutiTs = strtotime($d[0]->tgl_selesai);
+                $sisaTglCuti = 24 * 60 * 60;
+                $estimasiCutiBerakhir = $tglSelesaiCutiTs - $sisaTglCuti;
+                $tgl = date("d-m-Y", $estimasiCutiBerakhir);
+                if ($currentDate >= $estimasiCutiBerakhir && $currentDate <= $tglSelesaiCutiTs) {
+                    $d[0]->status_cuti = "masa-cuti-hampir-selesai";
+                } elseif ($currentDate >= $tglMulaiCutiTs && $currentDate <= $tglSelesaiCutiTs) {
+                    $d[0]->status_cuti = "sedang-cuti";
+                } elseif ($currentDate < $tglMulaiCutiTs) {
+                    $d[0]->status_cuti = "akan-cuti";
+                } else {
+                    $d[0]->status_cuti = "masa-cuti-selesai";
+                }
+
                 array_push($data2, $d[0]);
             }
         }
@@ -298,5 +334,11 @@ class CutiController extends Controller
     public function exportCutiToExcel($id)
     {
         return (new CutiExport($id))->download('cuti-pegawai.xlsx');
+    }
+
+    // Export Pegawai Status Cuti
+    public function exportPegawaiStatusCuti(Request $req)
+    {
+        return (new PegawaiStatusCutiExport($req))->download('cuti-pegawai.xlsx');
     }
 }

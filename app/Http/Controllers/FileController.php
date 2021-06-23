@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Admin\CutiController;
 use App\Http\Controllers\Admin\KGBController;
 use App\Models\Admin\Cuti;
 use App\Models\Admin\DUK;
@@ -635,5 +636,33 @@ class FileController extends Controller
         $pdf->loadHTML($view->render())->setPaper($F4, "landscape");
 
         return $pdf->stream("riwayat-cuti-pegawai.pdf", ["Attachment" => false]);
+    }
+
+    // Print Pegawai Status Cuti
+    public function cetakPegawaiStatusCuti(Request $req)
+    {
+        // Fungsi dari helpers.php
+        if (!$req->bulan || !$req->tahun) {
+            $keadaan = "";
+        } else {
+            $keadaan = formatTanggalIndonesia(date("Y-m-d", strtotime("$req->tahun-$req->bulan-1")));
+        }
+
+        $cuti_pegawai = CutiController::getCutiPegawaiForPrint($req);
+
+        $data = [
+            "title" => "Semua Pegawai Cuti",
+            "date" => date("d/m/Y"),
+            "keadaan" => $keadaan,
+            "data" => $cuti_pegawai,
+            "ttd" => PNS::getDataKadis(),
+        ];
+
+        $F4 = [0, 0, 595.28, 841.89];
+
+        $view = View("printPegawai.print_cuti_semua_pegawai", $data);
+        $pdf = App::make("dompdf.wrapper");
+        $pdf->loadHTML($view->render())->setPaper($F4, "landscape");
+        return $pdf->stream("cuti_pegawai.pdf", array("Attachment" => false));
     }
 }

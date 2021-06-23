@@ -24,7 +24,7 @@
         <tr>
             <td align="center">{{$i + 1}}</td>
             <td>{{$item->nama}} <br>{{ $item->nip }}</td>
-            <td>{{$item->status_kgb}}</td>
+            <td>{{getStatusKGB($item)}}</td>
             <td>{{getPemberitahuan($item)}}</td>
             <td align="center">{{date("d/m/Y", strtotime($item->tmt_kenaikan_gaji))}}</td>
             <td>Rp. {{number_format($item->gaji_pokok_lama, 2, ',','.')}}</td>

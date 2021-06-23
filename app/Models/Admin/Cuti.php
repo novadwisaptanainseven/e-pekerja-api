@@ -140,13 +140,14 @@ class Cuti extends Model
                     "$tbl_pegawai.id_status_pegawai",
                     "$tbl_pegawai.nama",
                     "$tbl_pegawai.no_hp",
+                    "$tbl_pegawai.jenis_kelamin",
                 )
                 ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", "=", "$tbl_cuti.id_pegawai")
                 ->leftJoin($tbl_ptth, "$tbl_ptth.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
                 ->whereMonth("$tbl_cuti.tgl_mulai", "=", $bulan)
-                ->whereMonth("$tbl_cuti.tgl_selesai", "=", $bulan)
-                ->whereYear("$tbl_cuti.tgl_mulai", "=", $tahun)
-                ->whereYear("$tbl_cuti.tgl_selesai", "=", $tahun)
+                ->WhereYear("$tbl_cuti.tgl_mulai", "=", $tahun)
+                ->orWhereMonth("$tbl_cuti.tgl_selesai", "=", $bulan)
+                ->WhereYear("$tbl_cuti.tgl_selesai", "=", $tahun)
                 ->orderByDesc("$tbl_cuti.id_cuti")
                 ->get();
         } else {
@@ -158,6 +159,7 @@ class Cuti extends Model
                     "$tbl_pegawai.id_status_pegawai",
                     "$tbl_pegawai.nama",
                     "$tbl_pegawai.no_hp",
+                    "$tbl_pegawai.jenis_kelamin",
                 )
                 ->leftJoin($tbl_pegawai, "$tbl_pegawai.id_pegawai", '=', "$tbl_cuti.id_pegawai")
                 ->leftJoin($tbl_ptth, "$tbl_ptth.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
