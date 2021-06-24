@@ -226,6 +226,7 @@ class PNS extends Model
         $tbl_masa_kerja_pegawai = "masa_kerja_pegawai";
         $tbl_pendidikan = "pendidikan";
         $tbl_duk_pegawai = "duk_pegawai";
+        $tbl_riwayat_mk = "riwayat_mk";
         $tbl_users = "users";
 
         // Cek apakah ada file foto
@@ -280,8 +281,6 @@ class PNS extends Model
         $insert_pegawai = DB::table($tbl_pegawai)->insert($data_pegawai);
         $id_pegawai = DB::table($tbl_pegawai)->orderBy("id_pegawai", 'desc')->first()->id_pegawai;
 
-        
-
         // Tambah data masa kerja
         $data_masa_kerja = [
             'id_pegawai'      => $id_pegawai,
@@ -291,6 +290,17 @@ class PNS extends Model
             'mk_seluruhnya'   => $req->mk_seluruhnya,
         ];
         DB::table($tbl_masa_kerja_pegawai)->insert($data_masa_kerja);
+
+        // Tambah data riwayat masa kerja
+        $data_riwayat_mk = [
+            'id_pegawai'      => $id_pegawai,
+            'mk_jabatan'      => $req->mk_jabatan,
+            'mk_sebelum_cpns' => $req->mk_sebelum_cpns,
+            'mk_golongan'     => $req->mk_golongan,
+            'mk_seluruhnya'   => $req->mk_seluruhnya,
+            'tanggal'      => date("Y-m-d"),
+        ];
+        DB::table($tbl_riwayat_mk)->insert($data_riwayat_mk);
 
         // Tambah data pendidikan
         $data_pendidikan = [
