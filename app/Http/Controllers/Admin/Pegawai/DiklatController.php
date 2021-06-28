@@ -63,6 +63,7 @@ class DiklatController extends Controller
                 "tahun_diklat"  => "required",
                 "jumlah_jam"    => "required",
                 "dokumentasi"   => 'mimes:jpg,jpeg,png,pdf|max:1048',
+                "sertifikat"    => 'mimes:jpg,jpeg,png,pdf|max:1048',
             ],
             $messages
         );
@@ -107,6 +108,7 @@ class DiklatController extends Controller
                 "tahun_diklat"  => "required",
                 "jumlah_jam"    => "required",
                 "dokumentasi"   => 'mimes:jpg,jpeg,png,pdf|max:1048',
+                "sertifikat"    => 'mimes:jpg,jpeg,png,pdf|max:1048',
             ],
             $messages
         );

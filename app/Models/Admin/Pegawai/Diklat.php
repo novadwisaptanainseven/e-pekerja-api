@@ -78,6 +78,17 @@ class Diklat extends Model
             $dokumentasi = $file->storeAs("images/dok_diklat", rand(0, 9999) . time() . '-' . $sanitize);
         }
 
+        // Cek apakah ada file sertifikat
+        if (!$req->file('sertifikat')) {
+            $sertifikat = '';
+        } else {
+            $file = $req->file("sertifikat");
+
+            // Sanitasi nama file
+            $sanitize = sanitizeFile($file);
+            $sertifikat = $file->storeAs("images/dok_diklat", rand(0, 9999) . time() . '-' . $sanitize);
+        }
+
         $data = [
             'id_pegawai'    => $id_pegawai,
             'nama_diklat'   => $req->nama_diklat,
@@ -86,6 +97,7 @@ class Diklat extends Model
             "tahun_diklat"  => $req->tahun_diklat,
             "jumlah_jam"    => $req->jumlah_jam,
             "dokumentasi"   => $dokumentasi,
+            "sertifikat"    => $sertifikat,
         ];
 
         $insert = DB::table($tbl_diklat)->insert($data);
@@ -133,6 +145,21 @@ class Diklat extends Model
             $dokumentasi = $file->storeAs("images/dok_diklat", rand(0, 9999) . time() . '-' . $sanitize);
         }
 
+        // Cek apakah ada file sertifikat
+        if (!$req->file('sertifikat')) {
+            $sertifikat = $diklat->sertifikat;
+        } else {
+            // Hapus foto lama
+            $path_foto = $diklat->sertifikat;
+            Storage::delete($path_foto);
+
+            $file = $req->file("sertifikat");
+
+            // Sanitasi nama file
+            $sanitize = sanitizeFile($file);
+            $sertifikat = $file->storeAs("images/dok_diklat", rand(0, 9999) . time() . '-' . $sanitize);
+        }
+
         $data = [
             "nama_diklat"   => $req->nama_diklat ? $req->nama_diklat : $diklat->nama_diklat,
             "jenis_diklat"  => $req->jenis_diklat ? $req->jenis_diklat : $diklat->jenis_diklat,
@@ -140,6 +167,7 @@ class Diklat extends Model
             "tahun_diklat"  => $req->tahun_diklat ? $req->tahun_diklat : $diklat->tahun_diklat,
             "jumlah_jam"    => $req->jumlah_jam ? $req->jumlah_jam : $diklat->jumlah_jam,
             "dokumentasi"   => $dokumentasi,
+            "sertifikat"    => $sertifikat,
         ];
 
         DB::table($tbl_diklat)->where([
