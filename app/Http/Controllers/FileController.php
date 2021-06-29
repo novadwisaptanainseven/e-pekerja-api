@@ -12,6 +12,7 @@ use App\Models\Admin\Pegawai\Absensi;
 use App\Models\Admin\Pegawai\Berkas;
 use App\Models\Admin\Pegawai\Diklat;
 use App\Models\Admin\Pegawai\Keluarga;
+use App\Models\Admin\Pegawai\Mutasi;
 use App\Models\Admin\Pegawai\Pendidikan;
 use App\Models\Admin\Pegawai\Penghargaan;
 use App\Models\Admin\Pegawai\PNS;
@@ -533,6 +534,36 @@ class FileController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper($F4, 'landscape');
         return $pdf->stream("lap-pensiun-pegawai.pdf", array("Attachment" => false));
+    }
+
+    // Print Mutasi Pegawai
+    public function cetakMutasiPegawai(Request $req)
+    {
+        if (!$req->bulan || !$req->tahun) {
+            $keadaan = "";
+        } else {
+            $tgl = "$req->tahun-$req->bulan-1";
+            $keadaan = formatTanggalIndonesia(date("Y-m-d", strtotime($tgl)));
+        }
+
+        $output_data = Mutasi::getAll($req);
+
+        $title = "Laporan Data Mutasi Pegawai";
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            "keadaan" => $keadaan,
+            "data" => $output_data,
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $F4 = [0, 0, 595.28, 841.89];
+
+        $view = View('printMutasi.lap_mutasi_pegawai', $data);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view->render())->setPaper($F4, 'landscape');
+        return $pdf->stream("lap-mutasi-pegawai.pdf", array("Attachment" => false));
     }
 
     // Print Rekapitulasi Pegawai

@@ -1,48 +1,48 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Pegawai;
 
-use App\Exports\PensiunExport;
+use App\Exports\MutasiExport;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Pensiun;
+use App\Models\Admin\Pegawai\Mutasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class PensiunController extends Controller
+class MutasiController extends Controller
 {
-    // Get All Pensiun
+    // Get All Mutasi
     public function getAll(Request $req)
     {
-        $data = Pensiun::getAll($req);
+        $data = Mutasi::getAll($req);
 
         foreach ($data as $i => $item) {
             $item->no = $i + 1;
         }
 
         return response()->json([
-            "message" => "Berhasil mendapatkan semua data pensiun",
+            "message" => "Berhasil mendapatkan semua data mutasi",
             "data" => $data
         ], 200);
     }
 
-    // Get Pensiun By Id
-    public function getById($id_pensiun)
+    // Get Mutasi By Id
+    public function getById($id_mutasi)
     {
-        $data = Pensiun::getById($id_pensiun);
+        $data = Mutasi::getById($id_mutasi);
 
         if ($data === 404) {
             return response()->json([
-                "message" => "Data pensiun dengan id: {$id_pensiun} tidak ditemukan"
+                "message" => "Data mutasi dengan id: {$id_mutasi} tidak ditemukan"
             ], 404);
         } else {
             return response()->json([
-                "message" => "Berhasil mendapatkan data pensiun dengan id: {$id_pensiun}",
+                "message" => "Berhasil mendapatkan data mutasi dengan id: {$id_mutasi}",
                 "data" => $data
             ], 200);
         }
     }
 
-    // Insert Pensiun
+    // Insert Mutasi
     public function insert(Request $request)
     {
         // Validation
@@ -53,7 +53,7 @@ class PensiunController extends Controller
             $request->all(),
             [
                 "id_pegawai"  => "required",
-                "tgl_pensiun" => "required",
+                "tgl_mutasi"  => "required",
                 "keterangan"  => "required",
             ],
             $messages
@@ -67,12 +67,12 @@ class PensiunController extends Controller
         }
         // End of Validation
 
-        $insert = Pensiun::insert($request);
+        $insert = Mutasi::insert($request);
 
         if ($insert === 201) {
             // Jika insert data berhasil -> 201 CREATED
             return response()->json([
-                "message" => "Tambah data pensiun berhasil",
+                "message" => "Tambah data mutasi berhasil",
                 "input_data" => $request->all()
             ], 201);
         } else {
@@ -83,8 +83,8 @@ class PensiunController extends Controller
         }
     }
 
-    // Edit Pensiun
-    public function edit(Request $request, $id_pensiun)
+    // Edit Mutasi
+    public function edit(Request $request, $id_mutasi)
     {
         // Validation
         $messages = [
@@ -93,9 +93,8 @@ class PensiunController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                "tgl_pensiun"     => "required",
+                "tgl_mutasi"     => "required",
                 "keterangan"      => "required",
-                // "status_pensiun"  => "required",
             ],
             $messages
         );
@@ -108,67 +107,67 @@ class PensiunController extends Controller
         }
         // End of Validation
 
-        $edit = Pensiun::edit($request, $id_pensiun);
+        $edit = Mutasi::edit($request, $id_mutasi);
 
         if ($edit === 404) {
             return response()->json([
-                "message" => "Data pensiun dengan id: {$id_pensiun} tidak ditemukan"
+                "message" => "Data mutasi dengan id: {$id_mutasi} tidak ditemukan"
             ], 404);
         } else {
             return response()->json([
-                "message" => "Edit data pensiun dengan id: {$id_pensiun} berhasil",
+                "message" => "Edit data mutasi dengan id: {$id_mutasi} berhasil",
                 "edited_data" => $edit
             ], 201);
         }
     }
 
-    // Delete Pensiun By Id
-    public function delete($id_pensiun)
+    // Delete Mutasi By Id
+    public function delete($id_mutasi)
     {
         // Get data penghargaan by id
-        $data = Pensiun::where('id_pensiun', '=', $id_pensiun)
+        $data = Mutasi::where('id_mutasi', '=', $id_mutasi)
             ->first();
 
-        $delete = Pensiun::deletePensiun($id_pensiun);
+        $delete = Mutasi::deleteMutasi($id_mutasi);
 
         if ($delete === 404) {
-            // Jika data pensiun tidak ditemukan -> 404 NOT FOUND
+            // Jika data mutasi tidak ditemukan -> 404 NOT FOUND
             return response()->json([
-                "message" => "Data pensiun dengan id: {$id_pensiun} tidak ditemukan",
+                "message" => "Data mutasi dengan id: {$id_mutasi} tidak ditemukan",
             ], 404);
         } else {
             return response()->json([
-                "message" => "Berhasil menghapus data pensiun dengan id: {$id_pensiun}",
+                "message" => "Berhasil menghapus data mutasi dengan id: {$id_mutasi}",
                 "deleted_data" => $data
             ], 201);
         }
     }
 
-    // Batalkan Pensiun
-    public function batalkanPensiun($id_pensiun)
+    // Batalkan Mutasi
+    public function batalkanMutasi($id_mutasi)
     {
-        // Get data pensiun by id
-        $data = Pensiun::where('id_pensiun', '=', $id_pensiun)
+        // Get data mutasi by id
+        $data = Mutasi::where('id_mutasi', '=', $id_mutasi)
             ->first();
 
-        $batal = Pensiun::batalkanPensiun($id_pensiun);
+        $batal = Mutasi::batalkanMutasi($id_mutasi);
 
         if ($batal === 404) {
-            // Jika data pensiun tidak ditemukan -> 404 NOT FOUND
+            // Jika data mutasi tidak ditemukan -> 404 NOT FOUND
             return response()->json([
-                "message" => "Data pensiun dengan id: {$id_pensiun} tidak ditemukan",
+                "message" => "Data mutasi dengan id: {$id_mutasi} tidak ditemukan",
             ], 404);
         } else {
             return response()->json([
-                "message" => "Berhasil membatalkan pensiun untuk pegawai dengan id: {$data->id_pegawai}",
+                "message" => "Berhasil membatalkan mutasi untuk pegawai dengan id: {$data->id_pegawai}",
                 "deleted_data" => $data
             ], 201);
         }
     }
 
-    // Export Pensiun Pegawai ke Excel
-    public function exportPensiunToExcel(Request $req)
+    // Export Mutasi Pegawai ke Excel
+    public function exportMutasiToExcel(Request $req)
     {
-        return (new PensiunExport($req))->download('pensiun-pegawai.xlsx');
+        return (new MutasiExport($req))->download('mutasi-pegawai.xlsx');
     }
 }

@@ -10,4 +10,5 @@ include_once __DIR__ . '/masa_kerja.php';
 include_once __DIR__ . '/cuti.php';
 include_once __DIR__ . '/absensi.php';
 include_once __DIR__ . '/pensiun.php';
+include_once __DIR__ . '/mutasi.php';
 include_once __DIR__ . '/pembaruan_sk.php';
