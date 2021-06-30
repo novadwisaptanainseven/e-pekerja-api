@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Admin\Pegawai\Mutasi;
 use App\Models\Admin\Pensiun;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Illuminate\Contracts\View\View;
@@ -28,8 +29,8 @@ class MutasiExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
 
     public function view(): View
     {
-        return view('exports.pensiun', [
-            'data' => Pensiun::getAll($this->req)
+        return view('exports.mutasi', [
+            'data' => Mutasi::getAll($this->req)
         ]);
     }
 

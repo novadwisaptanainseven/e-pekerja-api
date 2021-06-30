@@ -17,6 +17,8 @@ class Dashboard extends Model
         // Tabel - Tabel
         $tbl_pegawai = "pegawai";
         $tbl_cuti = "cuti";
+        $tbl_mutasi = "mutasi";
+        $tbl_pensiun = "pensiun";
         $tbl_users = "users";
 
         $tot_pegawai = DB::table($tbl_pegawai)->get()->count();
@@ -39,6 +41,8 @@ class Dashboard extends Model
             ])
             ->get()->count();
         $tot_users = DB::table($tbl_users)->get()->count();
+        $tot_pensiun = DB::table($tbl_pensiun)->get()->count();
+        $tot_mutasi = DB::table($tbl_mutasi)->get()->count();
 
         $data = [
             "total_pegawai" => $tot_pegawai,
@@ -48,6 +52,8 @@ class Dashboard extends Model
             "total_pria" => $tot_pria,
             "total_wanita" => $tot_wanita,
             "total_cuti" => $tot_cuti,
+            "total_pensiun" => $tot_pensiun,
+            "total_mutasi" => $tot_mutasi,
             "total_users" => $tot_users,
         ];
 
