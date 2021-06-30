@@ -228,6 +228,7 @@ class PNS extends Model
         $tbl_duk_pegawai = "duk_pegawai";
         $tbl_riwayat_mk = "riwayat_mk";
         $tbl_users = "users";
+        $tbl_kenaikan_pangkat = "kenaikan_pangkat";
 
         // Cek apakah ada file foto
         if (!$req->file('foto')) {
@@ -252,7 +253,6 @@ class PNS extends Model
         }
 
         // Proses Tambah Data
-
         $data_pegawai = [
             "nip"               => $req->nip,
             "nama"              => $req->nama,
@@ -319,6 +319,14 @@ class PNS extends Model
             'id_pegawai'      => $id_pegawai,
         ];
         DB::table($tbl_duk_pegawai)->insert($data_duk_pegawai);
+
+        // Tambah data duk pegawai
+        $data_kenaikan_pangkat = [
+            'id_pegawai'           => $id_pegawai,
+            'created_at'           => now(),
+            'updated_at'           => now(),
+        ];
+        DB::table($tbl_kenaikan_pangkat)->insert($data_kenaikan_pangkat);
 
         // Generate password akun pegawai
         $password = explode("-", $req->tgl_lahir);

@@ -9,4 +9,5 @@ include_once __DIR__ . '/masa_kerja.php';
 include_once __DIR__ . '/penghargaan.php';
 include_once __DIR__ . '/pensiun.php';
 include_once __DIR__ . '/mutasi.php';
+include_once __DIR__ . '/kenaikan_pangkat.php';
 include_once __DIR__ . '/users.php';
