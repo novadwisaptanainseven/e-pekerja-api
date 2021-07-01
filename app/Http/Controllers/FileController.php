@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CutiController;
 use App\Http\Controllers\Admin\KGBController;
 use App\Models\Admin\Cuti;
 use App\Models\Admin\DUK;
+use App\Models\Admin\KenaikanPangkat;
 use App\Models\Admin\KGB;
 use App\Models\Admin\MasaKerja;
 use App\Models\Admin\Pegawai\Absensi;
@@ -564,6 +565,29 @@ class FileController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper($F4, 'landscape');
         return $pdf->stream("lap-mutasi-pegawai.pdf", array("Attachment" => false));
+    }
+
+    // Print Kenaikan Pangkat Pegawai
+    public function cetakKenaikanPangkatPegawai()
+    {
+
+        $output_data = KenaikanPangkat::getAll();
+
+        $title = "Laporan Data Kenaikan Pangkat Pegawai";
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            "data" => $output_data,
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $F4 = [0, 0, 595.28, 841.89];
+
+        $view = View('printKenaikanPangkat.lap_kenaikan_pangkat_pegawai', $data);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view->render())->setPaper($F4, 'landscape');
+        return $pdf->stream("lap-kenaikan-pangkat-pegawai.pdf", array("Attachment" => false));
     }
 
     // Print Rekapitulasi Pegawai

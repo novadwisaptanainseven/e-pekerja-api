@@ -155,3 +155,48 @@ if (!function_exists('getPemberitahuanCuti')) {
         return $pemberitahuan;
     }
 }
+
+// Kenaikan Pangkat
+if (!function_exists('getPemberitahuanKP')) {
+    function getPemberitahuanKP($data)
+    {
+        $pemberitahuan = "";
+        $status = "";
+        $currentDateTs = time();
+        $tmtKenaikanPangkat = $data->tmt_kenaikan_pangkat ? strtotime($data->tmt_kenaikan_pangkat) : "";
+
+        if ($tmtKenaikanPangkat) {
+            $status = $currentDateTs < $tmtKenaikanPangkat ? "akan-naik-pangkat" : "naik-pangkat";
+        }
+
+        if ($status === "naik-pangkat") {
+            $pemberitahuan = "Pegawai ini pangkatnya sudah bisa diperbarui";
+        } elseif ($status === "akan-naik-pangkat") {
+            $pemberitahuan = "Pegawai ini akan mengalami kenaikan pangkat menjadi " . $data->pangkat_baru . " pada tanggal " . date("d/m/Y", strtotime($data->tmt_kenaikan_pangkat));
+        }
+
+        return $pemberitahuan;
+    }
+}
+
+if (!function_exists('getStatusKP')) {
+    function getStatusKP($data)
+    {
+        $txt_status = "";
+        $status = "";
+        $currentDateTs = time();
+        $tmtKenaikanPangkat = $data->tmt_kenaikan_pangkat ? strtotime($data->tmt_kenaikan_pangkat) : "";
+
+        if ($tmtKenaikanPangkat) {
+            $status = $currentDateTs < $tmtKenaikanPangkat ? "akan-naik-pangkat" : "naik-pangkat";
+        }
+
+        if ($status === "naik-pangkat") {
+            $txt_status = "Naik Pangkat";
+        } elseif ($status === "akan-naik-pangkat") {
+            $txt_status = "Akan Naik Pangkat";
+        }
+
+        return $txt_status;
+    }
+}

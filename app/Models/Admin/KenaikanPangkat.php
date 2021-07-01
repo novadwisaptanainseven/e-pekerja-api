@@ -12,6 +12,12 @@ class KenaikanPangkat extends Model
 
     protected $table = "kenaikan_pangkat";
 
+    protected $fillable = [
+        'id_golongan',
+        'pangkat_baru',
+        'tmt_kenaikan_pangkat',
+    ];
+
     // Get All Kenaikan Pangkat
     public static function getAll()
     {

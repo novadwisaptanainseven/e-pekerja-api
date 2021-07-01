@@ -12,4 +12,4 @@ Route::post("kenaikan-pangkat/{id}", [KenaikanPangkatController::class, "create"
 Route::put("kenaikan-pangkat-update/{id}", [KenaikanPangkatController::class, "updatePangkat"]);
 
 // Batalkan Kenaikan Pangkat
-Route::delete("kenaikan-pangkat-batal/{id_mutasi}", [KenaikanPangkatController::class, "batalkanMutasi"]);
+Route::delete("kenaikan-pangkat-batal/{id}", [KenaikanPangkatController::class, "batalkanKenaikanPangkat"]);
