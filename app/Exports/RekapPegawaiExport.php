@@ -24,11 +24,11 @@ class RekapPegawaiExport implements FromView, ShouldAutoSize, WithDrawings, With
     {
         return [
             'A' => 20,
-            'B' => 20,            
-            'C' => 20,            
-            'D' => 30,            
-            'E' => 20,            
-            'F' => 20,            
+            'B' => 20,
+            'C' => 20,
+            'D' => 30,
+            'E' => 20,
+            'F' => 20,
         ];
     }
 
@@ -119,7 +119,7 @@ class RekapPegawaiExport implements FromView, ShouldAutoSize, WithDrawings, With
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class    => function(AfterSheet $event) {
+            AfterSheet::class    => function (AfterSheet $event) {
                 // Set Title
                 $currentDate = formatTanggalIndonesia(date("Y-m-d"));
                 $title = "Rekapitulasi Pegawai";
@@ -131,10 +131,10 @@ class RekapPegawaiExport implements FromView, ShouldAutoSize, WithDrawings, With
                 $event->sheet->mergeCells('A4:F4');
 
                 $event->sheet->getStyle('A2:A4')->applyFromArray([
-                  'alignment' => [
-                    'horizontal' => Alignment::HORIZONTAL_CENTER,
-                    'vertical' => Alignment::VERTICAL_CENTER
-                  ]
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER
+                    ]
                 ]);
                 $event->sheet->getStyle('A2')->getFont()->setBold(true)->setSize(24);
                 $event->sheet->setCellValue('A2', $title);
@@ -145,15 +145,15 @@ class RekapPegawaiExport implements FromView, ShouldAutoSize, WithDrawings, With
                 $event->sheet->getStyle('A4')->getFont()->setSize(16);
                 $event->sheet->setCellValue('A4', $subTitle2);
                 // End of Set Title
-                
+
                 // Set Content
                 $event->sheet->getStyle('A6:F8')->applyFromArray([
-                  'font' => [
-                    'bold' => true,
-                  ],
-                  'alignment' => [
-                    'horizontal' => Alignment::HORIZONTAL_CENTER
-                ],
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER
+                    ],
                 ]);
                 // Add borders
                 $event->sheet->getStyle('A6:F70')->applyFromArray([
@@ -170,18 +170,18 @@ class RekapPegawaiExport implements FromView, ShouldAutoSize, WithDrawings, With
                     ->setFillType(Fill::FILL_SOLID)
                     ->getStartColor()->setARGB('FFe69d30');
                 $event->sheet->getStyle('A28:F29')->applyFromArray([
-                 'fill' => [
-                     'fillType' => Fill::FILL_SOLID,
-                     'color' => [
-                         'argb' => 'FFe69d30'
-                     ]
+                    'fill' => [
+                        'fillType' => Fill::FILL_SOLID,
+                        'color' => [
+                            'argb' => 'FFe69d30'
+                        ]
                     ],
-                  'font' => [
-                      'bold' => true,
-                  ],
-                  'alignment' => [
-                      'horizontal' => Alignment::HORIZONTAL_CENTER
-                  ]
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER
+                    ]
                 ]);
                 $event->sheet->getStyle('A36:F38')->applyFromArray([
                     'fill' => [
@@ -189,13 +189,13 @@ class RekapPegawaiExport implements FromView, ShouldAutoSize, WithDrawings, With
                         'color' => [
                             'argb' => 'FFe69d30'
                         ]
-                       ],
-                     'font' => [
-                         'bold' => true,
-                     ],
-                     'alignment' => [
-                         'horizontal' => Alignment::HORIZONTAL_CENTER
-                     ]
+                    ],
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER
+                    ]
                 ]);
                 $event->sheet->getStyle('A49:F50')->applyFromArray([
                     'fill' => [
@@ -203,13 +203,13 @@ class RekapPegawaiExport implements FromView, ShouldAutoSize, WithDrawings, With
                         'color' => [
                             'argb' => 'FFe69d30'
                         ]
-                       ],
-                     'font' => [
-                         'bold' => true,
-                     ],
-                     'alignment' => [
-                         'horizontal' => Alignment::HORIZONTAL_CENTER
-                     ]
+                    ],
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER
+                    ]
                 ]);
                 $event->sheet->getStyle('A61:F62')->applyFromArray([
                     'fill' => [
@@ -217,18 +217,18 @@ class RekapPegawaiExport implements FromView, ShouldAutoSize, WithDrawings, With
                         'color' => [
                             'argb' => 'FFe69d30'
                         ]
-                       ],
-                     'font' => [
-                         'bold' => true,
-                     ],
-                     'alignment' => [
-                         'horizontal' => Alignment::HORIZONTAL_CENTER
-                     ]
+                    ],
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER
+                    ]
                 ]);
                 $event->sheet->getStyle('D')
                     ->getAlignment()
                     ->setWrapText(true);
-                $event->sheet->getStyle('A64:F64')->applyFromArray([
+                $event->sheet->getStyle('A68:F68')->applyFromArray([
                     'font' => [
                         'bold' => true
                     ],
@@ -241,10 +241,10 @@ class RekapPegawaiExport implements FromView, ShouldAutoSize, WithDrawings, With
                     ->setBold(true);
                 // End of Set Content
             },
-          ];
+        ];
     }
 
-   
+
 
     public function drawings()
     {
