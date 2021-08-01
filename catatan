@@ -1,0 +1,16 @@
+22. Isi form input tanggal absen di menu tambah absen dengan current date
+1. Field yang diperlukan untuk hasil cetak pdf PNS
+   - Nama/NIP
+   - Golongan
+   - Jabatan
+   - Eselon
+   - Jenis Kelamin
+   - No. HP
+2. Buat route bidang, sub bidang, dan pegawai secara global 
+
+Algoritma Request Absensi
+1. API get absensi menerima request berupa bulan dan tahun
+2. Nilai defaultnya adalah bulan dan tahun sekarang
+3. Tampilkan loading saat request sedang berlangsung
+4. Rekap Absensi
+   - Ketika tombol cetak ditekan, save data rekap absensi ke database
