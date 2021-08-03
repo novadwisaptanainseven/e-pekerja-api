@@ -33,7 +33,7 @@ class FileController extends Controller
 {
 
     // Testing Print PDF
-    public function cetakDaftarPegawai($jenis_data)
+    public function cetakDaftarPegawai(Request $req, $jenis_data)
     {
         /**
          * Display a listing of the resource.
@@ -45,7 +45,7 @@ class FileController extends Controller
 
         switch ($jenis_data) {
             case "pns":
-                $output_data = PNS::getAll();
+                $output_data = PNS::getAll($req);
                 $sub_title = "Pegawai Negeri Sipil (PNS)";
                 break;
             case "ptth":
@@ -60,6 +60,13 @@ class FileController extends Controller
                 $output_data = PNS::getAllPegawai();
                 $sub_title = "Pegawai (PNS, PTTH, PTTB)";
                 break;
+        }
+
+        // return response()->json([
+        //     "data" => $output_data,
+        // ], 200);
+        if ($req->pendidikan) {
+            $sub_title .= " Jenjang $req->pendidikan";
         }
 
         $title = "Daftar " . $sub_title;

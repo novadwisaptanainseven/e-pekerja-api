@@ -72,7 +72,7 @@ class PNS extends Model
     }
 
     // Get All Pegawai
-    public static function getAll()
+    public static function getAll($req = null)
     {
         // Tabel - tabel
         $tbl_pegawai = "pegawai";
@@ -82,6 +82,7 @@ class PNS extends Model
         $tbl_pangkat_golongan = "pangkat_golongan";
         $tbl_pangkat_eselon = "pangkat_eselon";
         $tbl_jabatan = "jabatan";
+        $tbl_pendidikan = "pendidikan";
 
         $data = DB::table($tbl_pegawai)
             ->select(
@@ -107,7 +108,24 @@ class PNS extends Model
             ->orderBy("$tbl_bidang.id_bidang", 'asc')
             ->get();
 
-        return $data;
+        $output = [];
+        // Jika ada request filter
+        if ($req && $req->pendidikan) {
+            foreach ($data as $d) {
+                $pend = DB::table($tbl_pendidikan)
+                    ->where("id_pegawai", "=", $d->id_pegawai)
+                    ->orderByDesc("id_pegawai")
+                    ->first();
+                if ($pend->jenjang == $req->pendidikan) {
+                    $d->pendidikan = $pend;
+                    array_push($output, $d);
+                }
+            }
+        } else {
+            $output = $data;
+        }
+
+        return $output;
     }
 
     // Get data TTD Kepala Dinas

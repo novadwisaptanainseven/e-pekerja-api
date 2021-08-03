@@ -78,6 +78,8 @@ Route::prefix($prefix)->group(function () {
   Route::post("{id_pegawai}/pendidikan/{id_pendidikan}", [PendidikanController::class, 'edit']);
   // Delete Pendidikan
   Route::delete("{id_pegawai}/pendidikan/{id_pendidikan}", [PendidikanController::class, 'delete']);
+  // Get Jenjang Pendidikan
+  Route::get("pendidikan/jenjang", [PendidikanController::class, "getJenjangPendidikan"]);
 
   // GROUP DIKLAT
   // Get All Diklat

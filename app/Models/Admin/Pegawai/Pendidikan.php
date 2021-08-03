@@ -178,4 +178,10 @@ class Pendidikan extends Model
 
         return true;
     }
+
+    // Get Jenjang Pendidikan
+    public static function getJenjangPendidikan()
+    {
+        return DB::table("jenjang_pendidikan")->get();
+    }
 }

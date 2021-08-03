@@ -163,4 +163,15 @@ class PendidikanController extends Controller
             ], 201);
         }
     }
+
+    // Get Jenjang Pendidikan
+    public function getJenjangPendidikan()
+    {
+        $data = Pendidikan::getJenjangPendidikan();
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua jenjang pendidikan",
+            "data" => $data
+        ]);
+    }
 }
