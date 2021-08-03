@@ -191,8 +191,8 @@ class PTTBController extends Controller
         }
     }
 
-    public function exportToExcel()
+    public function exportToExcel(Request $req)
     {
-        return (new PttbExport)->download('daftar-pttb.xlsx');
+        return (new PttbExport($req))->download('daftar-pttb.xlsx');
     }
 }

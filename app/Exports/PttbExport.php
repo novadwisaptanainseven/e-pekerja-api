@@ -19,29 +19,40 @@ class PttbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
 {
     use Exportable;
 
+    protected $req;
+
+    public function __construct($req)
+    {
+        $this->req = $req;
+    }
+
     public function view(): View
     {
         return view('exports.pttb', [
-            'data' => PTTB::getAll()
+            'data' => PTTB::getAll($this->req)
         ]);
     }
 
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class    => function(AfterSheet $event) {
+            AfterSheet::class    => function (AfterSheet $event) {
                 // Set Title
-                $title = "Daftar Pegawai Tidak Tetap Bulanan (PTTB)";
+                if ($this->req && $this->req->pendidikan) {
+                    $title = "Daftar Pegawai Tidak Tetap Bulanan (PTTB) Jenjang {$this->req->pendidikan}";
+                } else {
+                    $title = "Daftar Pegawai Tidak Tetap Bulanan (PTTB)";
+                }
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
 
                 $event->sheet->mergeCells('A2:K2');
                 $event->sheet->mergeCells('A3:K3');
 
                 $event->sheet->getStyle('A2:A3')->applyFromArray([
-                  'alignment' => [
-                    'horizontal' => Alignment::HORIZONTAL_CENTER,
-                    'vertical' => Alignment::VERTICAL_CENTER
-                  ]
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER
+                    ]
                 ]);
                 $event->sheet->getStyle('A2')->getFont()->setBold(true)->setSize(24);
                 $event->sheet->setCellValue('A2', $title);
@@ -49,15 +60,15 @@ class PttbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 $event->sheet->getStyle('A3')->getFont()->setSize(18);
                 $event->sheet->setCellValue('A3', $subTitle);
                 // End of Set Title
-                
+
                 // Set Content
                 $event->sheet->getStyle('A6:K6')->applyFromArray([
-                  'font' => [
-                    'bold' => true,
-                  ],
-                  'alignment' => [
-                    'horizontal' => Alignment::HORIZONTAL_CENTER
-                ],
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER
+                    ],
                 ]);
                 $event->sheet->getStyle('A6:K100')->applyFromArray([
                     'alignment' => [
@@ -70,15 +81,15 @@ class PttbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                     ],
                 ]);
                 $event->sheet->getStyle('A6:K6')->getFill()
-                ->setFillType(Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('FFe69d30');
+                    ->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFe69d30');
 
                 $event->sheet->getStyle('A')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getStyle('C')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
                 $event->sheet->getStyle('E')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 // End of Set Content
             },
-          ];
+        ];
     }
 
     public function drawings()

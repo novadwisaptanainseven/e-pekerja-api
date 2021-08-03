@@ -84,12 +84,12 @@
     <table class="my-table" cellpadding="5" border="1">
         <tr class="bg-orange">
             <th style="width: 150px;">Nama/NIPB</th>
-            <th>Penetap SK, No. SK, Tanggal, TMT</th>
+            <th style="width: 80px;">Penetap SK, No. SK, Tanggal, TMT</th>
             <!-- <th>Tgl. Penetapan SK</th>
             <th>No. SK</th>
             <th>Tgl. Mulai Tugas</th> -->
             {{-- <th>Kontrak Ke</th> --}}
-            <th>Masa Kerja</th>
+            <th style="width: 80px;">Masa Kerja</th>
             <th>Gaji Pokok</th>
             <th>Tugas Pokok (Jabatan)</th>
             <th>Jenis Kelamin</th>

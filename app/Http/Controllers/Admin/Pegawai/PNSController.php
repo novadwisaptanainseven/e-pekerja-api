@@ -144,7 +144,7 @@ class PNSController extends Controller
     {
         // Validation
         $pegawai = PNS::where("id_pegawai", "=", $id_pegawai)->first();
-       
+
         if ($request->nip == $pegawai->nip) {
             $nip_rules = "";
         } else {
@@ -232,10 +232,10 @@ class PNSController extends Controller
     }
 
     // Export to Excel
-    public function exportToExcel()
+    public function exportToExcel(Request $req)
     {
         // return Excel::download(new PnsExport, 'pns.xlsx');
-        return (new PnsExport)->download('daftar-pns.xlsx');
+        return (new PnsExport($req))->download('daftar-pns.xlsx');
         // return new PnsExport();
     }
 
@@ -246,12 +246,14 @@ class PNSController extends Controller
     }
 
     // Export Rekapitulasi Pegawai ke Excel
-    public function exportRekapPegawaiToExcel() {
+    public function exportRekapPegawaiToExcel()
+    {
         return (new RekapPegawaiExport)->download('rekap-pegawai.xlsx');
     }
 
     // Export Laporan Pegawai ke Excel
-    public function exportLaporanPegawaiToExcel($id_pegawai, $data) {
+    public function exportLaporanPegawaiToExcel($id_pegawai, $data)
+    {
         return (new LaporanPegawaiExport($id_pegawai, $data))->download("laporan-$data-pegawai.xlsx");
     }
 }

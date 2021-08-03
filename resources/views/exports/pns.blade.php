@@ -19,6 +19,7 @@
       <th>No</th>
       <th>Nama</th>
       <th>NIP</th>
+      <th>Golongan</th>
       <th>Jabatan</th>
       <th>Eselon</th>
       <th>Bidang</th>
@@ -34,6 +35,7 @@
           <td>{{ $i + 1 }}</td>
           <td>{{ $d->nama }}</td>
           <td>{{ $d->nip }}</td>
+          <td>{{ $d->ket_golongan . "(" . $d->golongan . ")" }}</td>
           <td>{{ $d->jabatan }}</td>
           <td>{{ $d->eselon }}</td>
           <td>{{ $d->bidang }}</td>

@@ -193,8 +193,8 @@ class PTTHController extends Controller
     }
 
     // // Export to Excel
-    public function exportToExcel()
+    public function exportToExcel(Request $req)
     {
-        return (new PtthExport)->download('daftar-ptth.xlsx');
+        return (new PtthExport($req))->download('daftar-ptth.xlsx');
     }
 }

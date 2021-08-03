@@ -16,7 +16,7 @@ class PTTB extends Model
     protected $primaryKey = "id_pttb";
 
     // Get All PTTB
-    public static function getAll()
+    public static function getAll($req = null)
     {
         // Tabel - tabel
         $tbl_pegawai = "pegawai";
@@ -25,6 +25,7 @@ class PTTB extends Model
         $tbl_bidang = "bidang";
         $tbl_jabatan = "jabatan";
         $tbl_pttb = "pttb";
+        $tbl_pendidikan = "pendidikan";
 
         $data = DB::table($tbl_pegawai)
             ->select(
@@ -56,7 +57,24 @@ class PTTB extends Model
             ->orderBy("$tbl_pegawai.id_pegawai", 'DESC')
             ->get();
 
-        return $data;
+        $output = [];
+        // Jika ada request filter
+        if ($req && $req->pendidikan) {
+            foreach ($data as $d) {
+                $pend = DB::table($tbl_pendidikan)
+                    ->where("id_pegawai", "=", $d->id_pegawai)
+                    ->orderByDesc("id_pegawai")
+                    ->first();
+                if ($pend->jenjang == $req->pendidikan) {
+                    $d->pendidikan = $pend;
+                    array_push($output, $d);
+                }
+            }
+        } else {
+            $output = $data;
+        }
+
+        return $output;
     }
 
     // Get PTTB By Id

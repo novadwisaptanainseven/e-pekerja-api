@@ -84,6 +84,8 @@ class PNS extends Model
         $tbl_jabatan = "jabatan";
         $tbl_pendidikan = "pendidikan";
 
+        $order = $req && $req->order ? $req->order : "asc";
+
         $data = DB::table($tbl_pegawai)
             ->select(
                 "$tbl_pegawai.*",
@@ -105,7 +107,7 @@ class PNS extends Model
             ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->where("$tbl_pegawai.status_kerja", "=", "aktif")
-            ->orderBy("$tbl_bidang.id_bidang", 'asc')
+            ->orderBy("$tbl_bidang.id_bidang", $order)
             ->get();
 
         $output = [];

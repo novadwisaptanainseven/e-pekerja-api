@@ -16,7 +16,7 @@ class PTTH extends Model
     protected $primaryKey = "id_ptth";
 
     // Get All PNS
-    public static function getAll()
+    public static function getAll($req = null)
     {
         // Tabel - tabel
         $tbl_pegawai = "pegawai";
@@ -25,6 +25,7 @@ class PTTH extends Model
         $tbl_bidang = "bidang";
         $tbl_ptth = "ptth";
         $tbl_jabatan = "jabatan";
+        $tbl_pendidikan = "pendidikan";
 
         $data = DB::table($tbl_pegawai)
             ->select(
@@ -53,10 +54,27 @@ class PTTH extends Model
             ->leftJoin($tbl_ptth, "$tbl_ptth.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->where("$tbl_pegawai.status_kerja", "=", "aktif")
-            ->orderBy("$tbl_pegawai.id_pegawai", 'DESC')
+            ->orderBy("$tbl_pegawai.id_pegawai", "DESC")
             ->get();
 
-        return $data;
+        $output = [];
+        // Jika ada request filter
+        if ($req && $req->pendidikan) {
+            foreach ($data as $d) {
+                $pend = DB::table($tbl_pendidikan)
+                    ->where("id_pegawai", "=", $d->id_pegawai)
+                    ->orderByDesc("id_pegawai")
+                    ->first();
+                if ($pend->jenjang == $req->pendidikan) {
+                    $d->pendidikan = $pend;
+                    array_push($output, $d);
+                }
+            }
+        } else {
+            $output = $data;
+        }
+
+        return $output;
     }
 
     // Get PNS By Id

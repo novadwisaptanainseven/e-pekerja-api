@@ -49,11 +49,11 @@ class FileController extends Controller
                 $sub_title = "Pegawai Negeri Sipil (PNS)";
                 break;
             case "ptth":
-                $output_data = PTTH::getAll();
+                $output_data = PTTH::getAll($req);
                 $sub_title = "Pegawai Tidak Tetap Harian (PTTH)";
                 break;
             case 'pttb':
-                $output_data = PTTB::getAll();
+                $output_data = PTTB::getAll($req);
                 $sub_title = "Pegawai Tidak Tetap Bulanan (PTTB)";
                 break;
             case 'semua-pegawai':
