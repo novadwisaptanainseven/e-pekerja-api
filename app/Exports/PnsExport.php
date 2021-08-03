@@ -39,8 +39,10 @@ class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
     return [
       AfterSheet::class => function (AfterSheet $event) {
         // Set Title
-        if ($this->req && $this->req->pendidikan) {
-          $title = "Daftar Pegawai Negeri Sipil (PNS) Jenjang {$this->req->pendidikan}";
+        if ($this->req && $this->req->jenjang) {
+          $title = "Daftar Pegawai Negeri Sipil (PNS) Jenjang Pendidikan {$this->req->jenjang}";
+        } elseif ($this->req && $this->req->kolom) {
+          $title = "Daftar Pegawai Negeri Sipil (PNS) Berdasarkan " . ucfirst($this->req->kolom);
         } else {
           $title = "Daftar Pegawai Negeri Sipil (PNS)";
         }

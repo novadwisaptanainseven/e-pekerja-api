@@ -27,6 +27,8 @@ class PTTH extends Model
         $tbl_jabatan = "jabatan";
         $tbl_pendidikan = "pendidikan";
 
+        $order = $req && $req->order ? $req->order : "asc";
+
         $data = DB::table($tbl_pegawai)
             ->select(
                 "$tbl_pegawai.nama",
@@ -54,7 +56,7 @@ class PTTH extends Model
             ->leftJoin($tbl_ptth, "$tbl_ptth.id_pegawai", "=", "$tbl_pegawai.id_pegawai")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->where("$tbl_pegawai.status_kerja", "=", "aktif")
-            ->orderBy("$tbl_pegawai.id_pegawai", "DESC")
+            ->orderBy("$tbl_bidang.id_bidang", $order)
             ->get();
 
         $output = [];

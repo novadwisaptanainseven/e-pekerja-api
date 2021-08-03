@@ -65,8 +65,22 @@ class FileController extends Controller
         // return response()->json([
         //     "data" => $output_data,
         // ], 200);
-        if ($req->pendidikan) {
-            $sub_title .= " Jenjang $req->pendidikan";
+        // switch($req->kolom) {
+        //     case "nama" :
+        //         $sub_title .= " Berdasarkan  $req->kolom";
+        //         break;
+        //     case "jabatan" :
+        //         $sub_title .= " Berdasarkan " . ucfirst($req->kolom);
+        //         break;
+        //     case "bidang" :
+        //         $sub_title .= " Berdasarkan " . ucfirst($req->kolom);
+        //         break;
+
+        // }
+        if ($req->jenjang) {
+            $sub_title .= " Berdasarkan Jenjang Pendidikan {$req->jenjang}";
+        } else if ($req->kolom) {
+            $sub_title .= " Berdasarkan " . ucfirst($req->kolom);
         }
 
         $title = "Daftar " . $sub_title;

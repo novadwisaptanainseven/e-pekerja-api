@@ -51,7 +51,7 @@
             <th>Gaji Pokok</th>
             <th>Jenis Kelamin</th>
             <th>No. HP</th>
-            <th>No. KTP</th>
+            <th>Bidang</th>
             <th>Email</th>
         </tr>
         @foreach($data as $d)
@@ -73,7 +73,7 @@
             <td valign="top">Rp. {{number_format($d->gaji_pokok,2,',','.')}}</td>
             <td valign="top">{{$d->jenis_kelamin}}</td>
             <td valign="top">{{$d->no_hp}}</td>
-            <td valign="top">{{$d->no_ktp}}</td>
+            <td valign="top">{{$d->bidang}}</td>
             <td valign="top">{{$d->email}}</td>
         </tr>
         @endforeach

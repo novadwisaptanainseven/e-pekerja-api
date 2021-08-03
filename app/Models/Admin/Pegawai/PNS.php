@@ -84,7 +84,28 @@ class PNS extends Model
         $tbl_jabatan = "jabatan";
         $tbl_pendidikan = "pendidikan";
 
+        $columnOrder = "$tbl_pegawai.id_pegawai";
         $order = $req && $req->order ? $req->order : "asc";
+        // Cek filter by column
+        if ($req) {
+            switch ($req->kolom) {
+                case "nama":
+                    $columnOrder = "$tbl_pegawai.nama";
+                    break;
+                case "jabatan":
+                    $columnOrder = "$tbl_jabatan.id_jabatan";
+                    break;
+                case "bidang":
+                    $columnOrder = "$tbl_bidang.id_bidang";
+                    break;
+                case "pangkat":
+                    $columnOrder = "$tbl_pangkat_golongan.id_pangkat_golongan";
+                    break;
+                default:
+                    $columnOrder = "$tbl_pegawai.id_pegawai";
+                    break;
+            }
+        }
 
         $data = DB::table($tbl_pegawai)
             ->select(
@@ -107,18 +128,18 @@ class PNS extends Model
             ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
             ->where("$tbl_pegawai.status_kerja", "=", "aktif")
-            ->orderBy("$tbl_bidang.id_bidang", $order)
+            ->orderBy($columnOrder, $order)
             ->get();
 
         $output = [];
-        // Jika ada request filter
-        if ($req && $req->pendidikan) {
+        // Jika ada request filternya adalah jenjang pendidikan
+        if ($req && $req->jenjang) {
             foreach ($data as $d) {
                 $pend = DB::table($tbl_pendidikan)
                     ->where("id_pegawai", "=", $d->id_pegawai)
                     ->orderByDesc("id_pegawai")
                     ->first();
-                if ($pend->jenjang == $req->pendidikan) {
+                if ($pend->jenjang == $req->jenjang) {
                     $d->pendidikan = $pend;
                     array_push($output, $d);
                 }
