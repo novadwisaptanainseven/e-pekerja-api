@@ -14,7 +14,6 @@ use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class PnsExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
 {

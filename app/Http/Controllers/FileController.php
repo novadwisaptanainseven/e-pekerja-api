@@ -57,30 +57,17 @@ class FileController extends Controller
                 $sub_title = "Pegawai Tidak Tetap Bulanan (PTTB)";
                 break;
             case 'semua-pegawai':
-                $output_data = PNS::getAllPegawai();
+                $output_data = PNS::getAllPegawai($req);
                 $sub_title = "Pegawai (PNS, PTTH, PTTB)";
                 break;
         }
 
-        // return response()->json([
-        //     "data" => $output_data,
-        // ], 200);
-        // switch($req->kolom) {
-        //     case "nama" :
-        //         $sub_title .= " Berdasarkan  $req->kolom";
-        //         break;
-        //     case "jabatan" :
-        //         $sub_title .= " Berdasarkan " . ucfirst($req->kolom);
-        //         break;
-        //     case "bidang" :
-        //         $sub_title .= " Berdasarkan " . ucfirst($req->kolom);
-        //         break;
-
-        // }
         if ($req->jenjang) {
             $sub_title .= " Berdasarkan Jenjang Pendidikan {$req->jenjang}";
         } else if ($req->kolom) {
             $sub_title .= " Berdasarkan " . ucfirst($req->kolom);
+        } else if ($req->status_pegawai) {
+            $sub_title = "Pegawai {$req->status_pegawai}";
         }
 
         $title = "Daftar " . $sub_title;

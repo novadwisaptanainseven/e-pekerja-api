@@ -22,6 +22,7 @@
         <th>Masa Kerja</th>
         <th>Gaji Pokok</th>
         <th>Tugas Pokok (Jabatan)</th>
+        <th>Bidang</th>
         <th>Jenis Kelamin</th>
         <th>No. HP</th>
         <th>No. KTP</th>
@@ -44,6 +45,7 @@
         <td>{{$d->masa_kerja}}</td>
         <td>Rp. {{number_format($d->gaji_pokok,2,',','.')}}</td>
         <td>{{$d->jabatan}}</td>
+        <td>{{$d->bidang}}</td>
         <td>{{$d->jenis_kelamin}}</td>
         <td>{{$d->no_hp}}</td>
         <td>{{$d->no_ktp ? "($d->no_ktp)" : ""}}</td>

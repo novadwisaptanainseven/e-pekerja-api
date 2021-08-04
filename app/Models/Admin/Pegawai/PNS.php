@@ -18,7 +18,7 @@ class PNS extends Model
     protected $guarded = [];
 
     // Get All Pegawai (PNS, PTTH, PTTB)
-    public static function getAllPegawai()
+    public static function getAllPegawai($req = null)
     {
         // Tabel - tabel
         $tbl_pegawai = "pegawai";
@@ -29,6 +29,41 @@ class PNS extends Model
         $tbl_pangkat_eselon = "pangkat_eselon";
         $tbl_jabatan = "jabatan";
         $tbl_ptth = "ptth";
+        $tbl_pendidikan = "pendidikan";
+
+        $whereStatement = [
+            ["$tbl_pegawai.status_kerja", "=", "aktif"]
+        ];
+        $columnOrder = "$tbl_pegawai.id_pegawai";
+        $order = $req && $req->order ? $req->order : "asc";
+        // Cek filter by column
+        // Jika ada request filternya adalah kolom
+        if ($req && $req->kolom) {
+            switch ($req->kolom) {
+                case "nama":
+                    $columnOrder = "$tbl_pegawai.nama";
+                    break;
+                case "jabatan":
+                    $columnOrder = "$tbl_jabatan.id_jabatan";
+                    break;
+                case "bidang":
+                    $columnOrder = "$tbl_bidang.id_bidang";
+                    break;
+                case "status-pegawai":
+                    $columnOrder = "$tbl_status_pegawai.id_status_pegawai";
+                    break;
+                default:
+                    $columnOrder = "$tbl_status_pegawai.id_status_pegawai";
+                    break;
+            }
+        }
+        // Jika ada request filternya adalah status_pegawai
+        if ($req && $req->status_pegawai) {
+            $whereStatement = [
+                ["$tbl_pegawai.status_kerja", "=", "aktif"],
+                ["$tbl_status_pegawai.status_pegawai", "=", $req->status_pegawai]
+            ];
+        }
 
         $data = DB::table($tbl_pegawai)
             ->select(
@@ -49,8 +84,8 @@ class PNS extends Model
             ->leftJoin($tbl_pangkat_golongan, "$tbl_pangkat_golongan.id_pangkat_golongan", "=", "$tbl_pegawai.id_golongan")
             ->leftJoin($tbl_pangkat_eselon, "$tbl_pangkat_eselon.id_pangkat_eselon", "=", "$tbl_pegawai.id_eselon")
             ->leftJoin($tbl_jabatan, "$tbl_jabatan.id_jabatan", "=", "$tbl_pegawai.id_jabatan")
-            ->orderBy("$tbl_status_pegawai.id_status_pegawai", "asc")
-            ->where("$tbl_pegawai.status_kerja", "=", "aktif")
+            ->where($whereStatement)
+            ->orderBy($columnOrder, $order)
             ->get();
 
         foreach ($data as $d) {
@@ -68,7 +103,24 @@ class PNS extends Model
             // $d->test = "Hello";
         }
 
-        return $data;
+        $output = [];
+        // Jika ada request filternya adalah jenjang pendidikan
+        if ($req && $req->jenjang) {
+            foreach ($data as $d) {
+                $pend = DB::table($tbl_pendidikan)
+                    ->where("id_pegawai", "=", $d->id_pegawai)
+                    ->orderByDesc("id_pegawai")
+                    ->first();
+                if ($pend->jenjang == $req->jenjang) {
+                    $d->pendidikan = $pend;
+                    array_push($output, $d);
+                }
+            }
+        } else {
+            $output = $data;
+        }
+
+        return $output;
     }
 
     // Get All Pegawai

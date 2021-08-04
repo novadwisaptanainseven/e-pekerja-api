@@ -38,15 +38,17 @@ class PttbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
         return [
             AfterSheet::class    => function (AfterSheet $event) {
                 // Set Title
-                if ($this->req && $this->req->pendidikan) {
-                    $title = "Daftar Pegawai Tidak Tetap Bulanan (PTTB) Jenjang {$this->req->pendidikan}";
+                if ($this->req && $this->req->jenjang) {
+                    $title = "Daftar Pegawai Tidak Tetap Bulanan (PTTB) Jenjang Pendidikan {$this->req->jenjang}";
+                } elseif ($this->req && $this->req->kolom) {
+                    $title = "Daftar Pegawai Tidak Tetap Bulanan (PTTB) Berdasarkan " . ucfirst($this->req->kolom);
                 } else {
                     $title = "Daftar Pegawai Tidak Tetap Bulanan (PTTB)";
                 }
                 $subTitle = "Dinas Perumahan dan Kawasan Permukiman Samarinda";
 
-                $event->sheet->mergeCells('A2:K2');
-                $event->sheet->mergeCells('A3:K3');
+                $event->sheet->mergeCells('A2:L2');
+                $event->sheet->mergeCells('A3:L3');
 
                 $event->sheet->getStyle('A2:A3')->applyFromArray([
                     'alignment' => [
@@ -62,7 +64,7 @@ class PttbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                 // End of Set Title
 
                 // Set Content
-                $event->sheet->getStyle('A6:K6')->applyFromArray([
+                $event->sheet->getStyle('A6:L6')->applyFromArray([
                     'font' => [
                         'bold' => true,
                     ],
@@ -70,7 +72,7 @@ class PttbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                         'horizontal' => Alignment::HORIZONTAL_CENTER
                     ],
                 ]);
-                $event->sheet->getStyle('A6:K100')->applyFromArray([
+                $event->sheet->getStyle('A6:L100')->applyFromArray([
                     'alignment' => [
                         'vertical' => Alignment::VERTICAL_TOP
                     ],
@@ -80,7 +82,7 @@ class PttbExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
                         ],
                     ],
                 ]);
-                $event->sheet->getStyle('A6:K6')->getFill()
+                $event->sheet->getStyle('A6:L6')->getFill()
                     ->setFillType(Fill::FILL_SOLID)
                     ->getStartColor()->setARGB('FFe69d30');
 

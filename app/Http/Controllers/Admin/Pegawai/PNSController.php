@@ -240,9 +240,9 @@ class PNSController extends Controller
     }
 
     // Export semua pegawai ke excel
-    public function exportAllPegawaiToExcel()
+    public function exportAllPegawaiToExcel(Request $req)
     {
-        return (new PegawaiExport)->download('daftar-pegawai.xlsx');
+        return (new PegawaiExport($req))->download('daftar-pegawai.xlsx');
     }
 
     // Export Rekapitulasi Pegawai ke Excel

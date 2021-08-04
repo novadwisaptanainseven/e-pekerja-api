@@ -38,8 +38,10 @@ class PtthExport implements FromView, ShouldAutoSize, WithEvents, WithDrawings
         return [
             AfterSheet::class    => function (AfterSheet $event) {
                 // Set Title
-                if ($this->req && $this->req->pendidikan) {
-                    $title = "Daftar Pegawai Tidak Tetap Harian (PTTH) Jenjang {$this->req->pendidikan}";
+                if ($this->req && $this->req->jenjang) {
+                    $title = "Daftar Pegawai Tidak Tetap Harian (PTTH) Jenjang Pendidikan {$this->req->jenjang}";
+                } elseif ($this->req && $this->req->kolom) {
+                    $title = "Daftar Pegawai Tidak Tetap Harian (PTTH) Berdasarkan " . ucfirst($this->req->kolom);
                 } else {
                     $title = "Daftar Pegawai Tidak Tetap Harian (PTTH)";
                 }
