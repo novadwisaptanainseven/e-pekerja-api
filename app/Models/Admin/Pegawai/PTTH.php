@@ -264,7 +264,7 @@ class PTTH extends Model
         $data_user = [
             "id_pegawai" => $id_pegawai,
             "name"       => $req->nama,
-            "username"   => $req->nik,
+            "username"   => str_replace(" ", "", $req->nip),
             "level"      => 2,
             "password"   => Hash::make($password2),
             "foto_profil" => $foto

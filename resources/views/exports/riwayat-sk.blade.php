@@ -23,6 +23,7 @@
         <th>Tgl. Mulai Tugas</th>
         <th>Tugas Pokok (Jabatan)</th>
         <th>Gaji Pokok</th>
+        <th>Status</th>
     </tr>
     @foreach($data as $i => $item)
     <tr>
@@ -33,6 +34,7 @@
         <td align="center">{{ $item->tgl_mulai_tugas }}</td>
         <td>{{ $item->nama_jabatan }}</td>
         <td>Rp {{ number_format($item->gaji_pokok, 2, ',', '.') }}</td>
+        <td>{{ $item->sk_terkini == 1 ? "SK Terkini" : "" }}</td>
     </tr>
     @endforeach
 
@@ -47,6 +49,7 @@
         <th>Masa Kerja</th>
         <th>Tugas Pokok (Jabatan)</th>
         <th>Gaji Pokok</th>
+        <th>Status</th>
     </tr>
     @foreach($data as $i => $item)
     <tr>
@@ -58,6 +61,7 @@
         <td align="center">{{ $item->kontrak_ke }}</td>
         <td align="center">{{ $item->masa_kerja }}</td>
         <td>{{ $item->nama_jabatan }}</td>
+        <td>{{ $item->sk_terkini == 1 ? "SK Terkini" : "" }}</td>
         <td>Rp {{ number_format($item->gaji_pokok, 2, ',', '.') }}</td>
     </tr>
     @endforeach

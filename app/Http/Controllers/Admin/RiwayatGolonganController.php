@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\RiwayatGolonganExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\MasaKerja;
+use App\Models\Admin\Pegawai\PNS;
 use App\Models\Admin\RiwayatGolongan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -104,10 +105,19 @@ class RiwayatGolonganController extends Controller
 
         // Update pangkat terkini jika golongan dijadikan pangkat terkini
         if ($req->pangkat_terkini == 1) {
-            RiwayatGolongan::resetPangkatTerkini($insert->id_rw_golongan);
+
+            RiwayatGolongan::resetPangkatTerkini($insert->id_rw_golongan, $id_pegawai);
 
             // Hitung total masa kerja untuk pengurutan
             $total_mkg_hari = hitungMKG2($req->masa_kerja);
+
+            // Update golongan di tabel pegawai
+            $data_pegawai = [
+                "id_golongan" => $req->id_golongan,
+                "tmt_golongan" => $req->tmt_kenaikan_pangkat
+            ];
+            PNS::where("id_pegawai", $id_pegawai)->update($data_pegawai);
+
             // Update Masa Kerja Golongan di tabel masa kerja
             MasaKerja::where("id_pegawai", "$id_pegawai")
                 ->update([
@@ -186,22 +196,30 @@ class RiwayatGolonganController extends Controller
             "file"                  => $file,
         ];
 
-        // Updata pangkat terkini 
-        if ($req->pangkat_terkini == 1) {
-            RiwayatGolongan::resetPangkatTerkini($id);
-        }
-
         // Update riwayat golongan
         $update = $rwg->update($data);
 
-        // Hitung total masa kerja untuk pengurutan
-        $total_mkg_hari = hitungMKG2($req->masa_kerja);
-        // Update Masa Kerja Golongan di tabel masa kerja
-        MasaKerja::where("id_pegawai", "$rwg->id_pegawai")
-            ->update([
-                "mk_golongan" => $data["masa_kerja"],
-                "total_mkg_hari" => $total_mkg_hari,
-            ]);
+        // Updata pangkat terkini 
+        if ($req->pangkat_terkini == 1) {
+            RiwayatGolongan::resetPangkatTerkini($id, $rwg->id_pegawai);
+
+            // Update golongan di tabel pegawai
+            $data_pegawai = [
+                "id_golongan" => $req->id_golongan,
+                "tmt_golongan" => $req->tmt_kenaikan_pangkat
+            ];
+            PNS::where("id_pegawai", $rwg->id_pegawai)->update($data_pegawai);
+
+            // Hitung total masa kerja untuk pengurutan
+            $total_mkg_hari = hitungMKG2($req->masa_kerja);
+
+            // Update Masa Kerja Golongan di tabel masa kerja
+            MasaKerja::where("id_pegawai", "$rwg->id_pegawai")
+                ->update([
+                    "mk_golongan" => $data["masa_kerja"],
+                    "total_mkg_hari" => $total_mkg_hari,
+                ]);
+        }
 
         return response()->json([
             "message" => "Edit data riwayat golongan dengan id: $id berhasil",

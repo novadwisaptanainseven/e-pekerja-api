@@ -14,6 +14,7 @@ class PembaruanSK extends Model
 
     protected $table = "riwayat_sk";
     protected $primaryKey = "id_riwayat_sk";
+    protected static $tbl = "riwayat_sk";
 
     // Get All Riwayat SK
     public static function getAll($id_pegawai)
@@ -96,7 +97,7 @@ class PembaruanSK extends Model
         return $data;
     }
 
-    // Insert KGB
+    // Insert Riwayat SK
     public static function insert($req, $id_pegawai)
     {
         // Tabel - tabel
@@ -120,6 +121,11 @@ class PembaruanSK extends Model
             $file = $file->storeAs("images/surat-kontrak", rand(0, 9999) . time() . '-' . $sanitize);
         }
 
+        if ($req->sk_terkini == 1) {
+            // Reset SK Terkini
+            self::resetSkTerkini($id_pegawai);
+        }
+
         // Cek status pegawai
         if ($pegawai->id_status_pegawai == 2) {
             // Jika ptth
@@ -135,6 +141,7 @@ class PembaruanSK extends Model
                 "file"              => $file,
                 "created_at"        => date("Y-m-d"),
                 "updated_at"        => date("Y-m-d"),
+                "sk_terkini"        => $req->sk_terkini,
             ];
             $data2 = [
                 "no_sk"             => $req->no_sk,
@@ -159,7 +166,8 @@ class PembaruanSK extends Model
                 "gaji_pokok"        => $req->gaji_pokok,
                 "created_at"        => date("Y-m-d"),
                 "updated_at"        => date("Y-m-d"),
-                "file"              => $file
+                "file"              => $file,
+                "sk_terkini"        => $req->sk_terkini
             ];
             $data2 = [
                 "no_sk"             => $req->no_sk,
@@ -175,15 +183,23 @@ class PembaruanSK extends Model
 
         // Insert ke tabel riwayat sk
         DB::table($tbl_riwayat_sk)->insert($data);
-        // Update data sk pegawai di tabel ptth atau pttb
-        DB::table($tbl_pegawai2)
-            ->where("id_pegawai", "=", $id_pegawai)
-            ->update($data2);
+
+        // Jika riwayat sk dijadikan sk terkini
+        if ($req->sk_terkini == 1) {
+            // Update data sk pegawai di tabel ptth atau pttb
+            DB::table($tbl_pegawai2)
+                ->where("id_pegawai", "=", $id_pegawai)
+                ->update($data2);
+            // Update data sk pegawai di tabel pegawai
+            DB::table($tbl_pegawai)
+                ->where("id_pegawai", "=", $id_pegawai)
+                ->update(["id_jabatan" => $req->tugas]);
+        }
 
         return true;
     }
 
-    // Edit KGB
+    // Edit Riwayat SK
     public static function edit($req, $id_pegawai, $id_riwayat_sk)
     {
         // Tabel - tabel
@@ -220,10 +236,15 @@ class PembaruanSK extends Model
             $file = $file->storeAs("images/surat-kontrak", rand(0, 9999) . time() . '-' . $sanitize);
         }
 
+        // Reset SK Terkini
+        if ($req->sk_terkini == 1) {
+            self::resetSkTerkini($id_pegawai);
+        }
 
         // Cek status pegawai
         if ($pegawai->id_status_pegawai == 2) {
             // Jika ptth
+            $tbl_pegawai2 = "ptth";
             $data = [
                 "no_sk"             => $req->no_sk ? $req->no_sk : $riwayat_sk->no_sk,
                 "penetap_sk"        => $req->penetap_sk ? $req->penetap_sk : $riwayat_sk->penetap_sk,
@@ -231,12 +252,22 @@ class PembaruanSK extends Model
                 "tgl_mulai_tugas"   => $req->tgl_mulai_tugas ? $req->tgl_mulai_tugas : $riwayat_sk->tgl_mulai_tugas,
                 "tugas"             => $req->tugas ? $req->tugas : $riwayat_sk->tugas,
                 "gaji_pokok"        => $req->gaji_pokok ? $req->gaji_pokok : $riwayat_sk->gaji_pokok,
+                "sk_terkini"        => $req->sk_terkini ? $req->sk_terkini : $riwayat_sk->sk_terkini,
                 "file"              => $file,
                 "created_at"        => date("Y-m-d"),
                 "updated_at"        => date("Y-m-d"),
             ];
+            $data2 = [
+                "no_sk"             => $req->no_sk ? $req->no_sk : $riwayat_sk->no_sk,
+                "penetap_sk"        => $req->penetap_sk ? $req->penetap_sk : $riwayat_sk->penetap_sk,
+                "tgl_penetapan_sk"  => $req->tgl_penetapan_sk ? $req->tgl_penetapan_sk : $riwayat_sk->tgl_penetapan_sk,
+                "tgl_mulai_tugas"   => $req->tgl_mulai_tugas ? $req->tgl_mulai_tugas : $riwayat_sk->tgl_mulai_tugas,
+                "tugas"             => $req->tugas ? $req->tugas : $riwayat_sk->tugas,
+                "gaji_pokok"        => $req->gaji_pokok ? $req->gaji_pokok : $riwayat_sk->gaji_pokok,
+            ];
         } else {
             // Jika pttb
+            $tbl_pegawai2 = "pttb";
             $data = [
                 "no_sk"             => $req->no_sk ? $req->no_sk : $riwayat_sk->no_sk,
                 "penetap_sk"        => $req->penetap_sk ? $req->penetap_sk : $riwayat_sk->penetap_sk,
@@ -246,8 +277,19 @@ class PembaruanSK extends Model
                 "gaji_pokok"        => $req->gaji_pokok ? $req->gaji_pokok : $riwayat_sk->gaji_pokok,
                 "kontrak_ke"        => $req->kontrak_ke ? $req->kontrak_ke : $riwayat_sk->kontrak_ke,
                 "masa_kerja"        => $req->masa_kerja ? $req->masa_kerja : $riwayat_sk->masa_kerja,
+                "sk_terkini"        => $req->sk_terkini ? $req->sk_terkini : $riwayat_sk->sk_terkini,
                 "updated_at"        => date("Y-m-d"),
                 "file"              => $file
+            ];
+            $data2 = [
+                "no_sk"             => $req->no_sk ? $req->no_sk : $riwayat_sk->no_sk,
+                "penetap_sk"        => $req->penetap_sk ? $req->penetap_sk : $riwayat_sk->penetap_sk,
+                "tgl_penetapan_sk"  => $req->tgl_penetapan_sk ? $req->tgl_penetapan_sk : $riwayat_sk->tgl_penetapan_sk,
+                "tgl_mulai_tugas"   => $req->tgl_mulai_tugas ? $req->tgl_mulai_tugas : $riwayat_sk->tgl_mulai_tugas,
+                "tugas"             => $req->tugas ? $req->tugas : $riwayat_sk->tugas,
+                "gaji_pokok"        => $req->gaji_pokok ? $req->gaji_pokok : $riwayat_sk->gaji_pokok,
+                "kontrak_ke"        => $req->kontrak_ke ? $req->kontrak_ke : $riwayat_sk->kontrak_ke,
+                "masa_kerja"        => $req->masa_kerja ? $req->masa_kerja : $riwayat_sk->masa_kerja,
             ];
         }
 
@@ -257,6 +299,18 @@ class PembaruanSK extends Model
                 ["id_pegawai", "=", $id_pegawai],
             ])
             ->update($data);
+
+        // Jika riwayat sk dijadikan sk terkini
+        if ($req->sk_terkini == 1) {
+            // Update data sk pegawai di tabel ptth atau pttb
+            DB::table($tbl_pegawai2)
+                ->where("id_pegawai", "=", $id_pegawai)
+                ->update($data2);
+            // Update data sk pegawai di tabel pegawai
+            DB::table($tbl_pegawai)
+                ->where("id_pegawai", "=", $id_pegawai)
+                ->update(["id_jabatan" => $req->tugas]);
+        }
 
         $edited_data = DB::table($tbl_riwayat_sk)->where("id_riwayat_sk", "=", $id_riwayat_sk)->first();
 
@@ -298,5 +352,13 @@ class PembaruanSK extends Model
             ->delete();
 
         return true;
+    }
+
+    // Reset SK Terkini golongan
+    public static function resetSkTerkini($id_pegawai)
+    {
+        return DB::table(self::$tbl)
+            ->where("id_pegawai", "=", $id_pegawai)
+            ->update(["sk_terkini" => 0]);
     }
 }

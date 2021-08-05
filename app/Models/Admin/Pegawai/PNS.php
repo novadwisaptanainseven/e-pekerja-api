@@ -410,10 +410,10 @@ class PNS extends Model
         DB::table($tbl_pendidikan)->insert($data_pendidikan);
 
         // Tambah data duk pegawai
-        $data_duk_pegawai = [
-            'id_pegawai'      => $id_pegawai,
-        ];
-        DB::table($tbl_duk_pegawai)->insert($data_duk_pegawai);
+        // $data_duk_pegawai = [
+        //     'id_pegawai'      => $id_pegawai,
+        // ];
+        // DB::table($tbl_duk_pegawai)->insert($data_duk_pegawai);
 
         // Tambah data duk pegawai
         $data_kenaikan_pangkat = [
@@ -430,7 +430,7 @@ class PNS extends Model
         $data_user = [
             "id_pegawai" => $id_pegawai,
             "name"       => $req->nama,
-            "username"   => $req->nip,
+            "username"   => str_replace(' ', '', $req->nip),
             "level"      => 2,
             "password"   => Hash::make($password2),
             "foto_profil" => $foto

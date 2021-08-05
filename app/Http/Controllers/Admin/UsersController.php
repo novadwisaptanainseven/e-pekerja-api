@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Pegawai\PNS;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,19 @@ class UsersController extends Controller
     public function getAll()
     {
         $data = User::orderBy("level", "asc")->get();
+        $pegawai = null;
 
         foreach ($data as $i => $item) {
             $item->no = $i + 1;
+            if ($item->level == 2) {
+                $pegawai = DB::table("pegawai")
+                    ->where("id_pegawai", "=", $item->id_pegawai)
+                    ->first();
+                if ($pegawai) {
+                    $item->nama_pegawai = $pegawai->nama;
+                    $item->foto_pegawai = $pegawai->foto;
+                }
+            }
         }
 
         return response()->json([
@@ -30,7 +41,21 @@ class UsersController extends Controller
     // Get User By Id
     public function getById($id_user)
     {
-        $data = User::where("id", "=", $id_user)->first();
+        $data = null;
+
+        $user = User::find($id_user);
+        if ($user->level == 1) {
+            $data = $user;
+        } else {
+            $data = User::select(
+                "users.*",
+                "pegawai.nama",
+                "pegawai.foto"
+            )
+                ->where("id", "=", $id_user)
+                ->join("pegawai", "pegawai.id_pegawai", "=", "users.id_pegawai")
+                ->first();
+        }
 
         if ($data) {
             return response()->json([
@@ -52,15 +77,31 @@ class UsersController extends Controller
             'required'     => ':attribute harus diisi!',
             'unique'       => ':attribute sudah ada yang punya'
         ];
-        $validator = Validator::make(
-            $request->all(),
-            [
+        $validasi = [];
+
+        // Cek level user
+        if ($request->level == 1) {
+            // Jika admin
+            $validasi = [
                 'username' => 'required|unique:users',
                 'password' => 'required',
                 'level'    => 'required',
                 'name'     => 'required',
-                'foto_profil'     => 'required|mimes:jpg,jpeg,png|max:1048',
-            ],
+                'foto_profil'     => 'mimes:jpg,jpeg,png|max:1048',
+            ];
+        } else {
+            // Jika user pegawai
+            $validasi = [
+                'id_pegawai' => 'required',
+                'username' => 'required|unique:users',
+                'password' => 'required',
+                'level'    => 'required',
+            ];
+        }
+
+        $validator = Validator::make(
+            $request->all(),
+            $validasi,
             $messages
         );
         // Jika Validasi Gagal
@@ -80,13 +121,26 @@ class UsersController extends Controller
             $foto = $file->storeAs("images/foto", rand(0, 9999) . time() . '-' . $sanitize);
         }
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->password = Hash::make($request->password);
-        $user->level = $request->level;
-        $user->foto_profil = $foto;
-        $user->save();
+        if ($request->level == 1) {
+            // Jika admin
+            $user = new User();
+            $user->name = $request->name;
+            $user->username = $request->username;
+            $user->password = Hash::make($request->password);
+            $user->level = $request->level;
+            $user->foto_profil = $foto;
+            $user->save();
+        } else {
+            // Jika user pegawai
+            $user = new User();
+            $user->id_pegawai = $request->id_pegawai;
+            $user->name = $request->username;
+            $user->username = $request->username;
+            $user->password = Hash::make($request->password);
+            $user->level = $request->level;
+            $user->foto_profil = $foto;
+            $user->save();
+        }
 
         return response()->json([
             "message" => "Register User Berhasil",

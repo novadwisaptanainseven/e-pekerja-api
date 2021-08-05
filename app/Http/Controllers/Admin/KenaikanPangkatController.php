@@ -99,12 +99,13 @@ class KenaikanPangkatController extends Controller
 
         // Update pangkat pegawai berdasarkan tabel kenaikan pangkat
         $data = [
-            "id_golongan" => $kenaikan_pangkat->id_golongan
+            "id_golongan" => $kenaikan_pangkat->id_golongan,
+            "tmt_golongan" => $kenaikan_pangkat->tmt_kenaikan_pangkat
         ];
         PNS::where("id_pegawai", $kenaikan_pangkat->id_pegawai)->update($data);
 
         // Simpan ke riwayat golongan pegawai
-        RiwayatGolongan::resetPangkatTerkini2();
+        RiwayatGolongan::resetPangkatTerkini2($kenaikan_pangkat->id_pegawai);
         $data2 = [
             "id_pegawai"            => $kenaikan_pangkat->id_pegawai,
             "id_golongan"           => $kenaikan_pangkat->id_golongan,
@@ -143,7 +144,6 @@ class KenaikanPangkatController extends Controller
                 "mk_golongan" => $data2["masa_kerja"],
                 "total_mkg_hari" => $total_mkg_hari,
             ]);
-
         return response()->json([
             "message" => "Pangkat golongan pegawai dengan id: $kenaikan_pangkat->id_pegawai, berhasil diperbarui",
             "data_updated" => $pegawai

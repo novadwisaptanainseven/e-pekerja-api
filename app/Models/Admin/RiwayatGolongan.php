@@ -40,14 +40,19 @@ class RiwayatGolongan extends Model
     }
 
     // Reset pangkat terkini golongan
-    public static function resetPangkatTerkini($id)
+    public static function resetPangkatTerkini($id_rw_golongan, $id_pegawai)
     {
-        return DB::table(self::$tbl)->where("id_rw_golongan", "<>", $id)->update(["pangkat_terkini" => 0]);
+        return DB::table(self::$tbl)->where([
+            ["id_rw_golongan", "<>", $id_rw_golongan],
+            ["id_pegawai", "=", $id_pegawai],
+        ])->update(["pangkat_terkini" => 0]);
     }
 
     // Reset pangkat terkini golongan without id
-    public static function resetPangkatTerkini2()
+    public static function resetPangkatTerkini2($id_pegawai)
     {
-        return DB::table(self::$tbl)->update(["pangkat_terkini" => 0]);
+        return DB::table(self::$tbl)
+            ->where("id_pegawai", "=", $id_pegawai)
+            ->update(["pangkat_terkini" => 0]);
     }
 }

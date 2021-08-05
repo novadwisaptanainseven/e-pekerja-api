@@ -19,4 +19,7 @@ Route::prefix($prefix)->group(function () {
   Route::get("{id_pegawai}/pembaruan-sk/{id}", [PembaruanSKController::class, 'getById']);
   // Delete Pembaruan SK By Id
   Route::delete("{id_pegawai}/pembaruan-sk/{id}", [PembaruanSKController::class, 'deleteRiwayatSK']);
+
+  // Insert Riwayat SK
+  Route::post("{id_pegawai}/riwayat-sk", [PembaruanSKController::class, 'insertRiwayatSK']);
 });

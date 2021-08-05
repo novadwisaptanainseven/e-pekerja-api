@@ -217,4 +217,6 @@ class PembaruanSKController extends Controller
     {
         return (new PembaruanSKExport($id_pegawai))->download('riwayat-sk-pegawai.xlsx');
     }
+
+    // Insert Riwayat SK
 }

@@ -54,9 +54,9 @@ class PembaruanSKExport implements FromView, ShouldAutoSize, WithEvents, WithDra
                 // Cek Status Pegawai
                 $pegawai = PNS::getById($this->id);
                 if ($pegawai->id_status_pegawai == 2) {
-                    $rangeCol = "G";
+                    $rangeCol = "H";
                 } else {
-                    $rangeCol = "I";
+                    $rangeCol = "J";
                 }
 
                 // Set Title
