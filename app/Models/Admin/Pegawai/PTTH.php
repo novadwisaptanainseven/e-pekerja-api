@@ -125,6 +125,7 @@ class PTTH extends Model
                 "$tbl_pegawai.id_jabatan",
                 "$tbl_pegawai.id_bidang",
                 "$tbl_pegawai.id_agama",
+                "$tbl_pegawai.id_status_pegawai",
                 "$tbl_bidang.*",
                 "$tbl_jabatan.*",
                 "$tbl_ptth.*",

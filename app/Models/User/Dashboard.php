@@ -2,6 +2,8 @@
 
 namespace App\Models\User;
 
+use App\Models\Admin\Pegawai\PTTB;
+use App\Models\Admin\Pegawai\PTTH;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -74,18 +76,31 @@ class Dashboard extends Model
             ])
             ->get()->count();
 
-        // Get data gaji pegawai
-        $data_gaji = DB::table($tbl_kgb)
-            ->where('id_pegawai', '=', $data_pegawai->id_pegawai)
-            ->orderBy('id_kgb', 'desc')
-            ->first();
-        if ($data_gaji) {
-            $gaji_pokok = $data_gaji->gaji_pokok_baru;
-        } else {
-            $gaji_pokok = $data_pegawai->gaji_pokok;
+        if ($data_pegawai->id_status_pegawai == 1) {
+            // Jika PNS
+            // Get data gaji pegawai
+            $data_gaji = DB::table($tbl_kgb)
+                ->where('id_pegawai', '=', $data_pegawai->id_pegawai)
+                ->orderBy('id_kgb', 'desc')
+                ->first();
+            if ($data_gaji) {
+                $gaji_pokok = $data_gaji->gaji_pokok_baru;
+            } else {
+                $gaji_pokok = $data_pegawai->gaji_pokok;
+            }
+        } else if ($data_pegawai->id_status_pegawai == 2) {
+            // Jika PTTH
+            $data_ptth = PTTH::where("id_pegawai", $data_pegawai->id_pegawai)->first();
+            $gaji_pokok = $data_ptth->gaji_pokok;
+        } else if ($data_pegawai->id_status_pegawai == 3) {
+            // Jika PTTB
+            $data_pttb = PTTB::where("id_pegawai", $data_pegawai->id_pegawai)->first();
+            $gaji_pokok = $data_pttb->gaji_pokok;
         }
 
         $data = [
+            "pegawai" => $data_pegawai,
+            "nama_pegawai" => $data_pegawai->nama,
             "foto_pegawai" => $data_pegawai->foto,
             "total_keluarga" => $total_keluarga,
             "status_pegawai" => $data_pegawai->status_pegawai,

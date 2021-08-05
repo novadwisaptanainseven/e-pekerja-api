@@ -2,6 +2,7 @@
 
 namespace App\Models\User\DataKepegawaian;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -56,6 +57,8 @@ class Berkas extends Model
             'id_pegawai'  => $id_pegawai,
             'nama_berkas' => $berkas,
             "keterangan"  => $req->keterangan,
+            "tgl_upload"  => date("Y-m-d"),
+            "created_at"  => Carbon::now(),
         ];
 
         $insert = DB::table($tbl_berkas)->insert($data);

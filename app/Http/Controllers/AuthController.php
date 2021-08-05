@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -64,9 +65,15 @@ class AuthController extends Controller
     // Cek user saat ini
     public function me()
     {
+        $tbl_pegawai = "pegawai";
         $user = Auth::user();
 
+        $pegawai = DB::table($tbl_pegawai)
+            ->where("id_pegawai", "=", $user->id_pegawai)
+            ->first();
+
         if ($user) {
+            $user->pegawai = $pegawai;
             return response()->json([
                 "message" => "Authenticated",
                 "user"    => $user

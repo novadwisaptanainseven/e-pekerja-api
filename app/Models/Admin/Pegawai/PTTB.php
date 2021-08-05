@@ -124,6 +124,7 @@ class PTTB extends Model
                 "$tbl_pegawai.foto",
                 "$tbl_pttb.*",
                 "$tbl_agama.*",
+                "$tbl_pegawai.id_status_pegawai",
                 "$tbl_status_pegawai.status_pegawai",
                 "$tbl_status_pegawai.keterangan AS ket_status_pegawai",
                 "$tbl_bidang.nama_bidang AS bidang",
