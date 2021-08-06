@@ -19,6 +19,10 @@ Route::put("bidang/{id_bidang}", [BidangController::class, "edit"]);
 // Delete Bidang By Id
 Route::delete("bidang/{id_bidang}", [BidangController::class, "delete"]);
 
+// GROUP Jabatan
+ // Get All Jabatan
+ Route::get("jabatan", [JabatanController::class, "getAll"]);
+
 // GROUP PEGAWAI
 // Get All Pegawai (PNS, PTTH, PTTB)
 Route::get("semua-pegawai", [PNSController::class, "getAllPegawai"]);

@@ -32,8 +32,8 @@ class AkunController extends Controller
             $request->all(),
             [
                 'username'    => $username_rules,
-                'name'        => 'required',
-                'foto_profil' => 'mimes:jpg,jpeg,png|max:1048'
+                // 'name'        => 'required',
+                // 'foto_profil' => 'mimes:jpg,jpeg,png|max:1048'
             ],
             $messages
         );

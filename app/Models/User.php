@@ -78,6 +78,7 @@ class User extends Authenticatable
         $data = [
             "username" => $req->username ? $req->username : $user->username,
             "name" => $req->name ? $req->name : $user->name,
+            // "foto_profil" => "",
             "foto_profil" => $foto_profil,
         ];
         // Update Data

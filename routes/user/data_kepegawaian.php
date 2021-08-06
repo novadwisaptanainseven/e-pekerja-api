@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\RiwayatGolonganController;
-use App\Http\Controllers\User\DataKepegawaian\BerkasController;
 use App\Http\Controllers\User\DataKepegawaian\DataDiriController;
 use App\Http\Controllers\User\DataKepegawaian\DiklatController;
 use App\Http\Controllers\User\DataKepegawaian\KeluargaController;
@@ -14,26 +13,34 @@ $prefix = 'data-kepegawaian/';
 Route::prefix($prefix)->group(function () {
   // Data Diri
   Route::get("data-diri", [DataDiriController::class, "getDataDiri"]);
-  // Data Keluarga
-  Route::get("keluarga", [KeluargaController::class, "getAll"]);
-  // Data Pendidikan
-  Route::get("pendidikan", [PendidikanController::class, "getAll"]);
-  // Data Diklat
-  Route::get("diklat", [DiklatController::class, "getAll"]);
-  // Data Riwayat Kerja
-  Route::get("riwayat-kerja", [RiwayatKerjaController::class, "getAll"]);
-  // Data Penghargaan
-  Route::get("penghargaan", [PenghargaanController::class, "getAll"]);
-  // Get Penghargaan By ID
-  Route::get("penghargaan/{id_penghargaan}", [PenghargaanController::class, "getById"]);
+
   // Get all riwayat golongan by id pegawai
   Route::get("{id_pegawai}/riwayat-golongan", [RiwayatGolonganController::class, "get"]);
 
-  // Data Berkas
-  // Get All
-  Route::get("berkas", [BerkasController::class, "getAll"]);
-  // Insert Berkas
-  Route::post("berkas", [BerkasController::class, "insert"]);
-  // Delete Berkas
-  Route::delete("berkas/{id_berkas}", [BerkasController::class, "deleteBerkas"]);
+  // Keluarga
+  Route::get("keluarga", [KeluargaController::class, "getAll"]);
+  include_once __DIR__ . "/keluarga.php";
+
+  // Pendidikan
+  Route::get("pendidikan", [PendidikanController::class, "getAll"]);
+  include_once __DIR__ . "/pendidikan.php";
+
+  // Diklat
+  Route::get("diklat", [DiklatController::class, "getAll"]);
+  include_once __DIR__ . "/diklat.php";
+
+  // Riwayat Kerja
+  Route::get("riwayat-kerja", [RiwayatKerjaController::class, "getAll"]);
+  include_once __DIR__ . "/riwayat_kerja.php";
+
+  // Penghargaan
+  Route::get("penghargaan", [PenghargaanController::class, "getAll"]);
+  Route::get("penghargaan/{id_penghargaan}", [PenghargaanController::class, "getById"]);
+  include_once __DIR__ . "/penghargaa.php";
+
+  // Riwayat SK
+  include_once __DIR__ . "/riwayat_sk.php";
+
+  // Berkas
+  include_once __DIR__ . "/berkas.php";
 });

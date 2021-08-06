@@ -330,10 +330,6 @@ class PembaruanSK extends Model
             return 404; // NOT FOUND
         }
 
-        // Hapus foto pegawai
-        $path_foto = $pegawai->foto;
-        Storage::delete($path_foto);
-
         // Cek apakah data riwayat_sk ditemukan
         $riwayat_sk = DB::table($tbl_riwayat_sk)->where([
             ['id_riwayat_sk', '=', $id_riwayat_sk],
@@ -350,6 +346,10 @@ class PembaruanSK extends Model
                 ['id_pegawai', '=', $id_pegawai],
             ])
             ->delete();
+
+        // Hapus file sk
+        $path_file = $riwayat_sk->file;
+        Storage::delete($path_file);
 
         return true;
     }

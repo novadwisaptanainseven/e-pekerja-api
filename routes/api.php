@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\MasterData\AgamaController;
+use App\Http\Controllers\Admin\MasterData\JabatanController;
+use App\Http\Controllers\Admin\Pegawai\PNSController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +52,15 @@ Route::prefix('v1/')->group(function () {
 
     // Register User
     Route::post('register', [UsersController::class, "register"]);
+
+    // Get All Jabatan
+    Route::get("jabatan", [JabatanController::class, "getAll"]);
+
+    // Get All Agama
+    Route::get("agama", [AgamaController::class, "getAll"]);
+
+    // Get PNS By ID
+    Route::get("pns/{id_pegawai}", [PNSController::class, 'getById']);
 
     // Test
     // Route::get('rekap-absensi/{jenis_data}', function ($jenis_data) {
