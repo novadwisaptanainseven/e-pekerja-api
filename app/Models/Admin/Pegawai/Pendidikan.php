@@ -79,13 +79,13 @@ class Pendidikan extends Model
         }
 
         $data = [
-            'id_pegawai'   => strtoupper($id_pegawai),
-            "nama_akademi" => strtoupper($req->nama_akademi),
-            "jenjang"      => strtoupper($req->jenjang),
-            "jurusan"      => strtoupper($req->jurusan),
-            "tahun_lulus"  => strtoupper($req->tahun_lulus),
-            "no_ijazah"    => strtoupper($req->no_ijazah),
-            "foto_ijazah"  => strtoupper($foto_ijazah),
+            'id_pegawai'   => $id_pegawai,
+            "nama_akademi" => $req->nama_akademi,
+            "jenjang"      => $req->jenjang,
+            "jurusan"      => $req->jurusan,
+            "tahun_lulus"  => $req->tahun_lulus,
+            "no_ijazah"    => $req->no_ijazah,
+            "foto_ijazah"  => $foto_ijazah,
         ];
 
         $insert = DB::table($tbl_pendidikan)->insert($data);
