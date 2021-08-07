@@ -29,6 +29,7 @@ class PenghargaanController extends Controller
     // Get Penghargaan By Id
     public function getById($id_pegawai, $id_penghargaan)
     {
+        dd($id_pegawai);
         $data = Penghargaan::getById($id_pegawai, $id_penghargaan);
 
         if ($data === 404) {

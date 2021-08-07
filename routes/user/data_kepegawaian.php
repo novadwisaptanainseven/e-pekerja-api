@@ -36,7 +36,7 @@ Route::prefix($prefix)->group(function () {
   // Penghargaan
   Route::get("penghargaan", [PenghargaanController::class, "getAll"]);
   Route::get("penghargaan/{id_penghargaan}", [PenghargaanController::class, "getById"]);
-  include_once __DIR__ . "/penghargaa.php";
+  include_once __DIR__ . "/penghargaan.php";
 
   // Riwayat SK
   include_once __DIR__ . "/riwayat_sk.php";
