@@ -13,3 +13,6 @@ Route::put("kenaikan-pangkat-update/{id}", [KenaikanPangkatController::class, "u
 
 // Batalkan Kenaikan Pangkat
 Route::delete("kenaikan-pangkat-batal/{id}", [KenaikanPangkatController::class, "batalkanKenaikanPangkat"]);
+
+// Kirim email
+Route::post('kp-send-email', [KenaikanPangkatController::class, "sendEmail"]);

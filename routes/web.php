@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\SendEmail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+Route::get('/email-template', function () {
+    return new SendEmail();
 });

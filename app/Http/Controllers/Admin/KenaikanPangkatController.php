@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\KenaikanPangkatExport;
 use App\Http\Controllers\Controller;
+use App\Mail\SendEmail;
 use App\Models\Admin\KenaikanPangkat;
 use App\Models\Admin\MasaKerja;
 use App\Models\Admin\Pegawai\PNS;
 use App\Models\Admin\RiwayatGolongan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,12 +44,12 @@ class KenaikanPangkatController extends Controller
                 "id_golongan"           => "required",
                 "pangkat_baru"          => "required",
                 "jenis_kp"              => "required",
-                "no_sk"                 => "required",
+                // "no_sk"                 => "required",
                 "tanggal"               => "required",
-                "masa_kerja"            => "required",
-                "tmt_kenaikan_pangkat"  => "required",
-                "pejabat_penetap"       => "required",
-                "file"                  => "max:5048|mimes:doc,docx,pdf",
+                // "masa_kerja"            => "required",
+                // "tmt_kenaikan_pangkat"  => "required",
+                // "pejabat_penetap"       => "required",
+                // "file"                  => "max:5048|mimes:doc,docx,pdf",
             ],
             $messages
         );
@@ -180,5 +182,30 @@ class KenaikanPangkatController extends Controller
     public function exportKenaikanPangkatToExcel()
     {
         return (new KenaikanPangkatExport())->download('kenaikan-pangkat-pegawai.xlsx');
+    }
+
+    // Send Email
+    public function sendEmail(Request $req)
+    {
+        Mail::to($req->email)
+            ->send(new SendEmail($req));
+
+        // $from_name = "E-Pekerja DISPERKIM Samarinda";
+        // $to_name = $req->nama;
+        // $to_email = $req->email;
+        // $data = [
+        //     "name" => $req->nama,
+        //     "body" => $req->pesan
+        // ];
+
+        // Mail::send('emails.mail', $data, function ($message) use ($to_name, $to_email, $from_name) {
+        //     $message->to($to_email, $to_name)
+        //         ->subject("Kenaikan Pangkat PNS");
+        //     $message->from("novagitarisav7@gmail.com", $from_name);
+        // });
+
+        return response()->json([
+            "message" => "Berhasil mengirimkan notifikasi via email"
+        ], 201);
     }
 }
