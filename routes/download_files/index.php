@@ -24,5 +24,8 @@ Route::get('sk/{filename}', [FileController::class, "getSK"]);
 // SK Golongan
 Route::get('document/{filename}', [FileController::class, "getDocument"]);
 
+// Berkas Kenaikan Pangkat
+Route::get('berkas-kp/{filename}', [FileController::class, "getBerkasKp"]);
+
 // Riwayat Masa Kerja
 Route::get('masa-kerja/{filename}', [FileController::class, "getRiwayatMK"]);

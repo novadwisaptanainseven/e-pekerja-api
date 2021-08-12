@@ -380,6 +380,15 @@ class FileController extends Controller
         return $this->downloads($fullpath, $message, $filename);
     }
 
+    // Get Berkas Kenaikan Pangkat
+    public function getBerkasKp($filename)
+    {
+        $fullpath = "/app/berkas_kp/$filename";
+        $message = "Data Berkas Kenaikan Pangkat Tidak Ditemukan";
+
+        return $this->downloads($fullpath, $message, $filename);
+    }
+
     public function downloads($fullpath, $message, $filename)
     {
         if (file_exists(storage_path($fullpath))) {

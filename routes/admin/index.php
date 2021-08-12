@@ -13,3 +13,4 @@ include_once __DIR__ . '/kenaikan_pangkat.php';
 include_once __DIR__ . '/users.php';
 include_once __DIR__ . '/riwayat_golongan.php';
 include_once __DIR__ . '/struktur.php';
+include_once __DIR__ . '/berkas_kp.php';

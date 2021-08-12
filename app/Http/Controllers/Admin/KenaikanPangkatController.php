@@ -208,4 +208,51 @@ class KenaikanPangkatController extends Controller
             "message" => "Berhasil mengirimkan notifikasi via email"
         ], 201);
     }
+
+    // Validasi Berkas Kenaikan Pangkat
+    public function validasiKP(Request $req, $id)
+    {
+        $message = [
+            "required" => ":attribute harus diisi"
+        ];
+        $validator = Validator::make(
+            $req->all(),
+            [
+                "status_validasi" => "required"
+            ],
+            $message
+        );
+        if ($validator->fails()) {
+            return response()->json([
+                "errors" => $validator->errors()
+            ], 400);
+        }
+
+        $kenaikan_pangkat = KenaikanPangkat::find($id);
+
+        if ($kenaikan_pangkat) {
+            if ($req->status_validasi == 1) {
+                $kenaikan_pangkat->status_validasi = $req->status_validasi;
+                $kenaikan_pangkat->save();
+
+                return response()->json([
+                    "message" => "Data berkas kenaikan pangkat dengan id: $id telah divalidasi",
+                    "data" => $kenaikan_pangkat
+                ], 404);
+            } elseif ($req->status_validasi == 2) {
+                $kenaikan_pangkat->status_validasi = $req->status_validasi;
+                $kenaikan_pangkat->ket_status_validasi = $req->pesan;
+                $kenaikan_pangkat->save();
+
+                return response()->json([
+                    "message" => "Data berkas kenaikan pangkat dengan id: $id tidak disetujui",
+                    "data" => $kenaikan_pangkat
+                ], 404);
+            }
+        } else {
+            return response()->json([
+                "message" => "Data kenaikan pangkat dengan id: $id tidak ditemukan",
+            ], 404);
+        }
+    }
 }

@@ -16,3 +16,6 @@ Route::delete("kenaikan-pangkat-batal/{id}", [KenaikanPangkatController::class, 
 
 // Kirim email
 Route::post('kp-send-email', [KenaikanPangkatController::class, "sendEmail"]);
+
+// Validasi berkas
+Route::put("kenaikan-pangkat/{id}/validasi", [KenaikanPangkatController::class, "validasiKP"]);

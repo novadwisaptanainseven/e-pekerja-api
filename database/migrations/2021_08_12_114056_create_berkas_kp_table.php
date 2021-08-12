@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStrukturOrg extends Migration
+class CreateBerkasKpTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateStrukturOrg extends Migration
      */
     public function up()
     {
-        Schema::create('struktur_org', function (Blueprint $table) {
-            $table->id();
-            $table->string("nama_struktur", 100);
-            $table->string("gambar", 255);
+        Schema::create('berkas_kp', function (Blueprint $table) {
+            $table->increments("id_berkas_kp");
+            $table->integer("id_pegawai");
+            $table->foreign("id_pegawai")->references("id_pegawai")->on("pegawai")->onUpdate("cascade")->onDelete("cascade");
+            $table->string("file");
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateStrukturOrg extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('struktur_org');
+        Schema::dropIfExists('berkas_kp');
     }
 }
