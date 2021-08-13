@@ -233,12 +233,13 @@ class KenaikanPangkatController extends Controller
         if ($kenaikan_pangkat) {
             if ($req->status_validasi == 1) {
                 $kenaikan_pangkat->status_validasi = $req->status_validasi;
+                $kenaikan_pangkat->ket_status_validasi = "";
                 $kenaikan_pangkat->save();
 
                 return response()->json([
                     "message" => "Data berkas kenaikan pangkat dengan id: $id telah divalidasi",
                     "data" => $kenaikan_pangkat
-                ], 404);
+                ], 201);
             } elseif ($req->status_validasi == 2) {
                 $kenaikan_pangkat->status_validasi = $req->status_validasi;
                 $kenaikan_pangkat->ket_status_validasi = $req->pesan;
@@ -247,7 +248,7 @@ class KenaikanPangkatController extends Controller
                 return response()->json([
                     "message" => "Data berkas kenaikan pangkat dengan id: $id tidak disetujui",
                     "data" => $kenaikan_pangkat
-                ], 404);
+                ], 201);
             }
         } else {
             return response()->json([
