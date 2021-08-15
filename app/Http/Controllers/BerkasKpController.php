@@ -54,7 +54,7 @@ class BerkasKpController extends Controller
         // Apakah pegawai ditemukan
         if (!$pegawai) {
             return response()->json([
-                "message" => "Pegawai dengan id: $id_pegawai tidak ditemukan"
+                "errors" => "Pegawai dengan id: $id_pegawai tidak ditemukan"
             ], 404);
         }
 

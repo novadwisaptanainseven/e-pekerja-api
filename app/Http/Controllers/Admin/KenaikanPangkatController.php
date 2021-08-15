@@ -95,30 +95,41 @@ class KenaikanPangkatController extends Controller
     }
 
     // Update Pangkat
-    public function updatePangkat($id)
+    public function updatePangkat(Request $req, $id)
     {
         $kenaikan_pangkat = KenaikanPangkat::find($id);
 
         // Update pangkat pegawai berdasarkan tabel kenaikan pangkat
         $data = [
             "id_golongan" => $kenaikan_pangkat->id_golongan,
-            "tmt_golongan" => $kenaikan_pangkat->tmt_kenaikan_pangkat
+            "tmt_golongan" => $req->tmt_kenaikan_pangkat
         ];
         PNS::where("id_pegawai", $kenaikan_pangkat->id_pegawai)->update($data);
 
         // Simpan ke riwayat golongan pegawai
         RiwayatGolongan::resetPangkatTerkini2($kenaikan_pangkat->id_pegawai);
+
+        if (!$req->file('file')) {
+            $file_sk_golongan = "";
+        } else {
+            $file = $req->file("file");
+
+            // Sanitasi nama file
+            $sanitize = sanitizeFile($file);
+            $file_sk_golongan = $file->storeAs("documents", rand(0, 9999) . time() . '-' . $sanitize);
+        }
+
         $data2 = [
             "id_pegawai"            => $kenaikan_pangkat->id_pegawai,
-            "id_golongan"           => $kenaikan_pangkat->id_golongan,
-            "jenis_kp"              => $kenaikan_pangkat->jenis_kp,
-            "no_sk"                 => $kenaikan_pangkat->no_sk,
-            "tanggal"               => $kenaikan_pangkat->tanggal,
-            "masa_kerja"            => $kenaikan_pangkat->masa_kerja,
-            "tmt_kenaikan_pangkat"  => $kenaikan_pangkat->tmt_kenaikan_pangkat,
-            "pejabat_penetap"       => $kenaikan_pangkat->pejabat_penetap,
+            "id_golongan"           => $req->id_golongan,
+            "jenis_kp"              => $req->jenis_kp,
+            "no_sk"                 => $req->no_sk,
+            "tanggal"               => $req->tanggal,
+            "masa_kerja"            => $req->masa_kerja,
+            "tmt_kenaikan_pangkat"  => $req->tmt_kenaikan_pangkat,
+            "pejabat_penetap"       => $req->pejabat_penetap,
             "pangkat_terkini"       => 1,
-            "file"                  => $kenaikan_pangkat->file,
+            "file"                  => $file_sk_golongan,
         ];
         RiwayatGolongan::create($data2);
 
@@ -127,15 +138,7 @@ class KenaikanPangkatController extends Controller
 
         // Setelah pangkat golongan pegawai diupdate, maka kosongkan kolom pangkat_baru, id_golongan, dan tmt_kenaikan_pangkat di tabel kenaikan pangkat
         KenaikanPangkat::find($id)->update([
-            "id_golongan"           => null,
-            "pangkat_baru"          => null,
-            "jenis_kp"              => null,
-            "no_sk"                 => null,
-            "tanggal"               => null,
-            "masa_kerja"            => null,
-            "tmt_kenaikan_pangkat"  => null,
-            "pejabat_penetap"       => null,
-            "file"                  => null,
+            "status_updated"        => 1,
         ]);
 
         // Hitung total masa kerja untuk pengurutan
@@ -152,6 +155,24 @@ class KenaikanPangkatController extends Controller
         ], 201);
     }
 
+    // Get Kenaikan Pangkat By ID
+    public function getById($id)
+    {
+        $kp = KenaikanPangkat::find($id);
+
+        if ($kp) {
+            return response()->json([
+                "message" => "Berhasil mendapatkan data kenaikan pangkat dengan id: $id",
+                "data" => $kp
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "Berhasil mendapatkan data kenaikan pangkat dengan id: $id",
+                "data" => $kp
+            ], 200);
+        }
+    }
+
     // Batalkan Kenaikan Pangkat
     public function batalkanKenaikanPangkat($id)
     {
@@ -165,6 +186,8 @@ class KenaikanPangkatController extends Controller
             "masa_kerja"            => null,
             "tmt_kenaikan_pangkat"  => null,
             "pejabat_penetap"       => null,
+            "status_validasi"       => 0,
+            "status_updated"        => 0,
             "file"                  => null,
         ]);
         Storage::delete($kenaikan_pangkat->file);
