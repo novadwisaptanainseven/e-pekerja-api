@@ -20,6 +20,7 @@ use App\Models\Admin\Pegawai\PNS;
 use App\Models\Admin\Pegawai\PTTB;
 use App\Models\Admin\Pegawai\PTTH;
 use App\Models\Admin\Pegawai\RiwayatKerja;
+use App\Models\Admin\PegawaiBerhenti;
 use App\Models\Admin\PembaruanSK;
 use App\Models\Admin\Pensiun;
 use App\Models\Admin\RiwayatGolongan;
@@ -584,6 +585,28 @@ class FileController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($view->render())->setPaper($F4, 'landscape');
         return $pdf->stream("lap-pensiun-pegawai.pdf", array("Attachment" => false));
+    }
+
+    // Print Pegawai Berhenti
+    public function cetakPegawaiBerhenti()
+    {
+        $output_data = PegawaiBerhenti::getAll();
+
+        $title = "Laporan Data Pegawai Berhenti Kerja";
+
+        $data = [
+            "title" => $title,
+            'date' => date('d/m/Y'),
+            "data" => $output_data,
+            "ttd" => PNS::getDataKadis()
+        ];
+
+        $F4 = [0, 0, 595.28, 841.89];
+
+        $view = View('printPDF.pegawai_berhenti', $data);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($view->render())->setPaper($F4, 'landscape');
+        return $pdf->stream("lap-pegawai-berhenti.pdf", array("Attachment" => false));
     }
 
     // Print Mutasi Pegawai

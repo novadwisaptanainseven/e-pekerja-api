@@ -11,4 +11,4 @@ Route::put("pegawai-berhenti/{id_pegawai_berhenti}", [PegawaiBerhentiController:
 // Get Pembaruan SK By Id
 Route::get("pegawai-berhenti/{id_pegawai_berhenti}", [PegawaiBerhentiController::class, 'getById']);
 // Delete Pembaruan SK By Id
-Route::delete("pegawai-berhenti/{id_pegawai_berhenti}", [PegawaiBerhentiController::class, 'destroy']);
+Route::delete("pegawai-berhenti-batal/{id_pegawai_berhenti}", [PegawaiBerhentiController::class, 'destroy']);

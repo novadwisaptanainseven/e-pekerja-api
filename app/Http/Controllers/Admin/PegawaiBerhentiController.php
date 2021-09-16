@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\PegawaiBerhentiExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Pegawai\PNS;
 use App\Models\Admin\Pegawai\PTTH;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class PegawaiBerhentiController extends Controller
 {
     protected $tbl_pegawai = "pegawai";
+    protected $tbl_status_pegawai = "status_pegawai";
     protected $tbl = "pegawai_berhenti";
 
 
@@ -30,19 +32,32 @@ class PegawaiBerhentiController extends Controller
     public function getById($id_pegawai_berhenti)
     {
         $data = PegawaiBerhenti::select(
-            "pegawai_berhenti.*",
-            "pegawai.nama",
-            "pegawai.nip",
-            "pegawai.id_status_pegawai",
+            "{$this->tbl}.*",
+            "{$this->tbl_pegawai}.nama",
+            "{$this->tbl_pegawai}.nip",
+            "{$this->tbl_pegawai}.id_status_pegawai",
+            "{$this->tbl_pegawai}.foto",
+            "{$this->tbl_status_pegawai}.status_pegawai",
         )
             ->join($this->tbl_pegawai, "{$this->tbl_pegawai}.id_pegawai", "=", "{$this->tbl}.id_pegawai")
-            ->where("{$this->tbl}.id_pegawai", $id_pegawai_berhenti)
+            ->join($this->tbl_status_pegawai, "{$this->tbl_status_pegawai}.id_status_pegawai", "=", "{$this->tbl_pegawai}.id_status_pegawai")
+            ->where("{$this->tbl}.id_pegawai_berhenti", $id_pegawai_berhenti)
             ->first();
 
         if ($data) {
             if ($data->id_status_pegawai == 2) {
                 $ptth = PTTH::where("id_pegawai", $data->id_pegawai)->first();
                 $data->nip = $ptth->nik;
+            }
+
+            // Cek status berhenti pegawai
+            $curTs = time();
+            $tglBerhentiTs = strtotime($data->tgl_berhenti);
+
+            if ($curTs < $tglBerhentiTs) {
+                $data->status_berhenti = "akan-berhenti";
+            } else {
+                $data->status_berhenti = "berhenti";
             }
 
             return response()->json([
@@ -98,7 +113,7 @@ class PegawaiBerhentiController extends Controller
             "keterangan" => $req->keterangan
         ]);
 
-        // Setelah itu, update status kerja di tabel pegawai menjadi pensiun
+        // Setelah itu, update status kerja di tabel pegawai menjadi berhenti
         PNS::where("id_pegawai", "=", $req->id_pegawai)
             ->update(["status_kerja" => "berhenti"]);
 
@@ -151,7 +166,7 @@ class PegawaiBerhentiController extends Controller
         ], 201);
     }
 
-    // Delete Pegawai Berhenti by ID
+    // Batalkan Pegawai Berhenti by ID
     public function destroy($id_pegawai_berhenti)
     {
         $data = PegawaiBerhenti::find($id_pegawai_berhenti);
@@ -159,8 +174,11 @@ class PegawaiBerhentiController extends Controller
         if ($data) {
             $data->delete();
 
+            // Kembalikan status kerja pegawai menjadi aktif
+            PNS::find($data->id_pegawai)->update(["status_kerja" => "aktif"]);
+
             return response()->json([
-                "message" => "Pegawai berhenti dengan id: $id_pegawai_berhenti berhasil dihapus",
+                "message" => "Pegawai berhenti dengan id: $id_pegawai_berhenti berhasil dibatalkan",
                 "deleted_data" => $data
             ], 201);
         } else {
@@ -168,5 +186,11 @@ class PegawaiBerhentiController extends Controller
                 "message" => "Pegawai berhenti dengan id: $id_pegawai_berhenti tidak ditemukan",
             ], 404);
         }
+    }
+
+    // Export Pegawai Berhenti ke Excel
+    public function exportPegawaiBerhentiToExcel()
+    {
+        return (new PegawaiBerhentiExport())->download('pegawai-berhenti.xlsx');
     }
 }

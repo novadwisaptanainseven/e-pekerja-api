@@ -14,3 +14,4 @@ include_once __DIR__ . '/mutasi.php';
 include_once __DIR__ . '/kenaikan_pangkat.php';
 include_once __DIR__ . '/pembaruan_sk.php';
 include_once __DIR__ . '/riwayat-golongan.php';
+include_once __DIR__ . '/pegawai_berhenti.php';
