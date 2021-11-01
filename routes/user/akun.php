@@ -10,4 +10,4 @@ Route::get("akun", [AuthController::class, "me"]);
 // Edit Akun
 Route::post("akun", [AkunController::class, "edit"]);
 // Edit Password
-Route::put("akun-password", [AkunController::class, "editPassword"]);
+Route::post("akun-password", [AkunController::class, "editPassword"]);

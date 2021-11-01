@@ -12,4 +12,4 @@ Route::post("{id_pegawai}/penghargaan", [PenghargaanController::class, 'insert']
 // Edit Penghargaan
 Route::post("{id_pegawai}/penghargaan/{id_penghargaan}", [PenghargaanController::class, 'edit']);
 // Delete Penghargaan
-Route::delete("{id_pegawai}/penghargaan/{id_penghargaan}", [PenghargaanController::class, 'delete']);
+Route::get("{id_pegawai}/penghargaan/{id_penghargaan}/delete", [PenghargaanController::class, 'delete']);

@@ -12,6 +12,6 @@ Route::post("{id_pegawai}/pendidikan", [PendidikanController::class, 'insert']);
 // Edit Pendidikan
 Route::post("{id_pegawai}/pendidikan/{id_pendidikan}", [PendidikanController::class, 'edit']);
 // Delete Pendidikan
-Route::delete("{id_pegawai}/pendidikan/{id_pendidikan}", [PendidikanController::class, 'delete']);
+Route::get("{id_pegawai}/pendidikan/{id_pendidikan}/delete", [PendidikanController::class, 'delete']);
 // Get Jenjang Pendidikan
 Route::get("pendidikan/jenjang", [PendidikanController::class, "getJenjangPendidikan"]);

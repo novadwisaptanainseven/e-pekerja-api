@@ -5,7 +5,7 @@
 
 use App\Http\Controllers\Admin\DUKController;
 
-Route::put("duk-pegawai/{id_duk}", [DUKController::class, 'edit']);
+Route::post("duk-pegawai/{id_duk}", [DUKController::class, 'edit']);
 // Get All DUK
 Route::get("duk-pegawai", [DUKController::class, 'getAll']);
 // Get All DUK For Print

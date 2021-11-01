@@ -12,5 +12,5 @@ Route::prefix($prefix)->group(function () {
   Route::post("{id_pegawai}/berkas-kp", [BerkasKpController::class, "create"]);
 
   // Delete Berkas Kenaikan Pangkat
-  Route::delete("{id_pegawai}/berkas-kp/{id_berkas_kp}", [BerkasKpController::class, "destroy"]);
+  Route::get("{id_pegawai}/berkas-kp/{id_berkas_kp}/delete", [BerkasKpController::class, "destroy"]);
 });

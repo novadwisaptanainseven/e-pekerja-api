@@ -13,7 +13,7 @@ Route::get("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'g
 Route::post("{id_pegawai}/keluarga", [KeluargaController::class, 'insert']);
 
 // Edit Keluarga
-Route::put("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'edit']);
+Route::post("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'edit']);
 
 // Delete Keluarga
-Route::delete("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'delete']);
+Route::get("{id_pegawai}/keluarga/{id_keluarga}/delete", [KeluargaController::class, 'delete']);

@@ -13,4 +13,4 @@ Route::get("penghargaan/{id_penghargaan}", [PenghargaanController::class, "getBy
 // Edit Penghargaan
 Route::post("penghargaan/{id_penghargaan}", [PenghargaanController::class, "edit"]);
 // Delete Penghargaan
-Route::delete("penghargaan/{id_penghargaan}", [PenghargaanController::class, "delete"]);
+Route::get("penghargaan/{id_penghargaan}/delete", [PenghargaanController::class, "delete"]);

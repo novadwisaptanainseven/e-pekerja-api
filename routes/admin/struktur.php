@@ -9,4 +9,4 @@ Route::get("struktur", [StrukturOrgController::class, "get"]);
 Route::post("struktur/{id}", [StrukturOrgController::class, "insertGambar"]);
 
 // Delete Struktur
-Route::delete("struktur/{id}", [StrukturOrgController::class, "deleteGambar"]);
+Route::get("struktur/{id}/delete", [StrukturOrgController::class, "deleteGambar"]);

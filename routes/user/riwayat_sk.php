@@ -16,5 +16,5 @@ Route::post("{id_pegawai}/riwayat-sk/{id}", [PembaruanSKController::class, 'edit
 Route::get("{id_pegawai}/riwayat-sk/{id}", [PembaruanSKController::class, 'getById']);
 
 // Delete Riwayat SK By Id
-Route::delete("{id_pegawai}/riwayat-sk/{id}", [PembaruanSKController::class, 'deleteRiwayatSK']);
+Route::get("{id_pegawai}/riwayat-sk/{id}/delete", [PembaruanSKController::class, 'deleteRiwayatSK']);
 

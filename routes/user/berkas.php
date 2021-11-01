@@ -9,4 +9,4 @@ Route::get("berkas", [BerkasController::class, "getAll"]);
 // Insert Berkas
 Route::post("berkas", [BerkasController::class, "insert"]);
 // Delete Berkas
-Route::delete("berkas/{id_berkas}", [BerkasController::class, "deleteBerkas"]);
+Route::get("berkas/{id_berkas}/delete", [BerkasController::class, "deleteBerkas"]);

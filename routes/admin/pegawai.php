@@ -29,7 +29,7 @@ Route::prefix($prefix)->group(function () {
   // Edit PNS
   Route::post("pns/{id_pegawai}", [PNSController::class, 'edit']);
   // Delete PNS
-  Route::delete("pns/{id_pegawai}", [PNSController::class, 'delete']);
+  Route::get("pns/{id_pegawai}/delete", [PNSController::class, 'delete']);
 
   // GROUP PTTH
   // Get All PTTH
@@ -41,7 +41,7 @@ Route::prefix($prefix)->group(function () {
   // Edit PTTH
   Route::post("ptth/{id_pegawai}", [PTTHController::class, 'edit']);
   // Delete PTTH
-  Route::delete("ptth/{id_pegawai}", [PTTHController::class, 'delete']);
+  Route::get("ptth/{id_pegawai}/delete", [PTTHController::class, 'delete']);
 
   // GROUP PTTB
   // Get All PTTB
@@ -53,7 +53,7 @@ Route::prefix($prefix)->group(function () {
   // Edit PTTB
   Route::post("pttb/{id_pegawai}", [PTTBController::class, 'edit']);
   // Delete PTTB
-  Route::delete("pttb/{id_pegawai}", [PTTBController::class, 'delete']);
+  Route::get("pttb/{id_pegawai}/delete", [PTTBController::class, 'delete']);
 
   // GROUP KELUARGA
   // Get All Keluarga
@@ -63,9 +63,9 @@ Route::prefix($prefix)->group(function () {
   // Insert Keluarga
   Route::post("{id_pegawai}/keluarga", [KeluargaController::class, 'insert']);
   // Edit Keluarga
-  Route::put("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'edit']);
+  Route::post("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'edit']);
   // Delete Keluarga
-  Route::delete("{id_pegawai}/keluarga/{id_keluarga}", [KeluargaController::class, 'delete']);
+  Route::get("{id_pegawai}/keluarga/{id_keluarga}/delete", [KeluargaController::class, 'delete']);
 
   // GROUP PENDIDIKAN
   // Get All Pendidikan
@@ -77,7 +77,7 @@ Route::prefix($prefix)->group(function () {
   // Edit Pendidikan
   Route::post("{id_pegawai}/pendidikan/{id_pendidikan}", [PendidikanController::class, 'edit']);
   // Delete Pendidikan
-  Route::delete("{id_pegawai}/pendidikan/{id_pendidikan}", [PendidikanController::class, 'delete']);
+  Route::get("{id_pegawai}/pendidikan/{id_pendidikan}/delete", [PendidikanController::class, 'delete']);
   // Get Jenjang Pendidikan
   Route::get("pendidikan/jenjang", [PendidikanController::class, "getJenjangPendidikan"]);
 
@@ -91,7 +91,7 @@ Route::prefix($prefix)->group(function () {
   // Edit Diklat
   Route::post("{id_pegawai}/diklat/{id_diklat}", [DiklatController::class, 'edit']);
   // Delete Diklat
-  Route::delete("{id_pegawai}/diklat/{id_diklat}", [DiklatController::class, 'delete']);
+  Route::get("{id_pegawai}/diklat/{id_diklat}/delete", [DiklatController::class, 'delete']);
 
   // GROUP RIWAYAT KERJA
   // Get All Riwayat Kerja
@@ -101,9 +101,9 @@ Route::prefix($prefix)->group(function () {
   // Insert Riwayat Kerja
   Route::post("{id_pegawai}/riwayat-kerja", [RiwayatKerjaController::class, 'insert']);
   // Edit Riwayat Kerja
-  Route::put("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaController::class, 'edit']);
+  Route::post("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaController::class, 'edit']);
   // Delete Riwayat Kerja
-  Route::delete("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaController::class, 'delete']);
+  Route::get("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}/delete", [RiwayatKerjaController::class, 'delete']);
 
   // GROUP PENGHARGAAN
   // Get All Penghargaan
@@ -115,7 +115,7 @@ Route::prefix($prefix)->group(function () {
   // Edit Penghargaan
   Route::post("{id_pegawai}/penghargaan/{id_penghargaan}", [PenghargaanController::class, 'edit']);
   // Delete Penghargaan
-  Route::delete("{id_pegawai}/penghargaan/{id_penghargaan}", [PenghargaanController::class, 'delete']);
+  Route::get("{id_pegawai}/penghargaan/{id_penghargaan}/delete", [PenghargaanController::class, 'delete']);
 
   // GROUP BERKAS
   // Get All Berkas
@@ -125,15 +125,15 @@ Route::prefix($prefix)->group(function () {
   // Insert Berkas
   Route::post("{id_pegawai}/berkas", [BerkasController::class, 'insert']);
   // Edit Berkas
-  Route::put("{id_pegawai}/berkas/{id_berkas}", [BerkasController::class, 'edit']);
+  Route::post("{id_pegawai}/berkas/{id_berkas}", [BerkasController::class, 'edit']);
   // Delete Berkas
-  Route::delete("{id_pegawai}/berkas/{id_berkas}", [BerkasController::class, 'delete']);
+  Route::get("{id_pegawai}/berkas/{id_berkas}/delete", [BerkasController::class, 'delete']);
 
   // GROUP KENAIKAN GAJI BERKALA
   // Insert Kenaikan Gaji Berkala
   Route::post("{id_pegawai}/kgb", [KGBController::class, 'insert']);
   // Edit Kenaikan Gaji Berkala
-  Route::put("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'edit']);
+  Route::post("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'edit']);
   // Get All Kenaikan Gaji Berkala
   Route::get("{id_pegawai}/kgb", [KGBController::class, 'getAll']);
   // Get Kenaikan Gaji Berkala Terbaru
@@ -141,19 +141,19 @@ Route::prefix($prefix)->group(function () {
   // Get Kenaikan Gaji Berkala By Id
   Route::get("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'getById']);
   // Delete Kenaikan Gaji Berkala By Id
-  Route::delete("{id_pegawai}/kgb/{id_kgb}", [KGBController::class, 'delete']);
+  Route::get("{id_pegawai}/kgb/{id_kgb}/delete", [KGBController::class, 'delete']);
   // Get KGB yg berjalan dan akan naik gaji
   Route::get("kgb", [KGBController::class, 'getKGBPegawai']);
   // Update Gaji Pegawai di Sistem
-  Route::put("{id_pegawai}/update-gaji", [KGBController::class, "updateGaji"]);
+  Route::post("{id_pegawai}/update-gaji", [KGBController::class, "updateGaji"]);
 
   // GROUP CUTI
   // Insert Cuti
   Route::post("{id_pegawai}/cuti", [CutiController::class, 'insert']);
   // Edit Cuti
-  Route::put("{id_pegawai}/cuti/{id_cuti}", [CutiController::class, 'edit']);
+  Route::post("{id_pegawai}/cuti/{id_cuti}", [CutiController::class, 'edit']);
   // Update Status Cuti
-  Route::put("{id_pegawai}/cuti/{id_cuti}/status", [CutiController::class, 'updateStatus']);
+  Route::post("{id_pegawai}/cuti/{id_cuti}/status", [CutiController::class, 'updateStatus']);
   // Get All Cuti by Id Pegawai
   Route::get("{id_pegawai}/cuti", [CutiController::class, 'getAll']);
   // Get Cuti by Id Cuti
@@ -161,7 +161,7 @@ Route::prefix($prefix)->group(function () {
   // Get All Cuti Pegawai
   Route::get("cuti", [CutiController::class, 'getAllCuti']);
   // Get Cuti By Id
-  Route::delete("{id_pegawai}/cuti/{id_cuti}", [CutiController::class, 'delete']);
+  Route::get("{id_pegawai}/cuti/{id_cuti}", [CutiController::class, 'delete']);
   // Search Cuti By Nama Pegawai
   Route::get("cuti-nama", [CutiController::class, 'getByName']);
   // Get All Pegawai Cuti
@@ -180,11 +180,11 @@ Route::prefix($prefix)->group(function () {
   // Insert or Update Absensi
   Route::post("{id_pegawai}/absensi/insert-update", [AbsensiController::class, "insertOrUpdate"]);
   // Edit Absensi
-  Route::put("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "edit"]);
+  Route::post("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "edit"]);
   // Get Absensi by Id Pegawai & Id Absensi
   Route::get("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "getById"]);
   // Delete Absensi
-  Route::delete("{id_pegawai}/absensi/{id_absensi}", [AbsensiController::class, "delete"]);
+  Route::get("{id_pegawai}/absensi/{id_absensi}/delete", [AbsensiController::class, "delete"]);
   // Get Informasi Rekap Absensi per Tahun by Id Pegawai
   Route::get("{id_pegawai}/rekap-absensi", [AbsensiController::class, "getRekapAbsensiPerTahun"]);
   // Get All Rekap Absensi Pegawai Per Tahun 

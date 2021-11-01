@@ -11,8 +11,8 @@ Route::post("pensiun", [PensiunController::class, "insert"]);
 // Detail Pensiun
 Route::get("pensiun/{id_pensiun}", [PensiunController::class, "getById"]);
 // Edit Pensiun
-Route::put("pensiun/{id_pensiun}", [PensiunController::class, "edit"]);
+Route::post("pensiun/{id_pensiun}", [PensiunController::class, "edit"]);
 // Delete Pensiun
-Route::delete("pensiun/{id_pensiun}", [PensiunController::class, "delete"]);
+Route::get("pensiun/{id_pensiun}/delete", [PensiunController::class, "delete"]);
 // Batalkan Pensiun
-Route::delete("pensiun-batal/{id_pensiun}", [PensiunController::class, "batalkanPensiun"]);
+Route::get("pensiun-batal/{id_pensiun}", [PensiunController::class, "batalkanPensiun"]);

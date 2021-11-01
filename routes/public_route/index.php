@@ -14,10 +14,10 @@ Route::get("bidang/{id_bidang}", [BidangController::class, "getById"]);
 Route::post("bidang", [BidangController::class, "insert"]);
 
 // Edit Bidang
-Route::put("bidang/{id_bidang}", [BidangController::class, "edit"]);
+Route::post("bidang/{id_bidang}", [BidangController::class, "edit"]);
 
 // Delete Bidang By Id
-Route::delete("bidang/{id_bidang}", [BidangController::class, "delete"]);
+Route::get("bidang/{id_bidang}/delete", [BidangController::class, "delete"]);
 
 // GROUP Jabatan
  // Get All Jabatan

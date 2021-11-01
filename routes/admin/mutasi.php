@@ -13,10 +13,10 @@ Route::post("mutasi", [MutasiController::class, "insert"]);
 Route::get("mutasi/{id_mutasi}", [MutasiController::class, "getById"]);
 
 // Edit Mutasi
-Route::put("mutasi/{id_mutasi}", [MutasiController::class, "edit"]);
+Route::post("mutasi/{id_mutasi}", [MutasiController::class, "edit"]);
 
 // Delete Mutasi
-Route::delete("mutasi/{id_mutasi}", [MutasiController::class, "delete"]);
+Route::get("mutasi/{id_mutasi}/delete", [MutasiController::class, "delete"]);
 
 // Batalkan Mutasi
-Route::delete("mutasi-batal/{id_mutasi}", [MutasiController::class, "batalkanMutasi"]);
+Route::get("mutasi-batal/{id_mutasi}/delete", [MutasiController::class, "batalkanMutasi"]);

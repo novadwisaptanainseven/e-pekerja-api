@@ -15,10 +15,10 @@ Route::post("kenaikan-pangkat-update/{id}", [KenaikanPangkatController::class, "
 Route::get("kenaikan-pangkat/{id}", [KenaikanPangkatController::class, "getById"]);
 
 // Batalkan Kenaikan Pangkat
-Route::delete("kenaikan-pangkat-batal/{id}", [KenaikanPangkatController::class, "batalkanKenaikanPangkat"]);
+Route::get("kenaikan-pangkat-batal/{id}", [KenaikanPangkatController::class, "batalkanKenaikanPangkat"]);
 
 // Kirim email
 Route::post('kp-send-email', [KenaikanPangkatController::class, "sendEmail"]);
 
 // Validasi berkas
-Route::put("kenaikan-pangkat/{id}/validasi", [KenaikanPangkatController::class, "validasiKP"]);
+Route::post("kenaikan-pangkat/{id}/validasi", [KenaikanPangkatController::class, "validasiKP"]);

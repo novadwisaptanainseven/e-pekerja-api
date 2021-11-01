@@ -16,7 +16,7 @@ Route::post("{id_pegawai}/riwayat-golongan", [RiwayatGolonganController::class, 
 Route::post("riwayat-golongan/{id}", [RiwayatGolonganController::class, "update"]);
 
 // Update status terkini golongan
-Route::put("{id_pegawai}/riwayat-golongan/{id}/status-terkini", [RiwayatGolonganController::class, "updateStatusTerkini"]);
+Route::post("{id_pegawai}/riwayat-golongan/{id}/status-terkini", [RiwayatGolonganController::class, "updateStatusTerkini"]);
 
 // Delete
-Route::delete("riwayat-golongan/{id}", [RiwayatGolonganController::class, "destroy"]);
+Route::get("riwayat-golongan/{id}/delete", [RiwayatGolonganController::class, "destroy"]);

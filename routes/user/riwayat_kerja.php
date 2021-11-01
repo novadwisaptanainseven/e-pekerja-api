@@ -9,6 +9,6 @@ Route::get("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaControl
 // Insert Riwayat Kerja
 Route::post("{id_pegawai}/riwayat-kerja", [RiwayatKerjaController::class, 'insert']);
 // Edit Riwayat Kerja
-Route::put("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaController::class, 'edit']);
+Route::post("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaController::class, 'edit']);
 // Delete Riwayat Kerja
-Route::delete("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}", [RiwayatKerjaController::class, 'delete']);
+Route::get("{id_pegawai}/riwayat-kerja/{id_riwayat_kerja}/delete", [RiwayatKerjaController::class, 'delete']);

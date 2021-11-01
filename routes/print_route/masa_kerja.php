@@ -24,4 +24,4 @@ Route::get('riwayat-mk-file', [MasaKerjaController::class, "getRiwayatMasaKerjaF
 
 
 // Hapus Riwayat Pegawai File berdasarkan masa kerja
-Route::delete('riwayat-mk-file/{id}', [MasaKerjaController::class, "deleteRiwayatMasaKerjaFile"]);
+Route::get('riwayat-mk-file/{id}/delete', [MasaKerjaController::class, "deleteRiwayatMasaKerjaFile"]);

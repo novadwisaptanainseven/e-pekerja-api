@@ -5,7 +5,7 @@
 use App\Http\Controllers\Admin\MasaKerjaController;
 
 // Edit Masa Kerja
-Route::put("masa-kerja/{id_masa_kerja}", [MasaKerjaController::class, 'edit']);
+Route::post("masa-kerja/{id_masa_kerja}", [MasaKerjaController::class, 'edit']);
 // Get All Masa Kerja
 Route::get("masa-kerja", [MasaKerjaController::class, 'getAll']);
 // Get All Masa Kerja For Print
@@ -21,5 +21,5 @@ Route::get("/pegawai/{id_pegawai}/masa-kerja/riwayat/{id}", [MasaKerjaController
 // Get Riwayat Masa Kerja Terbaru
 Route::get("/pegawai/{id_pegawai}/masa-kerja/riwayat-terakhir", [MasaKerjaController::class, 'getRiwayatMasaKerjaTerbaru']);
 // Delete Riwayat Masa Kerja
-Route::delete("/pegawai/{id_pegawai}/masa-kerja/riwayat/{id}", [MasaKerjaController::class, 'deleteRiwayatMasaKerja']);
+Route::get("/pegawai/{id_pegawai}/masa-kerja/riwayat/{id}/delete", [MasaKerjaController::class, 'deleteRiwayatMasaKerja']);
 

@@ -12,4 +12,4 @@ Route::post("{id_pegawai}/diklat", [DiklatController::class, 'insert']);
 // Edit Diklat
 Route::post("{id_pegawai}/diklat/{id_diklat}", [DiklatController::class, 'edit']);
 // Delete Diklat
-Route::delete("{id_pegawai}/diklat/{id_diklat}", [DiklatController::class, 'delete']);
+Route::get("{id_pegawai}/diklat/{id_diklat}/delete", [DiklatController::class, 'delete']);

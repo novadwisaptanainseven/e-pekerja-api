@@ -19,9 +19,9 @@ Route::prefix($prefix)->group(function () {
   // Insert Agama
   Route::post("agama", [AgamaController::class, "insert"]);
   // Edit Agama
-  Route::put("agama/{id_agama}", [AgamaController::class, "edit"]);
+  Route::post("agama/{id_agama}", [AgamaController::class, "edit"]);
   // Delete Agama By Id
-  Route::delete("agama/{id_agama}", [AgamaController::class, "delete"]);
+  Route::get("agama/{id_agama}/delete", [AgamaController::class, "delete"]);
 
   // GROUP PANGKAT GOLONGAN
   // Get All Pangkat Golongan
@@ -31,9 +31,9 @@ Route::prefix($prefix)->group(function () {
   // Insert Pangkat Golongan
   Route::post("pangkat-golongan", [PangkatGolonganController::class, "insert"]);
   // Edit Pangkat Golongan
-  Route::put("pangkat-golongan/{id_pangkat_golongan}", [PangkatGolonganController::class, "edit"]);
+  Route::post("pangkat-golongan/{id_pangkat_golongan}", [PangkatGolonganController::class, "edit"]);
   // Delete Pangkat Golongan By Id
-  Route::delete("pangkat-golongan/{id_pangkat_golongan}", [PangkatGolonganController::class, "delete"]);
+  Route::get("pangkat-golongan/{id_pangkat_golongan}/delete", [PangkatGolonganController::class, "delete"]);
 
   // GROUP PANGKAT ESELON
   // Get All Pangkat Eselon
@@ -43,9 +43,9 @@ Route::prefix($prefix)->group(function () {
   // Insert Pangkat Eselon
   Route::post("pangkat-eselon", [PangkatEselonController::class, "insert"]);
   // Edit Pangkat Eselon
-  Route::put("pangkat-eselon/{id_pangkat_eselon}", [PangkatEselonController::class, "edit"]);
+  Route::post("pangkat-eselon/{id_pangkat_eselon}", [PangkatEselonController::class, "edit"]);
   // Delete Pangkat Eselon By Id
-  Route::delete("pangkat-eselon/{id_pangkat_eselon}", [PangkatEselonController::class, "delete"]);
+  Route::get("pangkat-eselon/{id_pangkat_eselon}/delete", [PangkatEselonController::class, "delete"]);
 
   // GROUP JABATAN
   // Get All Jabatan
@@ -55,9 +55,9 @@ Route::prefix($prefix)->group(function () {
   // Insert Jabatan
   Route::post("jabatan", [JabatanController::class, "insert"]);
   // Edit Jabatan
-  Route::put("jabatan/{id_jabatan}", [JabatanController::class, "edit"]);
+  Route::post("jabatan/{id_jabatan}", [JabatanController::class, "edit"]);
   // Delete Jabatan By Id
-  Route::delete("jabatan/{id_jabatan}", [JabatanController::class, "delete"]);
+  Route::get("jabatan/{id_jabatan}/delete", [JabatanController::class, "delete"]);
 
   // GROUP BIDANG
   // Get All Bidang
@@ -67,9 +67,9 @@ Route::prefix($prefix)->group(function () {
   // Insert Bidang
   Route::post("bidang", [BidangController::class, "insert"]);
   // Edit Bidang
-  Route::put("bidang/{id_bidang}", [BidangController::class, "edit"]);
+  Route::post("bidang/{id_bidang}", [BidangController::class, "edit"]);
   // Delete Bidang By Id
-  Route::delete("bidang/{id_bidang}", [BidangController::class, "delete"]);
+  Route::get("bidang/{id_bidang}/delete", [BidangController::class, "delete"]);
 
   // GROUP SUB BIDANG
   // Get All Sub Bidang
@@ -79,9 +79,9 @@ Route::prefix($prefix)->group(function () {
   // Insert Sub Bidang
   Route::post("sub-bidang", [SubBidangController::class, "insert"]);
   // Edit Sub Bidang
-  Route::put("sub-bidang/{id_sub_bidang}", [SubBidangController::class, "edit"]);
+  Route::post("sub-bidang/{id_sub_bidang}", [SubBidangController::class, "edit"]);
   // Delete Sub Bidang By Id
-  Route::delete("sub-bidang/{id_sub_bidang}", [SubBidangController::class, "delete"]);
+  Route::get("sub-bidang/{id_sub_bidang}/delete", [SubBidangController::class, "delete"]);
 
   // GROUP STATUS PEGAWAI
   // Get All Status Pegawai
@@ -91,7 +91,7 @@ Route::prefix($prefix)->group(function () {
   // Insert Status Pegawai
   Route::post("status-pegawai", [StatusPegawaiController::class, "insert"]);
   // Edit Status Pegawai
-  Route::put("status-pegawai/{id_status_pegawai}", [StatusPegawaiController::class, "edit"]);
+  Route::post("status-pegawai/{id_status_pegawai}", [StatusPegawaiController::class, "edit"]);
   // Delete Status Pegawai By Id
-  Route::delete("status-pegawai/{id_status_pegawai}", [StatusPegawaiController::class, "delete"]);
+  Route::get("status-pegawai/{id_status_pegawai}/delete", [StatusPegawaiController::class, "delete"]);
 });
