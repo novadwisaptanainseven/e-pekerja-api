@@ -237,6 +237,11 @@ class PembaruanSK extends Model
         return true;
     }
 
+    // Edit Hasil Upload SK
+    public static function editSK($req, $id) {
+        
+    }
+
     // Edit Riwayat SK
     public static function edit($req, $id_pegawai, $id_riwayat_sk)
     {

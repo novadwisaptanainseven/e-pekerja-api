@@ -12,6 +12,25 @@ use Illuminate\Support\Facades\Validator;
 class PembaruanSKController extends Controller
 {
     // Get All
+    public function get()
+    {
+        $dataSK = PembaruanSK::orderBy("id_riwayat_sk", "desc")
+            ->select(
+                "riwayat_sk.*",
+                "pegawai.nama",
+                "status_pegawai.*"
+            )
+            ->leftJoin("pegawai", "pegawai.id_pegawai", "=", "riwayat_sk.id_pegawai")
+            ->leftJoin("status_pegawai", "status_pegawai.id_status_pegawai", "=", "pegawai.id_status_pegawai")
+            ->get();
+
+        return response()->json([
+            "message" => "Berhasil mendapatkan semua data SK Pegawai",
+            "data" => $dataSK
+        ], 200);
+    }
+
+    // Get All by Id Pegawai
     public function getAll($id_pegawai)
     {
         $data = PembaruanSK::getAll($id_pegawai);
@@ -133,8 +152,8 @@ class PembaruanSKController extends Controller
             $messages
         );
 
-         // Validation Check
-         if ($validator->fails()) {
+        // Validation Check
+        if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
             ], 400);
@@ -146,7 +165,7 @@ class PembaruanSKController extends Controller
         if ($insert === true) {
             // Jika insert data berhasil -> 201 CREATED
             return response()->json([
-                "message" => "Tambah data pembaruan SK dengan id: {$id_pegawai} berhasil",
+                "message" => "Upload SK Pegawai dengan id pegawai: {$id_pegawai} berhasil",
                 "input_data" => $request->all()
             ], 201);
         } elseif ($insert === 404) {
@@ -154,6 +173,57 @@ class PembaruanSKController extends Controller
             return response()->json([
                 "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
             ], 404);
+        }
+    }
+
+    // Edit Hasil Upload SK
+    public function editSK(Request $req, $id)
+    {
+        // Cek apakah no sk sudah ada yang punya
+        $dataSK = PembaruanSK::find($id);
+        if ($dataSK->no_sk == $req->no_sk) {
+            $rules = "required";
+        } else {
+            $rules = "required|unique:riwayat_sk";
+        }
+
+        // Validation
+        $messages = [
+            "required" => ":attribute harus diisi",
+            "unique"   => ":attribute sudah ada yang punya. Silahkan memilih no sk yang lain"
+        ];
+        $validator = Validator::make(
+            $req->all(),
+            [
+                "no_sk" => $rules,
+                "id_pegawai" => "required",
+            ],
+            $messages
+        );
+        // Validation Check
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+        // End of Validation
+
+
+        if (!$dataSK) {
+            // Jika data SK tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data SK dengan id: {$id} tidak ditemukan"
+            ], 404);
+        } else {
+            // Jika edit data berhasil -> 201 CREATED
+            $dataSK->no_sk = $req->no_sk;
+            $dataSK->id_pegawai = $req->id_pegawai;
+            $dataSK->save();
+
+            return response()->json([
+                "message" => "Edit data SK dengan id: {$id} berhasil",
+                "edited_data" => $dataSK
+            ], 201);
         }
     }
 

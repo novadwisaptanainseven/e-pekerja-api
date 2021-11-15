@@ -9,6 +9,8 @@ $prefix = "pegawai/";
 
 Route::prefix($prefix)->group(function () {
 
+  // Get All SK Pegawai
+  Route::get("sk", [PembaruanSKController::class, 'get']);
   // Get All Pembaruan SK
   Route::get("{id_pegawai}/pembaruan-sk", [PembaruanSKController::class, 'getAll']);
   // Insert Pembaruan SK
@@ -17,6 +19,8 @@ Route::prefix($prefix)->group(function () {
   Route::post("{id_pegawai}/upload-sk", [PembaruanSKController::class, 'upload']);
   // Edit Pembaruan SK By ID
   Route::post("{id_pegawai}/pembaruan-sk/{id}", [PembaruanSKController::class, 'edit']);
+  // Edit SK By ID
+  Route::post("sk/{id}", [PembaruanSKController::class, 'editSK']);
   // Get Pembaruan SK By Id
   Route::get("{id_pegawai}/pembaruan-sk/{id}", [PembaruanSKController::class, 'getById']);
   // Delete Pembaruan SK By Id
