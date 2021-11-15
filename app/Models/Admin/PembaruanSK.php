@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -195,6 +196,43 @@ class PembaruanSK extends Model
                 ->where("id_pegawai", "=", $id_pegawai)
                 ->update(["id_jabatan" => $req->tugas]);
         }
+
+        return true;
+    }
+
+    // Upload SK
+    public static function upload($req, $id_pegawai) {
+        // Tabel - tabel
+        $tbl_riwayat_sk = "riwayat_sk";
+        $tbl_pegawai = "pegawai";
+
+        // Cek apakah data pegawai ditemukan
+        $pegawai = DB::table($tbl_pegawai)->where('id_pegawai', '=', $id_pegawai)->first();
+        if (!$pegawai) {
+            return 404; // NOT FOUND
+        }
+
+        // Cek apakah ada file SK
+        if (!$req->file('file')) {
+            $file = '';
+        } else {
+            $file = $req->file("file");
+
+            // Sanitasi nama file
+            $sanitize = sanitizeFile($file);
+            $file = $file->storeAs("images/surat-kontrak", rand(0, 9999) . time() . '-' . $sanitize);
+        }
+
+        $data = [
+            "id_pegawai"        => $req->id_pegawai,
+            "no_sk"             => $req->no_sk,
+            "file"              => $file,
+            "created_at"        => Carbon::now(),
+            "updated_at"        => Carbon::now(),
+        ];
+
+        // Insert ke tabel riwayat sk
+        DB::table($tbl_riwayat_sk)->insert($data);
 
         return true;
     }

@@ -79,7 +79,7 @@ class PembaruanSKController extends Controller
                 "masa_kerja"       => "required",
                 "tugas"            => "required",
                 "gaji_pokok"       => "required|numeric",
-                "file"             => 'mimes:pdf,doc,docx|max:1048',
+                "file"             => 'mimes:pdf,doc,docx|max:2048',
             ];
         }
         // Validation
@@ -102,6 +102,46 @@ class PembaruanSKController extends Controller
         // End of Validation
 
         $insert = PembaruanSK::insert($request, $id_pegawai);
+
+        if ($insert === true) {
+            // Jika insert data berhasil -> 201 CREATED
+            return response()->json([
+                "message" => "Tambah data pembaruan SK dengan id: {$id_pegawai} berhasil",
+                "input_data" => $request->all()
+            ], 201);
+        } elseif ($insert === 404) {
+            // Jika data tidak ditemukan -> 404 NOT FOUND
+            return response()->json([
+                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
+            ], 404);
+        }
+    }
+
+    // Upload SK
+    public function upload(Request $request, $id_pegawai)
+    {
+        // Validation
+        $messages = [
+            "required" => ":attribute harus diisi!",
+        ];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                "no_sk"      => "required|unique:riwayat_sk",
+                "file"       => "required|mimes:pdf,doc,docx|max:2048",
+            ],
+            $messages
+        );
+
+         // Validation Check
+         if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+        // End of Validation
+
+        $insert = PembaruanSK::upload($request, $id_pegawai);
 
         if ($insert === true) {
             // Jika insert data berhasil -> 201 CREATED

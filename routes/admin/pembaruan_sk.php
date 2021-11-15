@@ -13,6 +13,8 @@ Route::prefix($prefix)->group(function () {
   Route::get("{id_pegawai}/pembaruan-sk", [PembaruanSKController::class, 'getAll']);
   // Insert Pembaruan SK
   Route::post("{id_pegawai}/pembaruan-sk", [PembaruanSKController::class, 'insert']);
+  // Insert SK
+  Route::post("{id_pegawai}/upload-sk", [PembaruanSKController::class, 'upload']);
   // Edit Pembaruan SK By ID
   Route::post("{id_pegawai}/pembaruan-sk/{id}", [PembaruanSKController::class, 'edit']);
   // Get Pembaruan SK By Id
@@ -21,5 +23,5 @@ Route::prefix($prefix)->group(function () {
   Route::get("{id_pegawai}/pembaruan-sk/{id}/delete", [PembaruanSKController::class, 'deleteRiwayatSK']);
 
   // Insert Riwayat SK
-  Route::post("{id_pegawai}/riwayat-sk", [PembaruanSKController::class, 'insertRiwayatSK']);
+  Route::post("{id_pegawai}/riwayat-sk", [PembaruanSKController::class, 'insert']);
 });
