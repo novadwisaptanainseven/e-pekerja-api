@@ -24,6 +24,10 @@ class PembaruanSKController extends Controller
             ->leftJoin("status_pegawai", "status_pegawai.id_status_pegawai", "=", "pegawai.id_status_pegawai")
             ->get();
 
+        foreach ($dataSK as $i => $d) {
+            $d->no = $i + 1;
+        }
+
         return response()->json([
             "message" => "Berhasil mendapatkan semua data SK Pegawai",
             "data" => $dataSK
