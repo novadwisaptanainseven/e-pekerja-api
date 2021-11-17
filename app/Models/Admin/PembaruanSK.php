@@ -201,16 +201,10 @@ class PembaruanSK extends Model
     }
 
     // Upload SK
-    public static function upload($req, $id_pegawai) {
+    public static function upload($req)
+    {
         // Tabel - tabel
         $tbl_riwayat_sk = "riwayat_sk";
-        $tbl_pegawai = "pegawai";
-
-        // Cek apakah data pegawai ditemukan
-        $pegawai = DB::table($tbl_pegawai)->where('id_pegawai', '=', $id_pegawai)->first();
-        if (!$pegawai) {
-            return 404; // NOT FOUND
-        }
 
         // Cek apakah ada file SK
         if (!$req->file('file')) {
@@ -238,8 +232,8 @@ class PembaruanSK extends Model
     }
 
     // Edit Hasil Upload SK
-    public static function editSK($req, $id) {
-        
+    public static function editSK($req, $id)
+    {
     }
 
     // Edit Riwayat SK

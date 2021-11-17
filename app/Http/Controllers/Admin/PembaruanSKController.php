@@ -34,6 +34,29 @@ class PembaruanSKController extends Controller
         ], 200);
     }
 
+    // Get SK By ID
+    public function getSkById($id)
+    {
+        $data = PembaruanSK::select(
+            "riwayat_sk.*",
+            "pegawai.nama",
+        )
+            ->where("id_riwayat_sk", $id)
+            ->leftJoin("pegawai", "pegawai.id_pegawai", "=", "riwayat_sk.id_pegawai")
+            ->first();
+
+        if ($data) {
+            return response()->json([
+                "message" => "Berhasil mendapatkan SK pegawai dengan id: $id",
+                "data" => $data
+            ], 200);
+        } else {
+            return response()->json([
+                "message" => "SK pegawai dengan id: $id tidak ditemukan",
+            ], 404);
+        }
+    }
+
     // Get All by Id Pegawai
     public function getAll($id_pegawai)
     {
@@ -141,16 +164,18 @@ class PembaruanSKController extends Controller
     }
 
     // Upload SK
-    public function upload(Request $request, $id_pegawai)
+    public function upload(Request $request)
     {
         // Validation
         $messages = [
             "required" => ":attribute harus diisi!",
+            "unique"   => ":attribute sudah ada yang punya. Silahkan memilih no sk yang lain"
         ];
         $validator = Validator::make(
             $request->all(),
             [
                 "no_sk"      => "required|unique:riwayat_sk",
+                "id_pegawai" => "required",
                 "file"       => "required|mimes:pdf,doc,docx|max:2048",
             ],
             $messages
@@ -164,20 +189,12 @@ class PembaruanSKController extends Controller
         }
         // End of Validation
 
-        $insert = PembaruanSK::upload($request, $id_pegawai);
+        $insert = PembaruanSK::upload($request);
 
-        if ($insert === true) {
-            // Jika insert data berhasil -> 201 CREATED
-            return response()->json([
-                "message" => "Upload SK Pegawai dengan id pegawai: {$id_pegawai} berhasil",
-                "input_data" => $request->all()
-            ], 201);
-        } elseif ($insert === 404) {
-            // Jika data tidak ditemukan -> 404 NOT FOUND
-            return response()->json([
-                "message" => "Data pegawai dengan id: {$id_pegawai} tidak ditemukan"
-            ], 404);
-        }
+        return response()->json([
+            "message" => "Upload SK Pegawai dengan id pegawai: {$request->id_pegawai} berhasil",
+            "input_data" => $request->all()
+        ], 201);
     }
 
     // Edit Hasil Upload SK
